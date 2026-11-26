@@ -117,3 +117,7 @@ footer{font-size:9px;color:#a0aab5;padding:23px 3px 0}footer span{padding:0 6px;
 .cell-sample small{display:block;color:#9a805c;font-size:8px;margin-bottom:5px}
 .cell-sample p{margin:0;color:#405267;font-size:9px;line-height:1.5;overflow-wrap:anywhere}
 @media(max-width:620px){.cell-preview{grid-template-columns:1fr}}
+
+.preview-filters{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0}
+.preview-filters label{display:flex;align-items:center;gap:7px;color:#788697;font-size:9px}
+.preview-filters select{border:1px solid #dfe5eb;border-radius:7px;background:#fff;color:#405267;padding:7px 9px;font-size:9px;min-width:95px}
