@@ -31,6 +31,7 @@ function conflicts(candidate,excludeId=null){
   groupBusy(candidate,x)||(candidate.teacher&&candidate.teacher===x.teacher)||(candidate.room&&candidate.room===x.room)
  )).map(x=>({x,reason:groupBusy(candidate,x)?'Группа/подгруппа уже занята':candidate.teacher&&candidate.teacher===x.teacher?'Преподаватель уже занят':'Аудитория уже занята'}))
 }
+function teacherBusy(name,day,slot,excludeId=null){return data.lessons.find(x=>x.id!==excludeId&&x.teacher===name&&x.day===day&&x.slot===slot)||null}
 function teacherProfile(name){return data.teacherProfiles?.[name]||{employment:'Не указан',availableDays:[],availablePairs:[],preferredDays:[],preferredPairs:[],unavailableSlots:[],note:''}}
 function pairNumber(day,slot){return SLOTS[day]?.indexOf(slot)+1||0}
 function parseList(value){return String(value||'').split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean)}
@@ -72,7 +73,7 @@ function render(){
  <label>День недели<select name="day">${DAYS.map(x=>`<option>${x}</option>`).join('')}</select></label>
  <label>Урок / время<select name="slot" id="slot-select"></select></label>
  <label class="wide">Дисциплина<select name="subject" id="subject-select" required></select></label>
- <label>Преподаватель<input name="teacher" list="teacher-options" placeholder="Фамилия И.О."><datalist id="teacher-options">${data.teachers.map(x=>`<option value="${esc(x)}">`).join('')}</datalist></label>
+ <label>Преподаватель<select name="teacher" id="teacher-select"><option value="">— Не назначен —</option></select></label>
  <label>Аудитория<input name="room" list="room-options" placeholder="Номер / название"><datalist id="room-options">${data.rooms.map(x=>`<option value="${esc(x)}">`).join('')}</datalist></label>
  <label class="wide">Примечание<input name="note" placeholder="Необязательно"></label></div><div id="form-alert" class="form-alert" hidden></div><div class="modal-actions"><button type="button" class="btn light" id="cancel">Отмена</button><button class="btn gold" type="submit">Сохранить занятие</button></div></form></section></div>
  <div class="modal-backdrop" id="sub-modal" hidden><section class="modal"><div class="modal-head"><div><p class="eyebrow">КАДРОВОЕ ИЗМЕНЕНИЕ</p><h2>Оформить замену</h2></div><button class="close" id="sub-close">×</button></div><form id="sub-form"><div class="form-grid"><label class="wide">Исходное занятие<select name="lesson" required>${data.lessons.map(x=>`<option value="${x.id}">${esc(x.day)} · ${esc(x.slot)} · ${esc(x.group)} · ${esc(x.subject)} · ${esc(x.teacher)}</option>`).join('')}</select></label><label>Новый преподаватель<input name="teacher" list="teacher-options"></label><label>Новая аудитория<input name="room" list="room-options"></label><label>Причина замены<input name="reason" required placeholder="Например, больничный"></label><label>Статус<select name="status"><option>На согласовании</option><option>Утверждена</option></select></label></div><div id="sub-alert" class="form-alert" hidden></div><div class="modal-actions"><button type="button" class="btn light" id="sub-cancel">Отмена</button><button class="btn gold" type="submit">Сохранить замену</button></div></form></section></div>`
@@ -131,13 +132,19 @@ function rulesView(){
  <div class="panel"><h2>Что подключим после получения данных</h2><p class="muted">Нормативную нагрузку, количество часов по договору, индивидуальные заявки и фактические рабочие интервалы преподавателей. Кадровый статус сам по себе не будет автоматически определять доступность — для этого нужны конкретные условия каждого сотрудника.</p></div>`
 }
 function fillSlots(day,selected=''){document.querySelector('#slot-select').innerHTML=SLOTS[day].map((s,i)=>`<option value="${s}" ${s===selected?'selected':''}>${i+1} урок · ${s}</option>`).join('')}
+function fillTeachers(day,slot,selected='',excludeId=null){
+ const el=document.querySelector('#teacher-select'),names=[...new Set([...data.teachers,...(selected?[selected]:[])])];
+ el.innerHTML='<option value="">— Не назначен —</option>'+names.map(name=>{const busy=teacherBusy(name,day,slot,excludeId);return `<option value="${esc(name)}" ${name===selected?'selected':''} ${busy?'disabled':''}>${esc(name)}${busy?' — занят: '+esc(busy.group)+(busy.subgroup?' ('+esc(busy.subgroup)+')':''):''}</option>`}).join('');
+ el.title='Преподаватели, уже занятые в это время в другой группе, недоступны для выбора.'
+}
 function fillSubjects(group,selected=''){const arr=subjectsFor(group);const el=document.querySelector('#subject-select');el.innerHTML=(arr.length?arr:['Сначала назначьте учебный план группе']).map(s=>`<option value="${esc(s)}" ${s===selected?'selected':''}>${esc(s)}</option>`).join('');if(!arr.length)el.value=''}
 function openLesson(item=null,day=null,slot=null){
  editingId=item?.id||null;const m=document.querySelector('#modal');m.hidden=false;const f=document.querySelector('#lesson-form');document.querySelector('#modal-title').textContent=item?'Редактировать занятие':'Добавить занятие'
- f.elements.group.value=item?.group||data.groups[0]||'';f.elements.department.value=dept(f.elements.group.value)==='Не распределено'?data.departments[0]:dept(f.elements.group.value);f.elements.subgroup.value=item?.subgroup||'';f.elements.day.value=item?.day||day||'Понедельник';f.elements.teacher.value=item?.teacher||'';f.elements.room.value=item?.room||'';f.elements.note.value=item?.note||'';fillSlots(f.elements.day.value,item?.slot||slot||'');fillSubjects(f.elements.group.value,item?.subject||'')
+ f.elements.group.value=item?.group||data.groups[0]||'';f.elements.department.value=dept(f.elements.group.value)==='Не распределено'?data.departments[0]:dept(f.elements.group.value);f.elements.subgroup.value=item?.subgroup||'';f.elements.day.value=item?.day||day||'Понедельник';f.elements.room.value=item?.room||'';f.elements.note.value=item?.note||'';fillSlots(f.elements.day.value,item?.slot||slot||'');fillTeachers(f.elements.day.value,f.elements.slot.value,item?.teacher||'',editingId);fillSubjects(f.elements.group.value,item?.subject||'')
  f.elements.group.onchange=()=>{f.elements.department.value=dept(f.elements.group.value)==='Не распределено'?data.departments[0]:dept(f.elements.group.value);fillSubjects(f.elements.group.value)}
  f.elements.department.onchange=()=>{const choices=data.groups.filter(g=>dept(g)===f.elements.department.value);if(choices.length)f.elements.group.value=choices[0];fillSubjects(f.elements.group.value)}
- f.elements.day.onchange=()=>fillSlots(f.elements.day.value)
+ f.elements.day.onchange=()=>{fillSlots(f.elements.day.value);fillTeachers(f.elements.day.value,f.elements.slot.value,'',editingId)}
+ f.elements.slot.onchange=()=>fillTeachers(f.elements.day.value,f.elements.slot.value,'',editingId)
 }
 function closeLesson(){document.querySelector('#modal').hidden=true}
 function submitLesson(e){
