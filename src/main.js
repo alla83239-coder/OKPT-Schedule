@@ -14,7 +14,8 @@ const SLOTS={
 const STORAGE='okpt-scheduler-prototype-v7'
 const blank=structuredClone(DEMO_DATA)
 let data=load(),tab='week',editingId=null,deptFilter='Все отделения';window.__okptGroupFilter='Все группы';window.__okptScheduleMode='group';window.__okptEntityFilter='Все'
-function load(){try{const raw=localStorage.getItem('okpt-scheduler-prototype-v6')||localStorage.getItem('okpt-scheduler-prototype-v5')||localStorage.getItem(STORAGE);if(!raw)return structuredClone(blank);const saved=JSON.parse(raw);return {...structuredClone(blank),...saved,groups:blank.groups,departments:blank.departments,groupDepartments:{...blank.groupDepartments,...saved.groupDepartments},groupCourses:blank.groupCourses,groupSpecialties:{...blank.groupSpecialties,...saved.groupSpecialties},groupCurricula:{...blank.groupCurricula,...saved.groupCurricula},specialties:blank.specialties,curricula:[...blank.curricula,...(saved.curricula||[]).filter(x=>!blank.curricula.some(y=>y.id===x.id))]}}catch{return structuredClone(blank)}}
+function normalizeNames(values){const source=Array.isArray(values)?values:[values];return [...new Set(source.flatMap(value=>String(value??'').replace(/\\r?\\n/g,'\n').split(/[\r\n,;]+/).map(x=>x.trim()).filter(Boolean)))].sort((a,b)=>a.localeCompare(b,'ru'))}
+function load(){try{const raw=localStorage.getItem(STORAGE)||localStorage.getItem('okpt-scheduler-prototype-v6')||localStorage.getItem('okpt-scheduler-prototype-v5');if(!raw)return structuredClone(blank);const saved=JSON.parse(raw);return {...structuredClone(blank),...saved,teachers:normalizeNames(saved.teachers??blank.teachers),rooms:normalizeNames(saved.rooms??blank.rooms),groups:blank.groups,departments:blank.departments,groupDepartments:{...blank.groupDepartments,...saved.groupDepartments},groupCourses:blank.groupCourses,groupSpecialties:{...blank.groupSpecialties,...saved.groupSpecialties},groupCurricula:{...blank.groupCurricula,...saved.groupCurricula},specialties:blank.specialties,curricula:[...blank.curricula,...(saved.curricula||[]).filter(x=>!blank.curricula.some(y=>y.id===x.id))]}}catch{return structuredClone(blank)}}
 function save(){localStorage.setItem(STORAGE,JSON.stringify(data));render()}
 function id(){return crypto.randomUUID?.()||String(Date.now()+Math.random())}
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
@@ -166,7 +167,7 @@ function rulesView(){
 }
 function fillSlots(day,selected=''){document.querySelector('#slot-select').innerHTML=SLOTS[day].map((s,i)=>`<option value="${s}" ${s===selected?'selected':''}>${i+1} урок · ${s}</option>`).join('')}
 function fillTeachers(day,slot,selected='',excludeId=null){
- const el=document.querySelector('#teacher-select'),names=[...new Set([...data.teachers,...(selected?[selected]:[])])];
+ const el=document.querySelector('#teacher-select'),names=normalizeNames([...data.teachers,...(selected?[selected]:[])]);
  el.innerHTML='<option value="">— Не назначен —</option>'+names.map(name=>{const busy=teacherBusy(name,day,slot,excludeId);return `<option value="${esc(name)}" ${name===selected?'selected':''} ${busy?'disabled':''}>${esc(name)}${busy?' — занят: '+esc(busy.group)+(busy.subgroup?' ('+esc(busy.subgroup)+')':''):''}</option>`}).join('');
  el.title='Преподаватели, уже занятые в это время в другой группе, недоступны для выбора.'
 }
