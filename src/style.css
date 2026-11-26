@@ -192,3 +192,16 @@ textarea[id^="list-"]{white-space:pre-wrap;overflow-wrap:anywhere}
 .mapping-table tr[hidden]{display:none}
 .mapping-stats{margin-top:0}
 @media(max-width:700px){.mapping-filters,.mapping-filters select{width:100%}.mapping-table{min-width:980px}}
+
+/* Teacher employment and availability profiles */
+.teacher-guidance{padding:12px 14px;margin:12px 0 16px;background:#f8f5ef;border:1px solid #eadfcf;border-radius:9px;color:#6e604e;font-size:12px;line-height:1.55}
+.teacher-profile-table{min-width:1480px}
+.teacher-profile-table th{white-space:normal;min-width:130px}
+.teacher-profile-table td{vertical-align:middle}
+.teacher-profile-table td:first-child{min-width:145px}
+.teacher-profile-table input,.teacher-profile-table select{width:100%;min-width:125px;max-width:190px;padding:8px 9px;font:inherit;font-size:11px}
+.teacher-profile-table td:last-child input{min-width:170px}
+.rule-metrics{display:flex;align-items:center;gap:9px 12px;flex-wrap:wrap;padding:10px 0 14px;color:#64748b;font-size:12px}
+.rule-metrics b{font-size:20px;color:#a97732}
+.soft-warning{padding:11px 13px;margin:8px 0;border:1px solid #f0d8a9;border-left:3px solid #d4a34e;border-radius:8px;background:#fffaf0;font-size:12px;color:#725b32}
+.soft-warning p{margin:5px 0 0;color:#8b6a2e}
