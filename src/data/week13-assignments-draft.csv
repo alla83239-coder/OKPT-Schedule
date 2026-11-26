@@ -1,0 +1,540 @@
+id,group,subjectSource,subjectNormalized,subjectStatus,teachers,teacherStatus,subgroup,roomCandidate,occurrencesInWeek,reviewStatus,exampleDate,exampleDay,exampleLesson
+w13-1,101-9,Математика,Математика,normalized_alias,Литвинова О.Г.,matched,,28,4,needs_review,23.11.2026,Понедельник,1
+w13-2,102-9,История,История,normalized_alias,Домнина К.П.,matched,,35,4,needs_review,23.11.2026,Понедельник,1
+w13-3,111-9,История,История,normalized_alias,Ляховая О.В.,matched,,34,2,needs_review,23.11.2026,Понедельник,1
+w13-4,121-9,ФК 1,Физическая культура,normalized_alias,Зухалова А.А. + Смирнов Д.А.,matched,,сп зал,2,needs_review,23.11.2026,Понедельник,1
+w13-5,141-9,Рус язык,Русский язык,normalized_alias,Кузнецова А.А.,matched,,22,4,needs_review,23.11.2026,Понедельник,1
+w13-6,181-9,Информат 1 п/гр,Информатика,normalized_alias,Разумова Е.В.,matched,1,31,4,needs_review,23.11.2026,Понедельник,1
+w13-7,181-9,Англ.яз 2 п/гр,Иностранный язык,normalized_alias,Сизова А.С.,matched,2,27,8,needs_review,23.11.2026,Понедельник,1
+w13-8,ПО-17,Этика ПД,,needs_subject_review,Данченко Е.П.,matched,,405,4,needs_review,23.11.2026,Понедельник,1
+w13-9,ПО-19,УП.01,УП.01,code_preserved,Осипова Л.А.,matched,,11,12,needs_review,23.11.2026,Понедельник,1
+w13-10,171-9,Англ.яз 2 п/гр,Иностранный язык,normalized_alias,Ни А.В.,matched,2,3,6,needs_review,23.11.2026,Понедельник,1
+w13-11,172-9,Физика,Физика,normalized_alias,Евсиков А.С.,matched,,37,6,needs_review,23.11.2026,Понедельник,1
+w13-12,11,География,География,normalized_alias,Софина Н.П.,matched,,434,4,needs_review,23.11.2026,Понедельник,1
+w13-13,12,Англ.яз 1 п/гр,Иностранный язык,normalized_alias,Звягинцева Ю.А.,matched,1,25,2,needs_review,23.11.2026,Понедельник,1
+w13-14,14-1,Англ.язык 1 п/гр,Иностранный язык,normalized_alias,Раскулова Г.Х.,matched,1,431,2,needs_review,23.11.2026,Понедельник,1
+w13-15,15-1,Рус язык,Русский язык,normalized_alias,Штерц А.С.,matched,,424,8,needs_review,23.11.2026,Понедельник,1
+w13-16,15-2,Химия,Химия,normalized_alias,Лопарева Л.А.,matched,,432,4,needs_review,23.11.2026,Понедельник,1
+w13-17,15-3к,Математика,Математика,normalized_alias,Елкин Н.А.,matched,,437,6,needs_review,23.11.2026,Понедельник,1
+w13-18,16,Биология,Биология,normalized_alias,Левина В.Г.,matched,,36,4,needs_review,23.11.2026,Понедельник,1
+w13-19,101-9,Общество,Обществознание,normalized_alias,Ляховая О.В.,matched,,34,4,needs_review,23.11.2026,Понедельник,3
+w13-20,102-9,Литерат,Литература,normalized_alias,Кузнецова А.А.,matched,,22,10,needs_review,23.11.2026,Понедельник,3
+w13-21,111-9,ФК 1,Физическая культура,normalized_alias,Смирнов Д.А. + Зухалова А.А.,matched,,сп зал,2,needs_review,23.11.2026,Понедельник,3
+w13-22,121-9,Математика,Математика,normalized_alias,Литвинова О.Г.,matched,,28,4,needs_review,23.11.2026,Понедельник,3
+w13-23,141-9,История,История,normalized_alias,Ольшанская О.С.,matched,,21,2,needs_review,23.11.2026,Понедельник,3
+w13-24,142-9к,Биология,Биология,normalized_alias,Левина В.Г.,matched,,экс,4,needs_review,23.11.2026,Понедельник,3
+w13-25,181-9,Информат 2 п/гр,Информатика,normalized_alias,Разумова Е.В.,matched,2,31,4,needs_review,23.11.2026,Понедельник,3
+w13-26,181-9,Англ.яз 1 п/гр,Иностранный язык,normalized_alias,Сизова А.С.,matched,1,27,10,needs_review,23.11.2026,Понедельник,3
+w13-27,171-9,Физика,Физика,normalized_alias,Евсиков А.С.,matched,,37,4,needs_review,23.11.2026,Понедельник,3
+w13-28,172-9,ФК,Физическая культура,normalized_alias,Николаева В.И.,matched,,гим зал,2,needs_review,23.11.2026,Понедельник,3
+w13-29,161-9,Рус язык,Русский язык,normalized_alias,Гужвина Н.В.,matched,,425,6,needs_review,23.11.2026,Понедельник,3
+w13-30,11,ФК,Физическая культура,normalized_alias,Писосорская В.В.,matched,,4 корп,4,needs_review,23.11.2026,Понедельник,3
+w13-31,12,География,География,normalized_alias,Софина Н.П.,matched,,434,2,needs_review,23.11.2026,Понедельник,3
+w13-32,14-1,Математика,Математика,normalized_alias,Литовченко Е.А.,matched,,427,8,needs_review,23.11.2026,Понедельник,3
+w13-33,14-2,Англ.язык 1 п/гр,Иностранный язык,normalized_alias,Раскулова Г.Х.,matched,1,431,2,needs_review,23.11.2026,Понедельник,3
+w13-34,15-1,Химия,Химия,normalized_alias,Лопарева Л.А.,matched,,432,4,needs_review,23.11.2026,Понедельник,3
+w13-35,15-2,Математика,Математика,normalized_alias,Плахотин С.В.,matched,,426,6,needs_review,23.11.2026,Понедельник,3
+w13-36,15-3к,Рус язык,Русский язык,normalized_alias,Штерц А.С.,matched,,424,8,needs_review,23.11.2026,Понедельник,3
+w13-37,15-4к,Математика,Математика,normalized_alias,Елкин Н.А.,matched,,437,6,needs_review,23.11.2026,Понедельник,3
+w13-38,16,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Железщикова Е.Б.,matched,,429,2,needs_review,23.11.2026,Понедельник,3
+w13-39,101-9,Англ.яз 1 п/гр,Иностранный язык,normalized_alias,Сизова А.С.,matched,1,27,8,needs_review,23.11.2026,Понедельник,5
+w13-40,102-9,Общество,Обществознание,normalized_alias,Домнина К.П.,matched,,35,4,needs_review,23.11.2026,Понедельник,5
+w13-41,111-9,Литерат,Литература,normalized_alias,Кузнецова А.А.,matched,,22,6,needs_review,23.11.2026,Понедельник,5
+w13-42,121-9,Общество,Обществознание,normalized_alias,Хурчаков А.А.,matched,,21,8,needs_review,23.11.2026,Понедельник,5
+w13-43,141-9,ФК 1,Физическая культура,normalized_alias,Босенко Н.Г. + Матвеева С.А.,matched,,сп зал,2,needs_review,23.11.2026,Понедельник,5
+w13-44,142-9к,История,История,normalized_alias,Ольшанская О.С.,matched,,экс,2,needs_review,23.11.2026,Понедельник,5
+w13-45,181-9,Математика,Математика,normalized_alias,Плахотин С.В.,matched,,426,6,needs_review,23.11.2026,Понедельник,5
+w13-46,ПО-17,Адапт ИКТ,,needs_subject_review,Кузнецов И.В.,matched,,428,2,needs_review,23.11.2026,Понедельник,5
+w13-47,ПО-19,Ком практикум,Коммуникативный практикум,normalized_alias,Шевчук Л.А.,matched,,405,2,needs_review,23.11.2026,Понедельник,5
+w13-48,171-9,ФК,Физическая культура,normalized_alias,Николаева В.И.,matched,,гим зал,4,needs_review,23.11.2026,Понедельник,5
+w13-49,161-9,Литерат,Литература,normalized_alias,Гужвина Н.В.,matched,,425,2,needs_review,23.11.2026,Понедельник,5
+w13-50,11,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Железщикова Е.Б.,matched,,429,2,needs_review,23.11.2026,Понедельник,5
+w13-51,12,Химия,Химия,normalized_alias,Лопарева Л.А.,matched,,432,4,needs_review,23.11.2026,Понедельник,5
+w13-52,14-1,Физика,Физика,normalized_alias,Пидчасюк Е.М.,matched,,437,6,needs_review,23.11.2026,Понедельник,5
+w13-53,14-2,География,География,normalized_alias,Софина Н.П.,matched,,434,4,needs_review,23.11.2026,Понедельник,5
+w13-54,15-1,Англ.язык 1 п/гр,Иностранный язык,normalized_alias,Раскулова Г.Х.,matched,1,431,2,needs_review,23.11.2026,Понедельник,5
+w13-55,15-2,ФК,Физическая культура,normalized_alias,Писосорская В.В.,matched,,4 корп,4,needs_review,23.11.2026,Понедельник,5
+w13-56,15-4к,Введен в ПД,,needs_subject_review,Бугаенко В.А.,matched,,М 1.4,2,needs_review,23.11.2026,Понедельник,5
+w13-57,16,Математика библ,,needs_subject_review,Елкин Н.А.,matched,,4 корп,2,needs_review,23.11.2026,Понедельник,5
+w13-58,141-9,Биология,Биология,normalized_alias,Левина В.Г.,matched,,36,4,needs_review,23.11.2026,Понедельник,7
+w13-59,142-9к,Общество,Обществознание,normalized_alias,Ольшанская О.С.,matched,,экс,4,needs_review,23.11.2026,Понедельник,7
+w13-60,181-9,Рус язык,Русский язык,normalized_alias,Гужвина Н.В.,matched,,425,2,needs_review,23.11.2026,Понедельник,7
+w13-61,171-9,Информат 2 п/гр,Информатика,normalized_alias,Разумова Е.В.,matched,2,31,2,needs_review,23.11.2026,Понедельник,7
+w13-62,172-9,География,География,normalized_alias,Софина Н.П.,matched,,434,4,needs_review,23.11.2026,Понедельник,7
+w13-63,161-9,Физика,Физика,normalized_alias,Евсиков А.С.,matched,,37,9,needs_review,23.11.2026,Понедельник,7
+w13-64,14-2,Физика,Физика,normalized_alias,Пидчасюк Е.М.,matched,,437,6,needs_review,23.11.2026,Понедельник,7
+w13-65,15-2,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Железщикова Е.Б.,matched,,429,4,needs_review,23.11.2026,Понедельник,7
+w13-66,15-4к,Информат 1 п/гр 17 (бахилы),Информатика,normalized_alias,Гильденберг О.А.,matched,1,,6,needs_review,23.11.2026,Понедельник,7
+w13-67,16,Англ.яз 2 п/гр,Иностранный язык,normalized_alias,Звягинцева Ю.А.,matched,2,25,4,needs_review,23.11.2026,Понедельник,7
+w13-68,16,Информат 1 п/гр,Информатика,normalized_alias,Кузнецов И.В.,matched,1,428,4,needs_review,23.11.2026,Понедельник,7
+w13-69,142-9к,Математика,Математика,normalized_alias,Разумова Е.В.,matched,,экс,7,needs_review,23.11.2026,Понедельник,9
+w13-70,14-2,Общество,Обществознание,normalized_alias,Хурчаков А.А.,matched,,21,5,needs_review,23.11.2026,Понедельник,9
+w13-71,14-2,Англ.язык 2 п/гр,Иностранный язык,normalized_alias,Раскулова Г.Х.,matched,2,431,2,needs_review,24.11.2026,Вторник,1
+w13-72,101-9,Англ.яз 2 п/гр,Иностранный язык,normalized_alias,Сизова А.С.,matched,2,27,8,needs_review,24.11.2026,Вторник,1
+w13-73,102-9,Англ.яз 1 п/гр,Иностранный язык,normalized_alias,Звягинцева Ю.А.,matched,1,25,4,needs_review,24.11.2026,Вторник,1
+w13-74,111-9,Общество,Обществознание,normalized_alias,Велико-Иваненко Е.А.,matched,,235,8,needs_review,24.11.2026,Вторник,1
+w13-75,121-9,Рус язык,Русский язык,normalized_alias,Кузнецова А.А.,matched,,22,2,needs_review,24.11.2026,Вторник,1
+w13-76,141-9,Химия,Химия,normalized_alias,Лопарева Л.А.,matched,,432,4,needs_review,24.11.2026,Вторник,1
+w13-77,ПО-17,Осн ИТ,,needs_subject_review,Светецкая А.В.,matched,,406,4,needs_review,24.11.2026,Вторник,1
+w13-78,ПО-18,УП.01 М3,УП.01,code_preserved,Мызников С.К.,matched,,4 корп,16,needs_review,24.11.2026,Вторник,1
+w13-79,ПО-19,Осн ТиТФ,,needs_subject_review,Осипова Л.А.,matched,,11,6,needs_review,24.11.2026,Вторник,1
+w13-80,171-9,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Евдокимова А.П.,matched,,14,4,needs_review,24.11.2026,Вторник,1
+w13-81,12,Математика,Математика,normalized_alias,Перменева Е.А.,matched,,428,6,needs_review,24.11.2026,Вторник,1
+w13-82,14-1,Рус язык,Русский язык,normalized_alias,Чугунова Е.А.,matched,,424,6,needs_review,24.11.2026,Вторник,1
+w13-83,15-4к,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Железщикова Е.Б.,matched,,429,4,needs_review,24.11.2026,Вторник,1
+w13-84,101-9,Информат 1/2 п/гр,Информатика,normalized_alias,Велико-Иваненко Е.А.,matched,2,235,2,needs_review,24.11.2026,Вторник,3
+w13-85,102-9,ФК 1,Физическая культура,normalized_alias,Матвеева С.А. + Манзюк Я.А.,matched,,сп зал,4,needs_review,24.11.2026,Вторник,3
+w13-86,111-9,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Евдокимова А.П.,matched,,14,2,needs_review,24.11.2026,Вторник,3
+w13-87,121-9,Литерат,Литература,normalized_alias,Кузнецова А.А.,matched,,22,6,needs_review,24.11.2026,Вторник,3
+w13-88,141-9,География,География,normalized_alias,Железщикова Е.Б.,matched,,429,4,needs_review,24.11.2026,Вторник,3
+w13-89,142-9к,Химия,Химия,normalized_alias,Лопарева Л.А.,matched,,432,4,needs_review,24.11.2026,Вторник,3
+w13-90,ПО-18,Устр ТО Р авт М3,,needs_subject_review,Мызников С.К.,matched,,4 корп,2,needs_review,24.11.2026,Вторник,3
+w13-91,ПО-19,Фотооборуд,Фотооборудование и основы цифровой фотографии,normalized_alias,Осипова Л.А.,matched,,11,4,needs_review,24.11.2026,Вторник,3
+w13-92,171-9,География,География,normalized_alias,Софина Н.П.,matched,,434,4,needs_review,24.11.2026,Вторник,3
+w13-93,172-9,Англ.яз 1 п/гр,Иностранный язык,normalized_alias,Звягинцева Ю.А.,matched,1,25,4,needs_review,24.11.2026,Вторник,3
+w13-94,172-9,Информат 2 п/гр,Информатика,normalized_alias,Разумова Е.В.,matched,2,31,4,needs_review,24.11.2026,Вторник,3
+w13-95,161-9,Математика,Математика,normalized_alias,Краснова М.А.,matched,,26,6,needs_review,24.11.2026,Вторник,3
+w13-96,11,Математика,Математика,normalized_alias,Перменева Е.А.,matched,,428,6,needs_review,24.11.2026,Вторник,3
+w13-97,12,Рус язык,Русский язык,normalized_alias,Чугунова Е.А.,matched,,424,4,needs_review,24.11.2026,Вторник,3
+w13-98,15-1,Англ.язык 2 п/гр,Иностранный язык,normalized_alias,Раскулова Г.Х.,matched,2,431,2,needs_review,24.11.2026,Вторник,3
+w13-99,15-4к,ФК 2,Физическая культура,normalized_alias,Поршнев П.П.,matched,,сп зал,2,needs_review,24.11.2026,Вторник,3
+w13-100,16,Математика,Математика,normalized_alias,Елкин Н.А.,matched,,423,8,needs_review,24.11.2026,Вторник,3
+w13-101,101-9,ФК 1,Физическая культура,normalized_alias,Матвеева С.А. + Манзюк Я.А.,matched,,сп зал,4,needs_review,24.11.2026,Вторник,5
+w13-102,102-9,Информат,Информатика,normalized_alias,Велико-Иваненко Е.А.,matched,,235,2,needs_review,24.11.2026,Вторник,5
+w13-103,121-9,История,История,normalized_alias,Ляховая О.В.,matched,,34,2,needs_review,24.11.2026,Вторник,5
+w13-104,141-9,Математика,Математика,normalized_alias,Елкин Н.А.,matched,,423,6,needs_review,24.11.2026,Вторник,5
+w13-105,142-9к,Рус язык,Русский язык,normalized_alias,Штерц А.С.,matched,,425,8,needs_review,24.11.2026,Вторник,5
+w13-106,ПО-17,Ком практикум,Коммуникативный практикум,normalized_alias,Шевчук Л.А.,matched,,405,2,needs_review,24.11.2026,Вторник,5
+w13-107,ПО-18,Осн УД,,needs_subject_review,Гинбатова С.В.,matched,,406,2,needs_review,24.11.2026,Вторник,5
+w13-108,ПО-19,БЖ,Безопасность жизнедеятельности,normalized_alias,Осипова Л.А.,matched,,11,2,needs_review,24.11.2026,Вторник,5
+w13-109,172-9,Англ.яз 2 п/гр,Иностранный язык,normalized_alias,Звягинцева Ю.А.,matched,2,25,4,needs_review,24.11.2026,Вторник,5
+w13-110,172-9,Информат 1 п/гр,Информатика,normalized_alias,Разумова Е.В.,matched,1,31,3,needs_review,24.11.2026,Вторник,5
+w13-111,161-9,Осн пр деят,,needs_subject_review,Воропаева Н.Ф.,matched,,223,2,needs_review,24.11.2026,Вторник,5
+w13-112,11,Химия,Химия,normalized_alias,Лопарева Л.А.,matched,,432,4,needs_review,24.11.2026,Вторник,5
+w13-113,12,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Железщикова Е.Б.,matched,,429,2,needs_review,24.11.2026,Вторник,5
+w13-114,14-1,География,География,normalized_alias,Софина Н.П.,matched,,434,4,needs_review,24.11.2026,Вторник,5
+w13-115,14-2,ФК,Физическая культура,normalized_alias,Писосорская В.В.,matched,,4 корп,4,needs_review,24.11.2026,Вторник,5
+w13-116,15-1,Общество,Обществознание,normalized_alias,Хурчаков А.А.,matched,,21,2,needs_review,24.11.2026,Вторник,5
+w13-117,15-2,Физика,Физика,normalized_alias,Пидчасюк Е.М.,matched,,437,8,needs_review,24.11.2026,Вторник,5
+w13-118,15-3к,ФК,Физическая культура,normalized_alias,Поршнев П.П.,matched,,гим зал,2,needs_review,24.11.2026,Вторник,5
+w13-119,15-4к,Физика,Физика,normalized_alias,Сысолятин Е.А.,matched,,,8,needs_review,24.11.2026,Вторник,5
+w13-120,16,Литература,Литература,normalized_alias,Чугунова Е.А.,matched,,424,2,needs_review,24.11.2026,Вторник,5
+w13-121,172-9,,,needs_subject_review,Разумова Е.В.,matched,,,1,needs_review,24.11.2026,Вторник,7
+w13-122,102-9,Англ.яз 2 п/гр,Иностранный язык,normalized_alias,Звягинцева Ю.А.,matched,2,25,4,needs_review,24.11.2026,Вторник,7
+w13-123,111-9,Математика,Математика,normalized_alias,Елкин Н.А.,matched,,423,8,needs_review,24.11.2026,Вторник,7
+w13-124,121-9,Информат,Информатика,normalized_alias,Велико-Иваненко Е.А.,matched,,235,2,needs_review,24.11.2026,Вторник,7
+w13-125,141-9,Литерат,Литература,normalized_alias,Кузнецова А.А.,matched,,22,2,needs_review,24.11.2026,Вторник,7
+w13-126,142-9к,Литература,Литература,normalized_alias,Штерц А.С.,matched,,425,4,needs_review,24.11.2026,Вторник,7
+w13-127,181-9,Химия,Химия,normalized_alias,Лопарева Л.А.,matched,,432,4,needs_review,24.11.2026,Вторник,7
+w13-128,161-9,География,География,normalized_alias,Софина Н.П.,matched,,434,4,needs_review,24.11.2026,Вторник,7
+w13-129,11,Литература,Литература,normalized_alias,Чугунова Е.А.,matched,,424,2,needs_review,24.11.2026,Вторник,7
+w13-130,12,Биология,Биология,normalized_alias,Левина В.Г.,matched,,36,4,needs_review,24.11.2026,Вторник,7
+w13-131,14-1,ФК,Физическая культура,normalized_alias,Писосорская В.В.,matched,,4 корп,2,needs_review,24.11.2026,Вторник,7
+w13-132,14-2,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Железщикова Е.Б.,matched,,429,2,needs_review,24.11.2026,Вторник,7
+w13-133,15-1,История,История,normalized_alias,Хурчаков А.А.,matched,,21,2,needs_review,24.11.2026,Вторник,7
+w13-134,11,Биология,Биология,normalized_alias,Левина В.Г.,matched,,36,4,needs_review,24.11.2026,Вторник,9
+w13-135,15-1,Физика,Физика,normalized_alias,Пидчасюк Е.М.,matched,,437,4,needs_review,24.11.2026,Вторник,9
+w13-136,15-2,Рус язык,Русский язык,normalized_alias,Чугунова Е.А.,matched,,424,2,needs_review,24.11.2026,Вторник,9
+w13-137,111-9,Физика,Физика,normalized_alias,Барабанова Т.Ю.,matched,,21,4,needs_review,25.11.2026,Среда,1
+w13-138,181-9,ФК 1,Физическая культура,normalized_alias,Босенко Н.Г. + Матвеева С.А.,matched,,сп зал,4,needs_review,25.11.2026,Среда,1
+w13-139,ПО-17,УП.01,УП.01,code_preserved,Бабкина Т.Е.,matched,,233,12,needs_review,25.11.2026,Среда,1
+w13-140,171-9,Информат 1 п/гр,Информатика,normalized_alias,Разумова Е.В.,matched,1,31,4,needs_review,25.11.2026,Среда,1
+w13-141,172-9,Рус язык,Русский язык,normalized_alias,Гужвина Н.В.,matched,,425,2,needs_review,25.11.2026,Среда,1
+w13-142,12,Ин.яз 25/,,needs_subject_review,Звягинцева Ю.Ю. + Раскулова Г.Х.,matched,,431,2,needs_review,25.11.2026,Среда,1
+w13-143,16,Рус язык,Русский язык,normalized_alias,Чугунова Е.А.,matched,,424,4,needs_review,25.11.2026,Среда,1
+w13-144,111-9,Рус язык,Русский язык,normalized_alias,Кузнецова А.А.,matched,,22,2,needs_review,25.11.2026,Среда,3
+w13-145,141-9,Общество,Обществознание,normalized_alias,Козловская А.И.,matched,,241,6,needs_review,25.11.2026,Среда,3
+w13-146,181-9,История,История,normalized_alias,Ольшанская О.С.,matched,,37,2,needs_review,25.11.2026,Среда,3
+w13-147,172-9,Литерат,Литература,normalized_alias,Гужвина Н.В.,matched,,425,4,needs_review,25.11.2026,Среда,3
+w13-148,11,Ин.яз 25/,,needs_subject_review,Звягинцева Ю.Ю. + Раскулова Г.Х.,matched,,431,2,needs_review,25.11.2026,Среда,3
+w13-149,14-1,Литература,Литература,normalized_alias,Чугунова Е.А.,matched,,424,4,needs_review,25.11.2026,Среда,3
+w13-150,15-1,Математика,Математика,normalized_alias,Плахотин С.В.,matched,,426,6,needs_review,25.11.2026,Среда,3
+w13-151,15-3к,Информат 1 п/гр 17 (бахилы),Информатика,normalized_alias,Барабанова Т.Ю.,matched,1,,2,needs_review,25.11.2026,Среда,3
+w13-152,15-4к,Биология,Биология,normalized_alias,Левина В.Г.,matched,,36,2,needs_review,25.11.2026,Среда,3
+w13-153,121-9,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Евдокимова А.П.,matched,,14,2,needs_review,25.11.2026,Среда,5
+w13-154,142-9к,География,География,normalized_alias,Железщикова Е.Б.,matched,,429,4,needs_review,25.11.2026,Среда,5
+w13-155,ПО-18,Охрана труда,Охрана труда,normalized_alias,Гинбатова С.В.,matched,,406,2,needs_review,25.11.2026,Среда,5
+w13-156,ПО-19,ФК 1,Физическая культура,normalized_alias,Зухалова А.А.,matched,,сп зал,4,needs_review,25.11.2026,Среда,5
+w13-157,11,Физика,Физика,normalized_alias,Пидчасюк Е.М.,matched,,437,4,needs_review,25.11.2026,Среда,5
+w13-158,12,ФК,Физическая культура,normalized_alias,Писосорская В.В.,matched,,4 корп,2,needs_review,25.11.2026,Среда,5
+w13-159,14-2,Математика,Математика,normalized_alias,Литовченко Е.А.,matched,,436,4,needs_review,25.11.2026,Среда,5
+w13-160,15-3к,Химия,Химия,normalized_alias,Лопарева Л.А.,matched,,432,2,needs_review,25.11.2026,Среда,5
+w13-161,15-4к,Информат 2 п/гр 17 (бахилы),Информатика,normalized_alias,Гильденберг О.А.,matched,2,,6,needs_review,25.11.2026,Среда,5
+w13-162,16,Англ.яз 1 п/гр,Иностранный язык,normalized_alias,Звягинцева Ю.А.,matched,1,25,2,needs_review,25.11.2026,Среда,5
+w13-163,16,Информат 2 п/гр,Информатика,normalized_alias,Кузнецов И.В.,matched,2,428,2,needs_review,25.11.2026,Среда,5
+w13-164,101-9,Литерат,Литература,normalized_alias,Кузнецова А.А.,matched,,22,6,needs_review,25.11.2026,Среда,7
+w13-165,102-9,Математика,Математика,normalized_alias,Литвинова О.Г.,matched,,28,4,needs_review,25.11.2026,Среда,7
+w13-166,121-9,География,География,normalized_alias,Софина Н.П.,matched,,434,4,needs_review,25.11.2026,Среда,7
+w13-167,171-9,Рус язык,Русский язык,normalized_alias,Гужвина Н.В.,matched,,425,6,needs_review,25.11.2026,Среда,7
+w13-168,11,Осн пр деят,,needs_subject_review,Крылова К.П.,matched,,436,2,needs_review,25.11.2026,Среда,7
+w13-169,12,Литература,Литература,normalized_alias,Чугунова Е.А.,matched,,424,4,needs_review,25.11.2026,Среда,7
+w13-170,14-1,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Железщикова Е.Б.,matched,,429,2,needs_review,25.11.2026,Среда,7
+w13-171,15-1,Литература,Литература,normalized_alias,Штерц А.С.,matched,,427,4,needs_review,25.11.2026,Среда,7
+w13-172,15-3к,ФК 2,Физическая культура,normalized_alias,Поршнев П.П.,matched,,сп зал,2,needs_review,25.11.2026,Среда,7
+w13-173,161-9,Информат 2 п/гр,Информатика,normalized_alias,Разумова Е.В.,matched,2,31,2,needs_review,25.11.2026,Среда,9
+w13-174,14-2,Рус язык,Русский язык,normalized_alias,Чугунова Е.А.,matched,,424,6,needs_review,25.11.2026,Среда,9
+w13-175,141-9,ФК,Физическая культура,normalized_alias,Босенко Н.Г. + Матвеева С.А.,matched,,гим зал,2,needs_review,26.11.2026,Четверг,1
+w13-176,ПО-18,Ком практикум,Коммуникативный практикум,normalized_alias,Шевчук Л.А.,matched,,405,2,needs_review,26.11.2026,Четверг,1
+w13-177,171-9,История,История,normalized_alias,Домнина К.П.,matched,,35,2,needs_review,26.11.2026,Четверг,1
+w13-178,161-9,История,История,normalized_alias,Ляховая О.В.,matched,,34,2,needs_review,26.11.2026,Четверг,1
+w13-179,15-2,История,История,normalized_alias,Хурчаков А.А.,matched,,21,2,needs_review,26.11.2026,Четверг,1
+w13-180,15-3к,Информат 2 п/гр 31 (бахилы),Информатика,normalized_alias,Барабанова Т.Ю.,matched,2,,2,needs_review,26.11.2026,Четверг,1
+w13-181,15-4к,История,История,normalized_alias,Ольшанская О.С.,matched,,37,2,needs_review,26.11.2026,Четверг,1
+w13-182,16,Химия,Химия,normalized_alias,Лопарева Л.А.,matched,,432,2,needs_review,26.11.2026,Четверг,1
+w13-183,121-9,Биология,Биология,normalized_alias,Левина В.Г.,matched,,36,2,needs_review,26.11.2026,Четверг,3
+w13-184,ПО-18,Осн электротех,,needs_subject_review,Абдуллина С.М.,matched,,421,2,needs_review,26.11.2026,Четверг,3
+w13-185,161-9,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Евдокимова А.П.,matched,,14,2,needs_review,26.11.2026,Четверг,3
+w13-186,15-2,Общество,Обществознание,normalized_alias,Хурчаков А.А.,matched,,21,2,needs_review,26.11.2026,Четверг,3
+w13-187,15-3к,История,История,normalized_alias,Ольшанская О.С.,matched,,37,4,needs_review,26.11.2026,Четверг,3
+w13-188,15-4к,Химия,Химия,normalized_alias,Лопарева Л.А.,matched,,432,2,needs_review,26.11.2026,Четверг,3
+w13-189,101-9,История,История,normalized_alias,Ляховая О.В.,matched,,34,2,needs_review,26.11.2026,Четверг,5
+w13-190,ПО-18,Осн материалов,,needs_subject_review,Петрухина Е.В.,matched,,422,2,needs_review,26.11.2026,Четверг,5
+w13-191,171-9,Литерат,Литература,normalized_alias,Гужвина Н.В.,matched,,425,2,needs_review,26.11.2026,Четверг,5
+w13-192,15-3к,Биология,Биология,normalized_alias,Левина В.Г.,matched,,36,2,needs_review,26.11.2026,Четверг,5
+w13-193,101-9,Рус язык,Русский язык,normalized_alias,Кузнецова А.А.,matched,,22,2,needs_review,26.11.2026,Четверг,7
+w13-194,111-9,География,География,normalized_alias,Софина Н.П.,matched,,434,4,needs_review,26.11.2026,Четверг,7
+w13-195,15-1,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Железщикова Е.Б.,matched,,429,2,needs_review,26.11.2026,Четверг,7
+w13-196,15-2,Биология,Биология,normalized_alias,Левина В.Г.,matched,,36,4,needs_review,26.11.2026,Четверг,7
+w13-197,181-9,Общество,Обществознание,normalized_alias,Козловская А.И.,matched,,241,2,needs_review,26.11.2026,Четверг,9
+w13-198,14-2,Литература,Литература,normalized_alias,Чугунова Е.А.,matched,,424,4,needs_review,26.11.2026,Четверг,9
+w13-199,101-9,Информат 2 п/гр,Информатика,normalized_alias,Велико-Иваненко Е.А.,matched,2,235,2,needs_review,27.11.2026,Пятница,1
+w13-200,121-9,Химия,Химия,normalized_alias,Лопарева Л.А.,matched,,432,2,needs_review,27.11.2026,Пятница,1
+w13-201,142-9к,Англ.яз 2 п/гр,Иностранный язык,normalized_alias,Морозова А.С.,matched,2,33,2,needs_review,27.11.2026,Пятница,1
+w13-202,ПО-17,Осн гостеприим,,needs_subject_review,Бабкина Т.Е.,matched,,233,2,needs_review,27.11.2026,Пятница,1
+w13-203,161-9,Общество,Обществознание,normalized_alias,Ляховая О.В.,matched,,34,2,needs_review,27.11.2026,Пятница,1
+w13-204,15-3к,Информат 1 п/гр,Информатика,normalized_alias,Барабанова Т.Ю.,matched,1,428,2,needs_review,27.11.2026,Пятница,1
+w13-205,101-9,Информат 1 п/гр,Информатика,normalized_alias,Велико-Иваненко Е.А.,matched,1,235,2,needs_review,27.11.2026,Пятница,3
+w13-206,181-9,Литерат,Литература,normalized_alias,Гужвина Н.В.,matched,,425,2,needs_review,27.11.2026,Пятница,3
+w13-207,ПО-17,Тех уб НФ,,needs_subject_review,Бабкина Т.Е.,matched,,233,2,needs_review,27.11.2026,Пятница,3
+w13-208,ПО-18,Чтение чертежей,,needs_subject_review,Петрухина Е.В.,matched,,422,2,needs_review,27.11.2026,Пятница,3
+w13-209,11,Рус язык,Русский язык,normalized_alias,Чугунова Е.А.,matched,,424,2,needs_review,27.11.2026,Пятница,3
+w13-210,14-2,Введ в ПД,,needs_subject_review,Крунова В.С.,matched,,435,2,needs_review,27.11.2026,Пятница,3
+w13-211,102-9,Рус язык,Русский язык,normalized_alias,Кузнецова А.А.,matched,,22,4,needs_review,27.11.2026,Пятница,5
+w13-212,ПО-17,ФК 2,Физическая культура,normalized_alias,Назаренко Т.Г.,matched,,сп зал,2,needs_review,27.11.2026,Пятница,5
+w13-213,171-9,ФК 2,Физическая культура,normalized_alias,Николаева В.И.,matched,,сп зал,2,needs_review,27.11.2026,Пятница,5
+w13-214,172-9,ОБ и ЗР,Основы безопасности и защиты Родины,normalized_alias,Евдокимова А.П.,matched,,14,2,needs_review,27.11.2026,Пятница,5
+w13-215,15-1,ФК,Физическая культура,normalized_alias,Писосорская В.В.,matched,,4 корп,2,needs_review,27.11.2026,Пятница,5
+w13-216,102-9,География,География,normalized_alias,Софина Н.П.,matched,,434,2,needs_review,27.11.2026,Пятница,7
+w13-217,141-9,Англ.яз 2 п/гр,Иностранный язык,normalized_alias,Морозова А.С.,matched,2,33,4,needs_review,27.11.2026,Пятница,7
+w13-218,172-9,ФК 2,Физическая культура,normalized_alias,Николаева В.И.,matched,,сп зал,2,needs_review,27.11.2026,Пятница,7
+w13-219,16,Физика,Физика,normalized_alias,Поздняков В.В.,matched,,437,3,needs_review,27.11.2026,Пятница,9
+w13-220,101-9,География,География,normalized_alias,Софина Н.П.,matched,,4,4,needs_review,28.11.2026,Суббота,1
+w13-221,142-9к,Англ.яз 1 п/гр,Иностранный язык,normalized_alias,Морозова А.С.,matched,1,33,4,needs_review,28.11.2026,Суббота,1
+w13-222,12,Физика,Физика,normalized_alias,Поздняков В.В.,matched,,37,4,needs_review,28.11.2026,Суббота,1
+w13-223,14-1,Общество,Обществознание,normalized_alias,Хурчаков А.А.,matched,,21,2,needs_review,28.11.2026,Суббота,1
+w13-224,14-1,История,История,normalized_alias,Хурчаков А.А.,matched,,21,2,needs_review,28.11.2026,Суббота,3
+w13-225,161-9,Информат 1 п/гр,Информатика,normalized_alias,Разумова Е.В.,matched,1,31,4,needs_review,28.11.2026,Суббота,5
+w13-226,15-3к,Физика,Физика,normalized_alias,Сысолятин Е.А.,matched,,28,4,needs_review,28.11.2026,Суббота,5
+w13-227,201-9,История России,История России,normalized_alias,Ольшанская О.С.,matched,,21,6,needs_review,23.11.2026,Понедельник,1
+w13-228,202-9,Англ.яз в ПД 1 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Салмина А.С.,matched,1,33,2,needs_review,23.11.2026,Понедельник,1
+w13-229,241-9,Англ.яз в ПД 2 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Морозова А.С.,matched,2,213,2,needs_review,23.11.2026,Понедельник,1
+w13-230,241-9,Нем.яз 1 п/гр,,needs_subject_review,Матвеева А.С.,matched,1,433,2,needs_review,23.11.2026,Понедельник,1
+w13-231,281-9,География,География,normalized_alias,Железщикова Е.Б.,matched,,429,10,needs_review,23.11.2026,Понедельник,1
+w13-232,ПО-27,УП.01,УП.01,code_preserved,Бабкина Т.Е.,matched,,233,12,needs_review,23.11.2026,Понедельник,1
+w13-233,ПО-28,УП.01 М3,УП.01,code_preserved,Мызников С.К.,matched,,4 корп,12,needs_review,23.11.2026,Понедельник,1
+w13-234,271-9,Инж граф 1 п/гр,,needs_subject_review,Гильденберг О.А.,matched,1,17,6,needs_review,23.11.2026,Понедельник,1
+w13-235,272-9,Инж граф 1 п/гр,,needs_subject_review,Краснова М.А.,matched,1,26,6,needs_review,23.11.2026,Понедельник,1
+w13-236,261-9,Устр ПТСДМ,,needs_subject_review,Аброськин В.В.,matched,,436,8,needs_review,23.11.2026,Понедельник,1
+w13-237,22,УП.,УП.02,code_preserved,Зыбина Л.Л.,matched,,02,2,needs_review,23.11.2026,Понедельник,1
+w13-238,24-1,Осн электротех,,needs_subject_review,Абдуллина С.М.,matched,,421,2,needs_review,23.11.2026,Понедельник,1
+w13-239,24-2,УП.,УП.02,code_preserved,Паньков Д.С.,matched,,02,2,needs_review,23.11.2026,Понедельник,1
+w13-240,25-2,ТО АТС,,needs_subject_review,Гегинов В.А.,matched,,2,8,needs_review,23.11.2026,Понедельник,1
+w13-241,25-к,Охрана труда,Охрана труда,normalized_alias,Крунова В.С.,matched,,435,8,needs_review,23.11.2026,Понедельник,1
+w13-242,26,Монтаж,,needs_subject_review,Мельник Т.В.,matched,,427,4,needs_review,23.11.2026,Понедельник,1
+w13-243,201-9,Анатом и физиол,,needs_subject_review,Микрюкова В.Е.,matched,,221,2,needs_review,23.11.2026,Понедельник,3
+w13-244,202-9,История России,История России,normalized_alias,Домнина К.П.,matched,,35,4,needs_review,23.11.2026,Понедельник,3
+w13-245,211-9,Осн педагогики,,needs_subject_review,Манзюк Я.А.,matched,,1,4,needs_review,23.11.2026,Понедельник,3
+w13-246,221-9,Англ.яз 1 п/гр,Иностранный язык,normalized_alias,Матвеева А.С.,matched,1,433,2,needs_review,23.11.2026,Понедельник,3
+w13-247,241-9,Прав и ДО в тур,,needs_subject_review,Козловская А.И.,matched,,241,6,needs_review,23.11.2026,Понедельник,3
+w13-248,281-9,Англ.яз в ПД 2 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Салмина А.С.,matched,2,33,4,needs_review,23.11.2026,Понедельник,3
+w13-249,281-9,Проект КГ 1 п/гр,,needs_subject_review,Важенина Л.А.,matched,1,5,2,needs_review,23.11.2026,Понедельник,3
+w13-250,272-9,Материаловед,Материаловедение,normalized_alias,Краснова М.А.,matched,,26,8,needs_review,23.11.2026,Понедельник,3
+w13-251,22к,Устр ТО ДСЛМ,,needs_subject_review,Шнякин П.П.,matched,,4,6,needs_review,23.11.2026,Понедельник,3
+w13-252,24-1,Осн тех св,,needs_subject_review,Кириллова Н.П.,matched,,423,2,needs_review,23.11.2026,Понедельник,3
+w13-253,25-1,Ремонт АТС,,needs_subject_review,Абдуллина С.М.,matched,,421,6,needs_review,23.11.2026,Понедельник,3
+w13-254,25-2,Диагност АТС,,needs_subject_review,Гегинов В.А.,matched,,2,6,needs_review,23.11.2026,Понедельник,3
+w13-255,25-к,Материаловед,Материаловедение,normalized_alias,Петрухина Е.В.,matched,,422,2,needs_review,23.11.2026,Понедельник,3
+w13-256,26,Выполн ПР,,needs_subject_review,Крунова В.С.,matched,,435,6,needs_review,23.11.2026,Понедельник,3
+w13-257,201-9,Теор и ист ФК ДП,,needs_subject_review,Саган А.И.,matched,,,2,needs_review,23.11.2026,Понедельник,5
+w13-258,202-9,Осн педагогики,,needs_subject_review,Бейч О.Н.,matched,,1,2,needs_review,23.11.2026,Понедельник,5
+w13-259,211-9,ФК 2,Физическая культура,normalized_alias,Смирнов Д.А. + Поршнев П.П.,matched,,сп зал,2,needs_review,23.11.2026,Понедельник,5
+w13-260,221-9,Анатом и физиол,,needs_subject_review,Микрюкова В.Е.,matched,,221,2,needs_review,23.11.2026,Понедельник,5
+w13-261,281-9,Инф тех в ПД 1 п/гр,,needs_subject_review,Разумова Е.В.,matched,1,31,1,needs_review,23.11.2026,Понедельник,5
+w13-262,ПО-29,УП.01,УП.01,code_preserved,Осипова Л.А.,matched,,11,12,needs_review,23.11.2026,Понедельник,5
+w13-263,272-9,ЭОПП,,needs_subject_review,Левина В.Г.,matched,,36,2,needs_review,23.11.2026,Понедельник,5
+w13-264,261-9,Инж граф 17/,,needs_subject_review,Гильденберг О.А. + Краснова М.А.,matched,,26,6,needs_review,23.11.2026,Понедельник,5
+w13-265,21,Устр ТО и упр крана,,needs_subject_review,Аброськин В.В.,matched,,436,10,needs_review,23.11.2026,Понедельник,5
+w13-266,22к,Слес дело,Слесарное дело,normalized_alias,Петрухина Е.В.,matched,,422,4,needs_review,23.11.2026,Понедельник,5
+w13-267,24-1,Подгот и СО,,needs_subject_review,Кириллова Н.П.,matched,,423,4,needs_review,23.11.2026,Понедельник,5
+w13-268,25-1,ТО АТС,,needs_subject_review,Гегинов В.А.,matched,,2,4,needs_review,23.11.2026,Понедельник,5
+w13-269,25-2,Охрана труда,Охрана труда,normalized_alias,Крунова В.С.,matched,,435,6,needs_review,23.11.2026,Понедельник,5
+w13-270,25-к,Электротех,,needs_subject_review,Абдуллина С.М.,matched,,421,6,needs_review,23.11.2026,Понедельник,5
+w13-271,26,Экспл систем водос,,needs_subject_review,Мельник Т.В.,matched,,427,6,needs_review,23.11.2026,Понедельник,5
+w13-272,281-9,,,needs_subject_review,Разумова Е.В.,matched,,,2,needs_review,23.11.2026,Понедельник,7
+w13-273,281-9,БЖ,Безопасность жизнедеятельности,normalized_alias,Евдокимова А.П.,matched,,14,2,needs_review,23.11.2026,Понедельник,7
+w13-274,202-9,Англ.яз в ПД 2 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Салмина А.С.,matched,2,33,2,needs_review,23.11.2026,Понедельник,7
+w13-275,211-9,РЯ и КПКП,,needs_subject_review,Штерц А.С.,matched,,424,4,needs_review,23.11.2026,Понедельник,7
+w13-276,221-9,Плавание,,needs_subject_review,Николаева В.И.,matched,,221,2,needs_review,23.11.2026,Понедельник,7
+w13-277,241-9,Осв проф Офиц,,needs_subject_review,Додух Е.А.,matched,,213,4,needs_review,23.11.2026,Понедельник,7
+w13-278,272-9,Метрология,,needs_subject_review,Краснова М.А.,matched,,26,6,needs_review,23.11.2026,Понедельник,7
+w13-279,261-9,Англ.яз в ПД 1 п\гр,Иностранный язык в профессиональной деятельности,normalized_alias,Ни А.В.,matched,,3,2,needs_review,23.11.2026,Понедельник,7
+w13-280,22к,Электротех,,needs_subject_review,Абдуллина С.М.,matched,,421,4,needs_review,23.11.2026,Понедельник,7
+w13-281,24-1,Англ.язык в ПД 2 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Раскулова Г.Х.,matched,2,431,2,needs_review,23.11.2026,Понедельник,7
+w13-282,25-1,Диагност АТС,,needs_subject_review,Гегинов В.А.,matched,,2,4,needs_review,23.11.2026,Понедельник,7
+w13-283,25-2,Устр АТС 1 п/гр,,needs_subject_review,Бугаенко В.А.,matched,1,М 1.4,2,needs_review,23.11.2026,Понедельник,7
+w13-284,25-к,История России,История России,normalized_alias,Хурчаков А.А.,matched,,21,1,needs_review,23.11.2026,Понедельник,7
+w13-285,26,Выполн СР,,needs_subject_review,Крунова В.С.,matched,,435,4,needs_review,23.11.2026,Понедельник,7
+w13-286,272-9,Инж граф 2 п/гр,,needs_subject_review,Краснова М.А.,matched,2,26,6,needs_review,23.11.2026,Понедельник,9
+w13-287,21,Слес дело,Слесарное дело,normalized_alias,Петрухина Е.В.,matched,,422,2,needs_review,23.11.2026,Понедельник,9
+w13-288,22к,БЖ,Безопасность жизнедеятельности,normalized_alias,Железщикова Е.Б.,matched,,429,4,needs_review,23.11.2026,Понедельник,9
+w13-289,25-1,Устр АТС,,needs_subject_review,Бугаенко В.А.,matched,,М 1.4,1,needs_review,23.11.2026,Понедельник,9
+w13-290,201-9,Спорт игры 2,,needs_subject_review,Поршнев П.П. + Матвеева С.А.,matched,,сп зал,4,needs_review,24.11.2026,Вторник,1
+w13-291,211-9,История России,История России,normalized_alias,Ольшанская О.С.,matched,,37,8,needs_review,24.11.2026,Вторник,1
+w13-292,221-9,Англ.яз 2 п/гр,Иностранный язык,normalized_alias,Матвеева А.С.,matched,2,433,2,needs_review,24.11.2026,Вторник,1
+w13-293,ПО-29,Комп обраб,Компьютерная обработка фотографических изображений,normalized_alias,Соколовская Д.В.,matched,,12,6,needs_review,24.11.2026,Вторник,1
+w13-294,271-9,Метрология,,needs_subject_review,Краснова М.А.,matched,,26,4,needs_review,24.11.2026,Вторник,1
+w13-295,261-9,История России,История России,normalized_alias,Ляховая О.В.,matched,,34,6,needs_review,24.11.2026,Вторник,1
+w13-296,22,Электротех,,needs_subject_review,Абдуллина С.М.,matched,,421,4,needs_review,24.11.2026,Вторник,1
+w13-297,22к,Управ и тех,,needs_subject_review,Шнякин П.П.,matched,,4,4,needs_review,24.11.2026,Вторник,1
+w13-298,24-1,УП.,УП.02,code_preserved,Паньков Д.С.,matched,,02,2,needs_review,24.11.2026,Вторник,1
+w13-299,241-9,,,needs_subject_review,Додух Е.А.,matched,,,1,needs_review,24.11.2026,Вторник,2
+w13-300,201-9,Осн психология,,needs_subject_review,Гарес Е.Н.,matched,,223,6,needs_review,24.11.2026,Вторник,3
+w13-301,202-9,Теор и ист ФК ДП,,needs_subject_review,Саган А.И.,matched,,,2,needs_review,24.11.2026,Вторник,3
+w13-302,211-9,Осн психология,,needs_subject_review,Гаврина Л.А.,matched,,243,4,needs_review,24.11.2026,Вторник,3
+w13-303,221-9,История России,История России,normalized_alias,Ляховая О.В.,matched,,34,6,needs_review,24.11.2026,Вторник,3
+w13-304,281-9,История России,История России,normalized_alias,Ольшанская О.С.,matched,,37,6,needs_review,24.11.2026,Вторник,3
+w13-305,ПО-29,Осн изобр грам,Основы изобразительной грамоты,normalized_alias,Соколовская Д.В.,matched,,12,6,needs_review,24.11.2026,Вторник,3
+w13-306,271-9,Электротех,,needs_subject_review,Абдуллина С.М.,matched,,421,2,needs_review,24.11.2026,Вторник,3
+w13-307,261-9,ПДД,Правила дорожного движения,normalized_alias,Утробин Д.Ю.,matched,,М 1.3,14,needs_review,24.11.2026,Вторник,3
+w13-308,22,Слес дело,Слесарное дело,normalized_alias,Петрухина Е.В.,matched,,422,2,needs_review,24.11.2026,Вторник,3
+w13-309,201-9,Мат методы,,needs_subject_review,Литвинова О.Г.,matched,,28,2,needs_review,24.11.2026,Вторник,5
+w13-310,202-9,Спорт игры 2,,needs_subject_review,Смирнов Д.А. + Степанова В.А.,matched,,сп зал,4,needs_review,24.11.2026,Вторник,5
+w13-311,211-9,Возр АФГ,,needs_subject_review,Микрюкова В.Е.,matched,,221,6,needs_review,24.11.2026,Вторник,5
+w13-312,221-9,Осн педагогики ДП,,needs_subject_review,Саган А.И.,matched,,,2,needs_review,24.11.2026,Вторник,5
+w13-313,271-9,Материаловед,Материаловедение,normalized_alias,Краснова М.А.,matched,,26,4,needs_review,24.11.2026,Вторник,5
+w13-314,22,Управ и тех,,needs_subject_review,Шнякин П.П.,matched,,4,4,needs_review,24.11.2026,Вторник,5
+w13-315,24-2,Допуски и ТИ,,needs_subject_review,Крунова В.С.,matched,,435,4,needs_review,24.11.2026,Вторник,5
+w13-316,25-1,Англ.язык в ПД 2 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Раскулова Г.Х.,matched,2,431,2,needs_review,24.11.2026,Вторник,5
+w13-317,25-1,Устр АТС 1 п/гр,,needs_subject_review,Бугаенко В.А.,matched,1,М 1.4,1,needs_review,24.11.2026,Вторник,6
+w13-318,201-9,Спорт игры 2,,needs_subject_review,Смирнов Д.А. + Степанова В.А.,matched,,сп зал,4,needs_review,24.11.2026,Вторник,7
+w13-319,202-9,Спорт игры 2,,needs_subject_review,Поршнев П.П. + Матвеева С.А.,matched,,сп зал,2,needs_review,24.11.2026,Вторник,7
+w13-320,211-9,Под пед ИОД 1 п/гр ДП,,needs_subject_review,Саган А.И.,matched,1,,2,needs_review,24.11.2026,Вторник,7
+w13-321,281-9,Осн КЖР 1 п/гр,,needs_subject_review,Соколовская Д.В.,matched,1,12,3,needs_review,24.11.2026,Вторник,7
+w13-322,281-9,Инф тех в ПД 2 п/гр,,needs_subject_review,Разумова Е.В.,matched,2,31,1,needs_review,24.11.2026,Вторник,7
+w13-323,21,Электротех,,needs_subject_review,Абдуллина С.М.,matched,,421,2,needs_review,24.11.2026,Вторник,7
+w13-324,22к,История России,История России,normalized_alias,Ольшанская О.С.,matched,,37,2,needs_review,24.11.2026,Вторник,7
+w13-325,24-2,Осн инж граф,,needs_subject_review,Петрухина Е.В.,matched,,422,4,needs_review,24.11.2026,Вторник,7
+w13-326,25-2,Устр АТС 2 п/гр,,needs_subject_review,Бугаенко В.А.,matched,2,М 1.4,2,needs_review,24.11.2026,Вторник,7
+w13-327,25-к,Теор подгот вод,,needs_subject_review,Утробин Д.Ю.,matched,,М 1.3,12,needs_review,24.11.2026,Вторник,7
+w13-328,26,Подгот СО,,needs_subject_review,Крунова В.С.,matched,,435,6,needs_review,24.11.2026,Вторник,7
+w13-329,281-9,Осн КЖР 2 п/гр,,needs_subject_review,Соколовская Д.В.,matched,2,12,3,needs_review,24.11.2026,Вторник,9
+w13-330,21,БЖ,Безопасность жизнедеятельности,normalized_alias,Железщикова Е.Б.,matched,,429,4,needs_review,24.11.2026,Вторник,9
+w13-331,24-2,Материаловед,Материаловедение,normalized_alias,Петрухина Е.В.,matched,,422,2,needs_review,24.11.2026,Вторник,9
+w13-332,25-к,Устр АТС,,needs_subject_review,Бугаенко В.А.,matched,,М 1.4,3,needs_review,24.11.2026,Вторник,9
+w13-333,21,Теор подгот вод Л1,,needs_subject_review,Заикин В.И.,matched,,,14,needs_review,25.11.2026,Среда,1
+w13-334,22к,УП.,УП.02,code_preserved,Зыбина Л.Л.,matched,,02,2,needs_review,25.11.2026,Среда,1
+w13-335,24-1,Тех пр СК,,needs_subject_review,Кириллова Н.П.,matched,,экс,2,needs_review,25.11.2026,Среда,1
+w13-336,25-1,Теор подгот вод,,needs_subject_review,Утробин Д.Ю.,matched,,М 1.3,8,needs_review,25.11.2026,Среда,1
+w13-337,202-9,Единоборства тр зал,,needs_subject_review,Козленко В.Н.,matched,,,4,needs_review,25.11.2026,Среда,3
+w13-338,211-9,ДО: ист и соврем,,needs_subject_review,Сенюшкина П.А.,matched,,4,4,needs_review,25.11.2026,Среда,3
+w13-339,221-9,Осн психология,,needs_subject_review,Гарес Е.Н.,matched,,223,2,needs_review,25.11.2026,Среда,3
+w13-340,ПО-28,Осн УД,,needs_subject_review,Гинбатова С.В.,matched,,406,2,needs_review,25.11.2026,Среда,3
+w13-341,271-9,Устр автом 2 п/гр Л1,,needs_subject_review,Заикин В.И.,matched,2,,2,needs_review,25.11.2026,Среда,3
+w13-342,21,Материаловед,Материаловедение,normalized_alias,Петрухина Е.В.,matched,,422,2,needs_review,25.11.2026,Среда,3
+w13-343,24-1,Свар материал,,needs_subject_review,Кириллова Н.П.,matched,,экс,2,needs_review,25.11.2026,Среда,3
+w13-344,25-1,ТО АТС ДП,,needs_subject_review,Гегинов В.А.,matched,,,2,needs_review,25.11.2026,Среда,3
+w13-345,25-2,Теор подгот вод,,needs_subject_review,Утробин Д.Ю.,matched,,экс,8,needs_review,25.11.2026,Среда,3
+w13-346,201-9,Орг-метод осн ФСР,,needs_subject_review,Минасян А.А.,matched,,1,2,needs_review,25.11.2026,Среда,5
+w13-347,202-9,Мат методы,,needs_subject_review,Литвинова О.Г.,matched,,28,2,needs_review,25.11.2026,Среда,5
+w13-348,ПО-27,ФК 2,Физическая культура,normalized_alias,Назаренко Т.Г.,matched,,сп зал,2,needs_review,25.11.2026,Среда,5
+w13-349,ПО-28,Устр ТО Р авт М3,,needs_subject_review,Мызников С.К.,matched,,4 корп,8,needs_review,25.11.2026,Среда,5
+w13-350,ПО-29,УП.02,УП.02,code_preserved,Осипова Л.А.,matched,,11,6,needs_review,25.11.2026,Среда,5
+w13-351,271-9,Устр автом М 1.4/Л1,,needs_subject_review,Бугаенко В.А. + Заикин В.И.,matched,,,6,needs_review,25.11.2026,Среда,5
+w13-352,272-9,ФК 2,Физическая культура,normalized_alias,Николаева В.И.,matched,,сп зал,2,needs_review,25.11.2026,Среда,5
+w13-353,261-9,Материаловед,Материаловедение,normalized_alias,Краснова М.А.,matched,,26,2,needs_review,25.11.2026,Среда,5
+w13-354,21,Тех черчение,Техническое черчение,normalized_alias,Петрухина Е.В.,matched,,422,2,needs_review,25.11.2026,Среда,5
+w13-355,24-1,Тех РДС,,needs_subject_review,Кириллова Н.П.,matched,,экс,2,needs_review,25.11.2026,Среда,5
+w13-356,25-к,Англ.язык в ПД 1 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Раскулова Г.Х.,matched,1,431,2,needs_review,25.11.2026,Среда,5
+w13-357,202-9,Орг-метод осн ФСР,,needs_subject_review,Минасян А.А.,matched,,1,2,needs_review,25.11.2026,Среда,7
+w13-358,241-9,ФК,Физическая культура,normalized_alias,Босенко Н.Г. + Матвеева С.А.,matched,,гим зал,2,needs_review,25.11.2026,Среда,7
+w13-359,ПО-27,Орг обсл и эксп НФ,,needs_subject_review,Бабкина Т.Е.,matched,,233,4,needs_review,25.11.2026,Среда,7
+w13-360,ПО-28,Слес дело М3,Слесарное дело,normalized_alias,Мызников С.К.,matched,,4 корп,6,needs_review,25.11.2026,Среда,7
+w13-361,272-9,Устр автом М 1.4/Л1,,needs_subject_review,Бугаенко В.А. + Заикин В.И.,matched,,,4,needs_review,25.11.2026,Среда,7
+w13-362,21,ФК,Физическая культура,normalized_alias,Писосорская В.В.,matched,,4 корп,2,needs_review,25.11.2026,Среда,7
+w13-363,22,История России,История России,normalized_alias,Ольшанская О.С.,matched,,37,4,needs_review,25.11.2026,Среда,7
+w13-364,24-1,Тех механиз,,needs_subject_review,Кириллова Н.П.,matched,,экс,2,needs_review,25.11.2026,Среда,7
+w13-365,26,Англ.язык в ПД 1 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Раскулова Г.Х.,matched,1,431,2,needs_review,25.11.2026,Среда,7
+w13-366,ПО-27,Тех уб НФ,,needs_subject_review,Бабкина Т.Е.,matched,,233,4,needs_review,25.11.2026,Среда,9
+w13-367,25-2,Устр АТС,,needs_subject_review,Бугаенко В.А.,matched,,экс,1,needs_review,25.11.2026,Среда,9
+w13-368,202-9,ФК 2,Физическая культура,normalized_alias,Смирнов Д.А. + Поршнев П.П.,matched,,сп зал,2,needs_review,26.11.2026,Четверг,1
+w13-369,241-9,Англ.яз в ПД 1 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Морозова А.С.,matched,1,33,4,needs_review,26.11.2026,Четверг,1
+w13-370,241-9,Нем.яз 2 п/гр ДП,,needs_subject_review,Матвеева А.С.,matched,2,,4,needs_review,26.11.2026,Четверг,1
+w13-371,271-9,Инж граф 2 п/гр,,needs_subject_review,Гильденберг О.А.,matched,2,17,6,needs_review,26.11.2026,Четверг,1
+w13-372,24-2,Осн тех св,,needs_subject_review,Кириллова Н.П.,matched,,423,2,needs_review,26.11.2026,Четверг,1
+w13-373,25-2,Ремонт АТС,,needs_subject_review,Абдуллина С.М.,matched,,421,4,needs_review,26.11.2026,Четверг,1
+w13-374,201-9,ФК 2,Физическая культура,normalized_alias,Смирнов Д.А. + Поршнев П.П.,matched,,сп зал,2,needs_review,26.11.2026,Четверг,3
+w13-375,202-9,Анатом и физиол,,needs_subject_review,Микрюкова В.Е.,matched,,221,2,needs_review,26.11.2026,Четверг,3
+w13-376,211-9,Осн ФГ,,needs_subject_review,Батанова В.С.,matched,,211,2,needs_review,26.11.2026,Четверг,3
+w13-377,281-9,ФК 1,Физическая культура,normalized_alias,Босенко Н.Г. + Матвеева С.А.,matched,,сп зал,2,needs_review,26.11.2026,Четверг,3
+w13-378,24-1,Англ.язык в ПД 1 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Раскулова Г.Х.,matched,1,431,2,needs_review,26.11.2026,Четверг,3
+w13-379,24-2,Подгот и СО,,needs_subject_review,Кириллова Н.П.,matched,,423,2,needs_review,26.11.2026,Четверг,3
+w13-380,25-2,Материаловед,Материаловедение,normalized_alias,Петрухина Е.В.,matched,,422,2,needs_review,26.11.2026,Четверг,3
+w13-381,202-9,Осн психология,,needs_subject_review,Гарес Е.Н.,matched,,223,4,needs_review,26.11.2026,Четверг,5
+w13-382,221-9,Легкая атлет,,needs_subject_review,Босенко Н.Г. + Назаренко Т.Г.,matched,,экс,4,needs_review,26.11.2026,Четверг,5
+w13-383,241-9,История России,История России,normalized_alias,Домнина К.П.,matched,,35,4,needs_review,26.11.2026,Четверг,5
+w13-384,ПО-27,Ком практикум,Коммуникативный практикум,normalized_alias,Шевчук Л.А.,matched,,406,8,needs_review,26.11.2026,Четверг,5
+w13-385,272-9,ФК 1,Физическая культура,normalized_alias,Николаева В.И.,matched,,сп зал,2,needs_review,26.11.2026,Четверг,5
+w13-386,261-9,Англ.яз в ПД 2 п\гр,Иностранный язык в профессиональной деятельности,normalized_alias,Ни А.В.,matched,,3,2,needs_review,26.11.2026,Четверг,5
+w13-387,21,Осн ФГ,,needs_subject_review,Лебедева Н.Ю.,matched,,1,2,needs_review,26.11.2026,Четверг,5
+w13-388,26,Англ.язык в ПД 2 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Раскулова Г.Х.,matched,2,431,2,needs_review,26.11.2026,Четверг,5
+w13-389,221-9,Гимнастика,,needs_subject_review,Назаренко Т.Г. + Зухалова А.А.,matched,,экс,6,needs_review,26.11.2026,Четверг,7
+w13-390,281-9,Р Е В Осн КЖР 2 п/гр,,needs_subject_review,Соколовская Д.В.,matched,2,5,1,needs_review,26.11.2026,Четверг,8
+w13-391,24-1,Материаловед,Материаловедение,normalized_alias,Петрухина Е.В.,matched,,422,2,needs_review,26.11.2026,Четверг,7
+w13-392,25-1,История России,История России,normalized_alias,Хурчаков А.А.,matched,,21,4,needs_review,26.11.2026,Четверг,7
+w13-393,25-к,Англ.язык в ПД 2 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Раскулова Г.Х.,matched,2,431,2,needs_review,26.11.2026,Четверг,7
+w13-394,281-9,Р Е В Осн КЖР 1 п/гр,,needs_subject_review,Соколовская Д.В.,matched,1,5,1,needs_review,26.11.2026,Четверг,9
+w13-395,24-1,Осн инж граф,,needs_subject_review,Петрухина Е.В.,matched,,422,2,needs_review,26.11.2026,Четверг,9
+w13-396,25-1,Устр АТС 2 п/гр,,needs_subject_review,Бугаенко В.А.,matched,2,М 1.4,1,needs_review,26.11.2026,Четверг,9
+w13-397,26,БЖ,Безопасность жизнедеятельности,normalized_alias,Железщикова Е.Б.,matched,,429,4,needs_review,26.11.2026,Четверг,9
+w13-398,281-9,Англ.яз в ПД 1 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Салмина А.С.,matched,1,25,4,needs_review,27.11.2026,Пятница,1
+w13-399,22,БЖ,Безопасность жизнедеятельности,normalized_alias,Железщикова Е.Б.,matched,,429,2,needs_review,27.11.2026,Пятница,1
+w13-400,24-2,Свар материал,,needs_subject_review,Кириллова Н.П.,matched,,423,2,needs_review,27.11.2026,Пятница,1
+w13-401,221-9,ФК,Физическая культура,normalized_alias,Смирнов Д.А. + Поршнев П.П.,matched,,экс,4,needs_review,27.11.2026,Пятница,3
+w13-402,241-9,Сервис деят,,needs_subject_review,Додух Е.А.,matched,,213,4,needs_review,27.11.2026,Пятница,3
+w13-403,24-2,Тех механиз,,needs_subject_review,Кириллова Н.П.,matched,,423,2,needs_review,27.11.2026,Пятница,3
+w13-404,26,Электротех,,needs_subject_review,Абдуллина С.М.,matched,,421,2,needs_review,27.11.2026,Пятница,3
+w13-405,201-9,Единоборства тр зал,,needs_subject_review,Козленко В.Н.,matched,,,2,needs_review,27.11.2026,Пятница,5
+w13-406,202-9,Туризм,,needs_subject_review,Карпухин Г.А. + Трушин С.А.,matched,,гим зал,4,needs_review,27.11.2026,Пятница,5
+w13-407,211-9,Под пед ИОД 2 п/гр,,needs_subject_review,Воропаева Н.Ф.,matched,2,224,4,needs_review,27.11.2026,Пятница,5
+w13-408,241-9,Психология ДО,,needs_subject_review,Гаврина Л.А.,matched,,243,2,needs_review,27.11.2026,Пятница,5
+w13-409,281-9,Рекл текст,,needs_subject_review,Стрекалина А.А.,matched,,12,2,needs_review,27.11.2026,Пятница,5
+w13-410,ПО-28,Осн адапт на РТ,,needs_subject_review,Светецкая А.В.,matched,,405,2,needs_review,27.11.2026,Пятница,5
+w13-411,261-9,Электротехника,Электротехника,normalized_alias,Евсиков А.С.,matched,,37,2,needs_review,27.11.2026,Пятница,5
+w13-412,201-9,Туризм,,needs_subject_review,Карпухин Г.А. + Трушин С.А.,matched,,гим зал,2,needs_review,27.11.2026,Пятница,7
+w13-413,241-9,Осн ФГ,,needs_subject_review,Разумова Е.В.,matched,,221,2,needs_review,27.11.2026,Пятница,7
+w13-414,281-9,Рекл деят,,needs_subject_review,Стрекалина А.А.,matched,,12,2,needs_review,27.11.2026,Пятница,7
+w13-415,24-2,Осн электротех,,needs_subject_review,Абдуллина С.М.,matched,,421,2,needs_review,27.11.2026,Пятница,7
+w13-416,25-1,Материаловед,Материаловедение,normalized_alias,Петрухина Е.В.,matched,,422,2,needs_review,27.11.2026,Пятница,7
+w13-417,26,История России,История России,normalized_alias,Ольшанская О.С.,matched,,3,2,needs_review,27.11.2026,Пятница,7
+w13-418,241-9,Эконом и бух учет,,needs_subject_review,Разумова Е.В.,matched,,221,2,needs_review,27.11.2026,Пятница,9
+w13-419,25-1,Охрана труда,Охрана труда,normalized_alias,Крунова В.С.,matched,,435,6,needs_review,27.11.2026,Пятница,9
+w13-420,25-к,Устр АТС 1 п/гр,,needs_subject_review,Бугаенко В.А.,matched,1,М 1.4,1,needs_review,27.11.2026,Пятница,10
+w13-421,201-9,Англ.яз в ПД 1 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Сысолятина А.В.,matched,1,25,4,needs_review,28.11.2026,Суббота,1
+w13-422,221-9,Теор и ист ФК,,needs_subject_review,Манзюк Я.А.,matched,,экс,2,needs_review,28.11.2026,Суббота,1
+w13-423,272-9,Тех мех,,needs_subject_review,Нестеренко В.В.,matched,,27,2,needs_review,28.11.2026,Суббота,1
+w13-424,22,Устр ТО ДСЛМ,,needs_subject_review,Зыбина Л.Л.,matched,,2,4,needs_review,28.11.2026,Суббота,1
+w13-425,24-1,История России,История России,normalized_alias,Ольшанская О.С.,matched,,3,2,needs_review,28.11.2026,Суббота,1
+w13-426,221-9,Теор и орг АФК,,needs_subject_review,Манзюк Я.А.,matched,,экс,2,needs_review,28.11.2026,Суббота,3
+w13-427,271-9,Тех мех,,needs_subject_review,Нестеренко В.В.,matched,,27,4,needs_review,28.11.2026,Суббота,3
+w13-428,272-9,Устр автом,,needs_subject_review,Бугаенко В.А.,matched,,М 1.4,4,needs_review,28.11.2026,Суббота,3
+w13-429,24-1,Допуски и ТИ,,needs_subject_review,Крунова В.С.,matched,,26,2,needs_review,28.11.2026,Суббота,3
+w13-430,24-2,История России,История России,normalized_alias,Ольшанская О.С.,matched,,3,2,needs_review,28.11.2026,Суббота,3
+w13-431,221-9,Сопровожд инвал,,needs_subject_review,Бейч О.Н.,matched,,экс,4,needs_review,28.11.2026,Суббота,5
+w13-432,22,Осн тех мех,,needs_subject_review,Зыбина Л.Л.,matched,,2,4,needs_review,28.11.2026,Суббота,5
+w13-433,271-9,Устр автом,,needs_subject_review,Бугаенко В.А.,matched,,М 1.4,2,needs_review,28.11.2026,Суббота,7
+w13-434,301-9,Возр АФГ,,needs_subject_review,Микрюкова В.Е.,matched,,221,6,needs_review,23.11.2026,Понедельник,1
+w13-435,302-9,УП.04,УП.04,code_preserved,Ишкова Е.В.,matched,,211,20,needs_review,23.11.2026,Понедельник,1
+w13-436,311-9,Общпед осн преп ДОП гим зал/акт зал,,needs_subject_review,Козленко В.Н. + Синогин М.М.,matched,,,2,needs_review,23.11.2026,Понедельник,1
+w13-437,341-9,ФК 1,Физическая культура,normalized_alias,Босенко Н.Г. + Матвеева С.А.,matched,,сп зал,2,needs_review,23.11.2026,Понедельник,1
+w13-438,372-9,БЖ,Безопасность жизнедеятельности,normalized_alias,Евдокимова А.П.,matched,,14,6,needs_review,23.11.2026,Понедельник,1
+w13-439,361-9,УП.,УП.04,code_preserved,Афонин В.Л.,matched,,04,1,needs_review,23.11.2026,Понедельник,1
+w13-440,381-9,,,needs_subject_review,Стрекалина А.А.,matched,,,4,needs_review,23.11.2026,Понедельник,2
+w13-441,301-9,ФК 1,Физическая культура,normalized_alias,Босенко Н.Г. + Матвеева С.А.,matched,,сп зал,2,needs_review,23.11.2026,Понедельник,3
+w13-442,311-9,Англ.яз 1 п/гр,Иностранный язык,normalized_alias,Звягинцева Ю.А.,matched,1,25,2,needs_review,23.11.2026,Понедельник,3
+w13-443,311-9,Общпед осн преп ДОП 2 п/гр акт зал,,needs_subject_review,Синогин М.М.,matched,2,,4,needs_review,23.11.2026,Понедельник,3
+w13-444,321-9,Инф и ИКТ в ПД 2 п/гр,,needs_subject_review,Горшкова Н.Н.,matched,2,32,2,needs_review,23.11.2026,Понедельник,3
+w13-445,341-9,Орг обслуж на пред,,needs_subject_review,Додух Е.А.,matched,,213,4,needs_review,23.11.2026,Понедельник,3
+w13-446,371-9,Англ.яз в ПД 2 п\гр,Иностранный язык в профессиональной деятельности,normalized_alias,Ни А.В.,matched,,3,4,needs_review,23.11.2026,Понедельник,3
+w13-447,301-9,Орг-метод осн ФСР,,needs_subject_review,Чижова Т.Н.,matched,,М 1.5,6,needs_review,23.11.2026,Понедельник,5
+w13-448,302-9,УП.,УП.04,code_preserved,Ишкова Е.В.,matched,,04,12,needs_review,23.11.2026,Понедельник,5
+w13-449,311-9,Англ.яз 2 п/гр,Иностранный язык,normalized_alias,Звягинцева Ю.А.,matched,2,25,2,needs_review,23.11.2026,Понедельник,5
+w13-450,311-9,Общпед осн преп ДОП 1 п/гр тр зал,,needs_subject_review,Козленко В.Н.,matched,1,,2,needs_review,23.11.2026,Понедельник,5
+w13-451,321-9,Осуществ МР в обл ФК,,needs_subject_review,Манзюк Я.А.,matched,,28,6,needs_review,23.11.2026,Понедельник,5
+w13-452,341-9,Орг питания на пред,,needs_subject_review,Додух Е.А.,matched,,213,4,needs_review,23.11.2026,Понедельник,5
+w13-453,371-9,БЖ,Безопасность жизнедеятельности,normalized_alias,Евдокимова А.П.,matched,,14,6,needs_review,23.11.2026,Понедельник,5
+w13-454,372-9,Англ.яз в ПД 1 п\гр,Иностранный язык в профессиональной деятельности,normalized_alias,Ни А.В.,matched,,3,2,needs_review,23.11.2026,Понедельник,5
+w13-455,311-9,"Орг ДО дет,подр",,needs_subject_review,Смирнов Д.А.,matched,,243,6,needs_review,23.11.2026,Понедельник,7
+w13-456,321-9,Осн биомеханики,,needs_subject_review,Чижова Т.Н.,matched,,М 1.5,6,needs_review,23.11.2026,Понедельник,7
+w13-457,341-9,Нем.яз 2 п/гр,,needs_subject_review,Матвеева А.С.,matched,2,433,2,needs_review,23.11.2026,Понедельник,7
+w13-458,371-9,Осн философ,,needs_subject_review,Домнина К.П.,matched,,35,6,needs_review,23.11.2026,Понедельник,7
+w13-459,321-9,Осуществ исслед и пр деят в обл ФК,,needs_subject_review,Манзюк Я.А.,matched,,14,2,needs_review,23.11.2026,Понедельник,9
+w13-460,371-9,ФК 2,Физическая культура,normalized_alias,Николаева В.И.,matched,,сп зал,2,needs_review,23.11.2026,Понедельник,9
+w13-461,301-9,ГОФК и С,,needs_subject_review,Зухалова А.А.,matched,,36,2,needs_review,24.11.2026,Вторник,1
+w13-462,371-9,Тех ВРР,,needs_subject_review,Бондаренко С.В.,matched,,2,3,needs_review,24.11.2026,Вторник,1
+w13-463,372-9,ФК 2,Физическая культура,normalized_alias,Николаева В.И.,matched,,сп зал,2,needs_review,24.11.2026,Вторник,1
+w13-464,371-9,Тех ВРР 2/,,needs_subject_review,Бондаренко С.В. + Бугаенко В.А.,matched,,М 1.4,5,needs_review,24.11.2026,Вторник,2
+w13-465,301-9,Основы обучения лиц ООП,,needs_subject_review,Бейч О.Н.,matched,,1,4,needs_review,24.11.2026,Вторник,3
+w13-466,321-9,Теор и мет орг и пр ФСР,,needs_subject_review,Зухалова А.А.,matched,,36,2,needs_review,24.11.2026,Вторник,3
+w13-467,341-9,Предп деятельн,,needs_subject_review,Батанова В.С.,matched,,экс,2,needs_review,24.11.2026,Вторник,3
+w13-468,372-9,Тех ВРР,,needs_subject_review,Бондаренко С.В.,matched,,2,3,needs_review,24.11.2026,Вторник,3
+w13-469,372-9,Тех ВРР 2/,,needs_subject_review,Бондаренко С.В. + Бугаенко В.А.,matched,,М 1.4,5,needs_review,24.11.2026,Вторник,4
+w13-470,301-9,БЖ,Безопасность жизнедеятельности,normalized_alias,Евдокимова А.П.,matched,,14,6,needs_review,24.11.2026,Вторник,5
+w13-471,311-9,Основы вожат деят,,needs_subject_review,Бейч О.Н.,matched,,1,2,needs_review,24.11.2026,Вторник,5
+w13-472,321-9,Осн кор педаг,,needs_subject_review,Гаврина Л.А.,matched,,243,2,needs_review,24.11.2026,Вторник,5
+w13-473,341-9,Расчет с клиент,,needs_subject_review,Батанова В.С.,matched,,экс,2,needs_review,24.11.2026,Вторник,5
+w13-474,371-9,ТО и Р двиг,,needs_subject_review,Бондаренко С.В.,matched,,2,4,needs_review,24.11.2026,Вторник,5
+w13-475,372-9,Осн философ,,needs_subject_review,Домнина К.П.,matched,,35,8,needs_review,24.11.2026,Вторник,5
+w13-476,311-9,Соц-пед осн вожатсва,,needs_subject_review,Бейч О.Н.,matched,,1,4,needs_review,24.11.2026,Вторник,7
+w13-477,341-9,Коорд раб,,needs_subject_review,Батанова В.С.,matched,,экс,4,needs_review,24.11.2026,Вторник,7
+w13-478,372-9,ТО и Р двиг,,needs_subject_review,Бондаренко С.В.,matched,,2,4,needs_review,24.11.2026,Вторник,7
+w13-479,321-9,Адапт виды спорта,,needs_subject_review,Манзюк Я.А.,matched,,14,2,needs_review,25.11.2026,Среда,1
+w13-480,341-9,,,needs_subject_review,Додух Е.А.,matched,,,2,needs_review,25.11.2026,Среда,2
+w13-481,321-9,Возр АФГ,,needs_subject_review,Микрюкова В.Е.,matched,,221,4,needs_review,25.11.2026,Среда,3
+w13-482,321-9,Част метод АФВ,,needs_subject_review,Чижова Т.Н.,matched,,М 1.5,6,needs_review,25.11.2026,Среда,5
+w13-483,301-9,Теор и пр аспекты 2,,needs_subject_review,Степанова В.А.,matched,,сп зал,4,needs_review,25.11.2026,Среда,7
+w13-484,311-9,БЖ,Безопасность жизнедеятельности,normalized_alias,Евдокимова А.П.,matched,,14,6,needs_review,25.11.2026,Среда,7
+w13-485,311-9,Проект и иссл деят,,needs_subject_review,Николаева В.И.,matched,,243,4,needs_review,26.11.2026,Четверг,1
+w13-486,381-9,УП.05,УП.05,code_preserved,Стрекалина А.А.,matched,,12,8,needs_review,26.11.2026,Четверг,1
+w13-487,372-9,Англ.яз в ПД 2 п\гр,Иностранный язык в профессиональной деятельности,normalized_alias,Ни А.В.,matched,,3,4,needs_review,26.11.2026,Четверг,1
+w13-488,321-9,Инф и ИКТ в ПД 1 п/гр,,needs_subject_review,Горшкова Н.Н.,matched,1,32,2,needs_review,26.11.2026,Четверг,5
+w13-489,371-9,Осн ФГ и П,,needs_subject_review,Батанова В.С.,matched,,211,6,needs_review,26.11.2026,Четверг,5
+w13-490,372-9,Осн ФГ и П,,needs_subject_review,Батанова В.С.,matched,,211,4,needs_review,26.11.2026,Четверг,7
+w13-491,321-9,Орг СМС ГТО,,needs_subject_review,Чижова Т.Н.,matched,,М 1.5,6,needs_review,26.11.2026,Четверг,9
+w13-492,311-9,Общпед осн преп ДОП 1 п/гр,,needs_subject_review,Карпухин Г.А.,matched,1,гим зал,4,needs_review,27.11.2026,Пятница,1
+w13-493,311-9,Под пед ИОД 2 п/гр,,needs_subject_review,Воропаева Н.Ф.,matched,2,35,4,needs_review,27.11.2026,Пятница,1
+w13-494,341-9,Нем.яз 1 п/гр,,needs_subject_review,Матвеева А.С.,matched,1,433,4,needs_review,27.11.2026,Пятница,1
+w13-495,381-9,Деят по раб с заказ,,needs_subject_review,Важенина Л.А.,matched,,5,2,needs_review,27.11.2026,Пятница,1
+w13-496,301-9,Англ.яз в ПД 1 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Морозова А.С.,matched,1,33,2,needs_review,27.11.2026,Пятница,3
+w13-497,301-9,Инф и ИКТ в ПД 2 п/гр,,needs_subject_review,Горшкова Н.Н.,matched,2,32,2,needs_review,27.11.2026,Пятница,3
+w13-498,381-9,Орг и пр рекл и КК,,needs_subject_review,Важенина Л.А.,matched,,5,2,needs_review,27.11.2026,Пятница,3
+w13-499,301-9,Англ.яз в ПД 2 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Морозова А.С.,matched,2,33,2,needs_review,27.11.2026,Пятница,5
+w13-500,301-9,Инф и ИКТ в ПД 1 п/гр,,needs_subject_review,Горшкова Н.Н.,matched,1,32,2,needs_review,27.11.2026,Пятница,5
+w13-501,311-9,Под пед ИОД 1 п/гр экск,,needs_subject_review,Бейч К.Ю.,matched,1,,4,needs_review,27.11.2026,Пятница,5
+w13-502,381-9,Англ.яз в ПД 1 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Салмина А.С.,matched,1,25,2,needs_review,27.11.2026,Пятница,5
+w13-503,381-9,Разр и реал ТКРП 2 п/гр,,needs_subject_review,Важенина Л.А.,matched,2,5,2,needs_review,27.11.2026,Пятница,5
+w13-504,381-9,Англ.яз в ПД 2 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Салмина А.С.,matched,2,25,2,needs_review,27.11.2026,Пятница,7
+w13-505,381-9,Разр и реал ТКРП 1 п/гр,,needs_subject_review,Важенина Л.А.,matched,1,5,2,needs_review,27.11.2026,Пятница,7
+w13-506,371-9,Псих общения,,needs_subject_review,Гаврина Л.А.,matched,,243,2,needs_review,27.11.2026,Пятница,7
+w13-507,302-9,УП.04 ДП,УП.04,code_preserved,Ишкова Е.В.,matched,,,4,needs_review,28.11.2026,Суббота,1
+w13-508,341-9,ИКТ в туризме,,needs_subject_review,Разумова Е.В.,matched,,31,4,needs_review,28.11.2026,Суббота,1
+w13-509,341-9,Англ.яз в ПД 1 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Морозова А.С.,matched,1,33,4,needs_review,28.11.2026,Суббота,5
+w13-510,402-9,МОП ФК 2,,needs_subject_review,Идиатуллина М.Г.,matched,,сп зал,4,needs_review,23.11.2026,Понедельник,1
+w13-511,421-9,Осн биомеханики,,needs_subject_review,Чижова Т.Н.,matched,,М 1.5,10,needs_review,23.11.2026,Понедельник,1
+w13-512,461-9,ПП.,ПП.01,code_preserved,Зыбина Л.Л.,matched,,01,2,needs_review,23.11.2026,Понедельник,1
+w13-513,471-9,,,needs_subject_review,Богданов Д.М. + Яночкин В.Д.,matched,,,1,needs_review,23.11.2026,Понедельник,2
+w13-514,472-9к,,,needs_subject_review,Яночкин В.Д. + Богданов Д.М.,matched,,,1,needs_review,23.11.2026,Понедельник,2
+w13-515,411-9,Метод препод тр зал/ акт зал,,needs_subject_review,Козленко В.Н.,matched,,,4,needs_review,23.11.2026,Понедельник,3
+w13-516,421-9,Част метод АФВ,,needs_subject_review,Чижова Т.Н.,matched,,М 1.5,14,needs_review,23.11.2026,Понедельник,3
+w13-517,401-9,ПП.,ПП.04,code_preserved,Ишкова Е.В.,matched,,04,18,needs_review,23.11.2026,Понедельник,5
+w13-518,402-9,ФК 1 сп.зал,Физическая культура,normalized_alias,Назаренко Т.Г. + Зухалова А.А.,matched,,,2,needs_review,23.11.2026,Понедельник,5
+w13-519,411-9,Англ.яз 2 п/гр,Иностранный язык,normalized_alias,Матвеева А.С.,matched,2,433,4,needs_review,23.11.2026,Понедельник,5
+w13-520,421-9,История,История,normalized_alias,Ляховая О.В.,matched,,34,4,needs_review,23.11.2026,Понедельник,5
+w13-521,411-9,Метод препод 2 п/гр,,needs_subject_review,Воропаева Н.Ф.,matched,2,224,13,needs_review,23.11.2026,Понедельник,7
+w13-522,401-9,Орг прод фитнес-услуг,,needs_subject_review,Сенюшкина П.А.,matched,,241,6,needs_review,24.11.2026,Вторник,1
+w13-523,411-9,Под пед ИОД 2 п/гр,,needs_subject_review,Воропаева Н.Ф.,matched,2,224,6,needs_review,24.11.2026,Вторник,3
+w13-524,421-9,Англ.яз 1 п/гр,Иностранный язык,normalized_alias,Матвеева А.С.,matched,1,433,2,needs_review,24.11.2026,Вторник,3
+w13-525,401-9,ФК 1 сп.зал,Физическая культура,normalized_alias,Назаренко Т.Г. + Зухалова А.А.,matched,,,2,needs_review,24.11.2026,Вторник,5
+w13-526,402-9,ПП.,ПП.04,code_preserved,Ишкова Е.В.,matched,,04,18,needs_review,24.11.2026,Вторник,5
+w13-527,402-9,ПП.,ПП.03,code_preserved,Родина И.Б.,matched,,03,1,needs_review,25.11.2026,Среда,1
+w13-528,411-9,Метод препод 2 п/гр _,,needs_subject_review,Воропаева Н.Ф.,matched,2,,2,needs_review,25.11.2026,Среда,3
+w13-529,421-9,Проф карьера,Профессиональная карьера,normalized_alias,Гарес Е.Н.,matched,,223,4,needs_review,25.11.2026,Среда,5
+w13-530,421-9,ФК 1 сп.зал,Физическая культура,normalized_alias,Назаренко Т.Г. + Зухалова А.А.,matched,,,2,needs_review,26.11.2026,Четверг,1
+w13-531,401-9,МОП ФК 2,,needs_subject_review,Идиатуллина М.Г.,matched,,сп зал,4,needs_review,26.11.2026,Четверг,5
+w13-532,411-9,Под пед ИОД экск/,,needs_subject_review,Бейч К.Ю. + Воропаева Н.Ф.,matched,,224,4,needs_review,26.11.2026,Четверг,5
+w13-533,402-9,Теор и мет осн ОВД по ФК,,needs_subject_review,Скрипкина О.М.,matched,,221,2,needs_review,27.11.2026,Пятница,3
+w13-534,402-9,Орг-метод осн ФСР,,needs_subject_review,Минасян А.А.,matched,,1,4,needs_review,27.11.2026,Пятница,5
+w13-535,411-9,Теор и прик асп МРПДО,,needs_subject_review,Скрипкина О.М.,matched,,221,4,needs_review,27.11.2026,Пятница,5
+w13-536,411-9,Теор и прик асп МРПДО экск,,needs_subject_review,Скрипкина О.М.,matched,,,4,needs_review,28.11.2026,Суббота,1
+w13-537,401-9,Орг-метод осн ФСР,,needs_subject_review,Минасян А.А.,matched,,1,4,needs_review,28.11.2026,Суббота,3
+w13-538,411-9,Под пед ИОД 2 п/гр экск,,needs_subject_review,Воропаева Н.Ф.,matched,2,,4,needs_review,28.11.2026,Суббота,5
+w13-539,421-9,Англ.яз в ПД 2 п/гр,Иностранный язык в профессиональной деятельности,normalized_alias,Сысолятина А.В.,matched,2,25,4,needs_review,28.11.2026,Суббота,5
