@@ -9,24 +9,43 @@ function normaliseToken(value) {
   return value.replace(/[\u00a0\s]+/g, '').replace(/[–—]/g, '-').trim()
 }
 
+function buildTextRows(items) {
+  const rows = []
+  const sorted = [...items].filter(item => item.str?.trim()).sort((a, b) =>
+    (b.transform?.[5] ?? 0) - (a.transform?.[5] ?? 0) ||
+    (a.transform?.[4] ?? 0) - (b.transform?.[4] ?? 0)
+  )
+  for (const item of sorted) {
+    const y = item.transform?.[5] ?? 0
+    let row = rows.find(candidate => Math.abs(candidate.y - y) <= 2.5)
+    if (!row) {
+      row = { y, items: [] }
+      rows.push(row)
+    }
+    row.items.push(item)
+  }
+  return rows.map(row => {
+    row.items.sort((a, b) => (a.transform?.[4] ?? 0) - (b.transform?.[4] ?? 0))
+    return { ...row, text: row.items.map(item => item.str).join(' ') }
+  })
+}
+
 function groupCandidatesFromHeader(items) {
-  const marker = items.find(item => /13\s*недел/i.test(item.str || ''))
-  if (!marker) return { groups: [], headerFound: false, headerLine: '' }
+  const rows = buildTextRows(items)
+  const header = rows.find(row => /\b13\b/.test(row.text) && /недел/i.test(row.text))
+  if (!header) return { groups: [], headerFound: false, headerLine: '' }
 
-  // Restrict extraction to the same PDF coordinate row as "13 неделя".
-  // This prevents lesson numbers, room numbers and dates from becoming groups.
-  const markerY = marker.transform?.[5] ?? 0
-  const markerX = marker.transform?.[4] ?? 0
-  const row = items.filter(item => {
-    const y = item.transform?.[5] ?? Number.NaN
-    const x = item.transform?.[4] ?? Number.NaN
-    return Number.isFinite(y) && Number.isFinite(x) && Math.abs(y - markerY) <= 3 && x > markerX
-  }).sort((a, b) => (a.transform?.[4] ?? 0) - (b.transform?.[4] ?? 0))
-
-  const headerText = row.map(item => item.str || '').join(' ')
-  const raw = row.flatMap(item => (item.str || '').match(/(?:ПО\s*[-–—]?\s*\d{2}|\d{2,3}\s*[-–—]\s*\d\s*к?|\d{1,2}\s*[-–—]\s*\d\s*к?|\b\d{1,2}\b)/gi) || [])
+  // Read only items to the right of the "13 неделя" marker on the same
+  // visual row. This avoids interpreting lesson/room numbers as group IDs.
+  const marker = header.items.find(item => /недел/i.test(item.str || '')) ||
+    header.items.find(item => /\b13\b/.test(item.str || ''))
+  const markerX = marker?.transform?.[4] ?? -Infinity
+  const rowItems = header.items.filter(item => (item.transform?.[4] ?? 0) > markerX)
+  const raw = rowItems.flatMap(item =>
+    (item.str || '').match(/(?:ПО\s*[-–—]?\s*\d{2}|\d{2,3}\s*[-–—]\s*\d\s*к?|\d{1,2}\s*[-–—]\s*\d\s*к?|\b\d{1,2}\b)/gi) || []
+  )
   const groups = [...new Set(raw.map(normaliseToken).filter(token => GROUP_PATTERN.test(token)))]
-  return { groups, headerFound: true, headerLine: headerText }
+  return { groups, headerFound: true, headerLine: header.text }
 }
 
 export async function inspectTimetablePdf(file) {
@@ -39,8 +58,8 @@ export async function inspectTimetablePdf(file) {
   const content = await firstPage.getTextContent()
   const header = groupCandidatesFromHeader(content.items)
 
-  if (!header.headerFound) throw new Error('На первой странице не найден маркер «13 неделя». Проверьте, что выбран именно файл «расписание 13 недели.pdf».')
-  if (!header.groups.length) throw new Error('Маркер недели найден, но группы из заголовка не удалось выделить. Нужна проверка структуры PDF.')
+  if (!header.headerFound) throw new Error('На первой странице не найден заголовок «13 неделя». Проверьте выбранный PDF.')
+  if (!header.groups.length) throw new Error('Заголовок недели найден, но коды групп не удалось выделить из его строки. Нужна проверка структуры PDF.')
 
   const pageSummaries = []
   for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
