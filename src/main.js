@@ -235,6 +235,9 @@ function bind(){
  }
  if(tab==='replacements'){
   const b=document.querySelector('#add-substitution');if(b)b.onclick=openSub
+  document.querySelectorAll('[data-review-approve]').forEach(button=>button.onclick=()=>{const item=data.replacementReviewItems.find(x=>String(x.id)===button.dataset.reviewApprove);if(!item||item.status!=='На проверке')return;item.status='Проверено';item.reviewedAt=new Date().toISOString();delete item.reviewNote;save()})
+  document.querySelectorAll('[data-review-reject]').forEach(button=>button.onclick=()=>{const item=data.replacementReviewItems.find(x=>String(x.id)===button.dataset.reviewReject);if(!item||item.status!=='На проверке')return;item.status='Отклонено';item.reviewedAt=new Date().toISOString();save()})
+  document.querySelectorAll('[data-review-reset]').forEach(button=>button.onclick=()=>{const item=data.replacementReviewItems.find(x=>String(x.id)===button.dataset.reviewReset);if(!item)return;item.status='На проверке';delete item.reviewedAt;delete item.reviewNote;save()})
   const close=()=>document.querySelector('#sub-modal').hidden=true
   document.querySelector('#sub-close').onclick=close;document.querySelector('#sub-cancel').onclick=close;document.querySelector('#sub-modal').onclick=e=>{if(e.target.id==='sub-modal')close()}
   document.querySelector('#sub-form').onsubmit=e=>{e.preventDefault();const f=e.currentTarget,l=data.lessons.find(x=>x.id===f.elements.lesson.value);if(!l)return;const teacher=f.elements.teacher.value.trim(),room=f.elements.room.value.trim();const candidate={...l,teacher:teacher||l.teacher,room:room||l.room};const c=conflicts(candidate,l.id);if(c.length){const a=document.querySelector('#sub-alert');a.hidden=false;a.textContent='Замена конфликтует с другим занятием: '+[...new Set(c.map(x=>x.reason))].join('; ');return}data.substitutions.push({id:id(),lessonId:l.id,teacher,room,reason:f.elements.reason.value.trim(),status:f.elements.status.value});save()}
