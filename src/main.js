@@ -11,7 +11,7 @@ const SLOTS = {
   'Пятница': ['08:30–09:15','09:20–10:05','10:15–11:00','11:05–11:50','12:20–13:05','13:10–13:55','14:05–14:50','14:55–15:40','15:50–16:35','16:40–17:25','17:35–18:20'],
   'Суббота': ['08:30–09:15','09:20–10:05','10:15–11:00','11:05–11:50','12:20–13:05','13:10–13:55','14:05–14:50','14:55–15:40']
 }
-const STORAGE = 'okpt-weekly-scheduler-demo-v2'
+const STORAGE = 'okpt-weekly-scheduler-demo-v3'
 const blank = structuredClone(DEMO_DATA)
 let data = load()
 let editingId = null
@@ -57,7 +57,7 @@ function render() {
     <main class="main">
       <header class="topbar"><div><span>ОКПТ</span>　/　<b>${activeTab==='week'?'Недельное расписание':activeTab==='lists'?'Справочники':'Проверка'}</b></div><div class="top-right"><span class="year-chip">ДЕМО · 2026 / 2027</span><button class="btn light" id="reset-demo">↺ Сбросить демо</button><button class="btn gold" id="export">↓ Экспорт Excel</button></div></header>
       <section class="page">
-        <div class="page-head"><div><p class="eyebrow">ДИСПЕТЧЕРСКАЯ · УЧЕБНЫЙ ГОД 2026/2027</p><h1>${activeTab==='week'?'Составление расписания на неделю':activeTab==='lists'?'Справочники расписания':'Контроль расписания'}</h1><p class="muted">${activeTab==='week'?'Добавляйте занятия по группам, преподавателям и аудиториям. Конфликты проверяются автоматически.':'Черновик можно редактировать и выгружать в Excel в любой момент.'}</p><div class="demo-banner"><b>Демонстрационные данные.</b> Названия групп, преподавателей, аудиторий и занятия условные. Изменения сохраняются только в браузере, где они внесены.</div></div><button class="btn gold" id="add-lesson">＋ Добавить занятие</button></div>
+        <div class="page-head"><div><p class="eyebrow">ДИСПЕТЧЕРСКАЯ · УЧЕБНЫЙ ГОД 2026/2027</p><h1>${activeTab==='week'?'Составление расписания на неделю':activeTab==='lists'?'Справочники расписания':'Контроль расписания'}</h1><p class="muted">${activeTab==='week'?'Добавляйте занятия по группам, преподавателям и аудиториям. Конфликты проверяются автоматически.':'Черновик можно редактировать и выгружать в Excel в любой момент.'}</p><div class="demo-banner"><b>Общие стартовые справочники.</b> 59 кодов групп и 99 преподавательских записей извлечены из расписания 13-й недели и загружаются из GitHub на любом компьютере. Список преподавателей пока не является полным кадровым реестром. Новые занятия и изменения пока сохраняются только в текущем браузере.</div></div><button class="btn gold" id="add-lesson">＋ Добавить занятие</button></div>
         <div class="stats">
           <div class="stat"><small>Занятий на неделе</small><b>${total}</b></div>
           <div class="stat"><small>Учебных групп</small><b>${data.groups.length}</b></div>
@@ -65,7 +65,7 @@ function render() {
           <div class="stat"><small>Конфликтов</small><b class="${conflictCount?'red':'green'}">${conflictCount}</b></div>
         </div>
         ${activeTab==='week'?weekView():activeTab==='lists'?listsView():rulesView()}
-        <footer>OKPT Schedule · Демонстрационный прототип · Данные примера, не для рабочего расписания</footer>
+        <footer>ОКПТ · Прототип планировщика · Справочники: расписание 13-й недели 2026</footer>
       </section>
     </main>
   </div>
