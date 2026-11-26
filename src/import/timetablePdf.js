@@ -24,7 +24,7 @@ function extractHeaderGroups(items, pageHeight) {
       // the right-hand group columns. Small numbers at the left edge are
       // week/day labels and must not be imported as groups.
       const top = pageHeight - (item.transform?.[5] ?? pageHeight)
-      return !/^\\d{1,2}$/.test(token) || ((item.transform?.[4] ?? 0) > 300 && top <= 32.5)
+      return !/^\d{1,2}$/.test(token) || ((item.transform?.[4] ?? 0) > 300 && top <= 32.5)
     })
     .map(item => normaliseToken(item.str || ''))
     .filter(token => GROUP_PATTERN.test(token)))]
@@ -47,7 +47,7 @@ export async function inspectTimetablePdf(file) {
     const content = await page.getTextContent()
     const extracted = extractHeaderGroups(content.items, viewport.height)
     extracted.groups.forEach(group => groups.add(group))
-    headerLines.push(`Страница ${pageNumber}: ${extracted.headerText}`)
+    headerLines.push(\`Страница \${pageNumber}: \${extracted.headerText}\`)
     pageSummaries.push({
       page: pageNumber,
       textItems: content.items.length,
