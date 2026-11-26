@@ -15,7 +15,7 @@ function extractHeaderGroups(items, pageHeight) {
   const topBand = items.filter(item => {
     const y = item.transform?.[5]
     const top = pageHeight - y
-    return Number.isFinite(top) && top >= 0 && top <= 30.5
+    return Number.isFinite(top) && top >= 0 && top <= 34
   })
   const groups = [...new Set(topBand
     .filter(item => {
