@@ -55,6 +55,7 @@ app.innerHTML = `
         <div class="group-review-head"><div><strong>Кандидаты в учебные группы</strong><small>Снимите отметку, если код распознан неверно. Это ещё не утверждённый реестр.</small></div><span id="selected-count">0 выбрано</span></div>
         <div class="group-list" id="group-list"></div>
         <details class="source-details"><summary>Показать исходную строку заголовка</summary><p id="source-header"></p></details>
+        <details class="source-details"><summary>Предпросмотр извлечённых ячеек расписания</summary><p class="hint">Это пока исходные фрагменты по координатам столбцов. Предмет, преподаватель, кабинет и подгруппа ещё не разделены автоматически.</p><div id="cell-preview" class="cell-preview"></div></details>
         <div class="dialog-actions"><button class="text-button" id="reset-import">Сбросить результат</button><button class="primary" id="approve-groups" disabled>Подтвердить список групп</button></div>
       </div>
       <div class="dialog-footnote">Подтверждение сохраняет черновик только в памяти этой вкладки. Постоянное сохранение и импорт остальных сущностей будут добавлены после проверки точности извлечения.</div>
@@ -107,6 +108,21 @@ function renderImport(result) {
   document.querySelector('#review-meta').innerHTML = `<span>${result.pageCount} страницы</span><span>${result.groups.length} кандидатов групп</span><span>Статус: не подтверждено</span>`
   document.querySelector('#group-list').innerHTML = result.groups.map((group, index) => `<label class="group-option"><input class="group-check" type="checkbox" value="${group}" checked><span>${group}</span><small>из заголовка</small></label>`).join('')
   document.querySelector('#source-header').textContent = result.headerLine
+  const preview = document.querySelector('#cell-preview')
+  preview.replaceChildren()
+  const summary = document.createElement('p')
+  summary.textContent = `Найдено блоков текста в столбцах групп: ${result.rawCellBlockCount ?? '—'}`
+  preview.append(summary)
+  for (const block of (result.rawCellSamples || [])) {
+    const item = document.createElement('div')
+    item.className = 'cell-sample'
+    const meta = document.createElement('small')
+    meta.textContent = `Стр. ${block.page} · группа ${block.group} · координата Y ${block.yStart}–${block.yEnd}`
+    const raw = document.createElement('p')
+    raw.textContent = block.rawText
+    item.append(meta, raw)
+    preview.append(item)
+  }
   document.querySelectorAll('.group-check').forEach(input => input.addEventListener('change', updateSelectedCount))
   updateSelectedCount()
   message.textContent = 'Извлечение завершено. Проверьте каждый код группы перед подтверждением.'
