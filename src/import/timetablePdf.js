@@ -51,15 +51,17 @@ function headersToBounds(headers) {
 }
 
 function detectBodyStart(items, pageHeight) {
-  const metadataWords = new Set(['час', 'общения', 'разговор', 'о', 'важном'])
-  const metadataY = items
+  // The "Разговор о важном" header is the lowest repeated header line
+  // on all four source pages. Use its baseline to avoid dropping early rows
+  // on pages 3 and 4, whose layouts start much closer to the page top.
+  const markerY = items
     .filter(item => {
-      const token = (item.str || '').toLocaleLowerCase('ru-RU').replace(/[.,:]/g, '').trim()
+      const token = (item.str || '').toLocaleLowerCase('ru-RU')
       const top = pageHeight - (item.transform?.[5] ?? pageHeight)
-      return metadataWords.has(token) && top >= 0 && top <= 55
+      return token.includes('важном') && top >= 0 && top <= 55
     })
     .map(item => pageHeight - (item.transform?.[5] ?? pageHeight))
-  return metadataY.length ? Math.max(...metadataY) + 2.5 : 34
+  return markerY.length ? Math.max(...markerY) + 2.5 : 34
 }
 
 function groupColumnItems(items, headers, pageHeight, bodyStart) {
