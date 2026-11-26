@@ -3,7 +3,7 @@ import pdfWorker from 'pdfjs-dist/build/pdf.worker.min.mjs?url'
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker
 
-const GROUP_PATTERN = /^(?:\d{2,3}-\d(?:к)?|ПО-\d{2}|\d{1,2}-\d(?:к)?|\d{1,2}к?)$/i
+const GROUP_PATTERN = /^(?:\d{2,3}-\d(?:к)?|ПО-\d{2}|\d{1,2}-(?:\d|к)|\d{1,2}к?)$/i
 
 function normaliseToken(value) {
   return value.replace(/[\u00a0\s]+/g, '').replace(/[–—]/g, '-').trim()
