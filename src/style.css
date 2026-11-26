@@ -165,3 +165,30 @@ footer{font-size:9px;color:#a0aab5;padding:23px 3px 0}footer span{padding:0 6px;
 #slot-details-list .lesson-card:hover{border-color:#c39b5d}
 textarea[id^="list-"]{white-space:pre-wrap;overflow-wrap:anywhere}
 @media(max-width:900px){.week-tools{align-items:stretch}.week-tools .week-switch{width:100%}.week-tools label{flex:1}.week-tools select{width:100%;max-width:none}}
+
+/* Dedicated group-to-curriculum mapping workspace */
+.mapping-intro{border-left:4px solid #c39b5d}
+.mapping-intro p{max-width:980px;line-height:1.65;color:#64748b}
+.mapping-legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:14px;font-size:12px;color:#64748b}
+.mapping-legend span{display:flex;align-items:center;gap:7px}
+.legend-dot{width:8px;height:8px;border-radius:50%;display:inline-block}
+.legend-dot.confirmed{background:#26966f}
+.legend-dot.pending{background:#d5a34d}
+.mapping-dept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+.mapping-dept{padding:14px;border:1px solid #e7ebf1;border-radius:10px;background:#fafbfd;display:grid;gap:6px}
+.mapping-dept b{font-size:12px;color:#475569;line-height:1.4}
+.mapping-dept strong{font-size:24px;color:#24334a}
+.mapping-dept small{font-size:11px;color:#94a3b8}
+.mapping-filters{display:flex;gap:8px;flex-wrap:wrap}
+.mapping-filters select{min-width:175px}
+.mapping-table{min-width:1050px}
+.mapping-table td{vertical-align:middle}
+.mapping-table select{min-width:180px;max-width:280px;width:100%}
+.mapping-table td:first-child{min-width:90px}
+.mapping-table .map-plan{min-width:220px;max-width:340px;white-space:normal;line-height:1.45}
+.mapping-status{display:inline-flex;align-items:center;white-space:nowrap;border-radius:20px;padding:5px 9px;font-size:10px;font-weight:700}
+.mapping-status.is-confirmed{background:#e8f6ef;color:#21734f}
+.mapping-status.is-pending{background:#fff5e5;color:#9a681a}
+.mapping-table tr[hidden]{display:none}
+.mapping-stats{margin-top:0}
+@media(max-width:700px){.mapping-filters,.mapping-filters select{width:100%}.mapping-table{min-width:980px}}
