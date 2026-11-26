@@ -1,5 +1,6 @@
 import './style.css'
 import * as XLSX from 'xlsx'
+import { DEMO_DATA } from './demo-data.js'
 
 const DAYS = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота']
 const SLOTS = {
@@ -10,14 +11,14 @@ const SLOTS = {
   'Пятница': ['08:30–09:15','09:20–10:05','10:15–11:00','11:05–11:50','12:20–13:05','13:10–13:55','14:05–14:50','14:55–15:40','15:50–16:35','16:40–17:25','17:35–18:20'],
   'Суббота': ['08:30–09:15','09:20–10:05','10:15–11:00','11:05–11:50','12:20–13:05','13:10–13:55','14:05–14:50','14:55–15:40']
 }
-const STORAGE = 'okpt-weekly-scheduler-v1'
-const blank = { groups: [], teachers: [], rooms: [], lessons: [], week: '2026-11-23', activeDay: 'Понедельник' }
+const STORAGE = 'okpt-weekly-scheduler-demo-v2'
+const blank = structuredClone(DEMO_DATA)
 let data = load()
 let editingId = null
 let activeTab = 'week'
 
 function load() {
-  try { return { ...blank, ...JSON.parse(localStorage.getItem(STORAGE) || '{}') } }
+  try { const saved = localStorage.getItem(STORAGE); return saved ? { ...structuredClone(blank), ...JSON.parse(saved) } : structuredClone(blank) }
   catch { return structuredClone(blank) }
 }
 function save() { localStorage.setItem(STORAGE, JSON.stringify(data)); render() }
@@ -51,12 +52,12 @@ function render() {
       <button class="side-link ${activeTab==='week'?'active':''}" data-tab="week">▦ <span>Недельное расписание</span></button>
       <button class="side-link ${activeTab==='lists'?'active':''}" data-tab="lists">☷ <span>Справочники</span></button>
       <button class="side-link ${activeTab==='rules'?'active':''}" data-tab="rules">✓ <span>Проверка ограничений</span></button>
-      <div class="sidebar-bottom"><i></i><div><b>Локальное хранение</b><small>Данные сохраняются в этом браузере</small></div></div>
+      <div class="sidebar-bottom demo-status"><i></i><div><b>Демонстрационный режим</b><small>Стартовые данные загружаются из GitHub</small></div></div>
     </aside>
     <main class="main">
-      <header class="topbar"><div><span>ОКПТ</span>　/　<b>${activeTab==='week'?'Недельное расписание':activeTab==='lists'?'Справочники':'Проверка'}</b></div><div class="top-right"><span class="year-chip">2026 / 2027</span><button class="btn gold" id="export">↓ Экспорт Excel</button></div></header>
+      <header class="topbar"><div><span>ОКПТ</span>　/　<b>${activeTab==='week'?'Недельное расписание':activeTab==='lists'?'Справочники':'Проверка'}</b></div><div class="top-right"><span class="year-chip">ДЕМО · 2026 / 2027</span><button class="btn light" id="reset-demo">↺ Сбросить демо</button><button class="btn gold" id="export">↓ Экспорт Excel</button></div></header>
       <section class="page">
-        <div class="page-head"><div><p class="eyebrow">ДИСПЕТЧЕРСКАЯ · УЧЕБНЫЙ ГОД 2026/2027</p><h1>${activeTab==='week'?'Составление расписания на неделю':activeTab==='lists'?'Справочники расписания':'Контроль расписания'}</h1><p class="muted">${activeTab==='week'?'Добавляйте занятия по группам, преподавателям и аудиториям. Конфликты проверяются автоматически.':'Черновик можно редактировать и выгружать в Excel в любой момент.'}</p></div><button class="btn gold" id="add-lesson">＋ Добавить занятие</button></div>
+        <div class="page-head"><div><p class="eyebrow">ДИСПЕТЧЕРСКАЯ · УЧЕБНЫЙ ГОД 2026/2027</p><h1>${activeTab==='week'?'Составление расписания на неделю':activeTab==='lists'?'Справочники расписания':'Контроль расписания'}</h1><p class="muted">${activeTab==='week'?'Добавляйте занятия по группам, преподавателям и аудиториям. Конфликты проверяются автоматически.':'Черновик можно редактировать и выгружать в Excel в любой момент.'}</p><div class="demo-banner"><b>Демонстрационные данные.</b> Названия групп, преподавателей, аудиторий и занятия условные. Изменения сохраняются только в браузере, где они внесены.</div></div><button class="btn gold" id="add-lesson">＋ Добавить занятие</button></div>
         <div class="stats">
           <div class="stat"><small>Занятий на неделе</small><b>${total}</b></div>
           <div class="stat"><small>Учебных групп</small><b>${data.groups.length}</b></div>
@@ -64,7 +65,7 @@ function render() {
           <div class="stat"><small>Конфликтов</small><b class="${conflictCount?'red':'green'}">${conflictCount}</b></div>
         </div>
         ${activeTab==='week'?weekView():activeTab==='lists'?listsView():rulesView()}
-        <footer>OKPT Schedule · Черновик недельного расписания · Экспорт XLSX</footer>
+        <footer>OKPT Schedule · Демонстрационный прототип · Данные примера, не для рабочего расписания</footer>
       </section>
     </main>
   </div>
@@ -115,6 +116,7 @@ function bind() {
   document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{activeTab=b.dataset.tab;render()})
   document.querySelector('#add-lesson').onclick=()=>openModal()
   document.querySelector('#export').onclick=exportExcel
+  document.querySelector('#reset-demo').onclick=()=>{if(confirm('Вернуть исходный демонстрационный набор? Все локальные изменения в этом браузере будут заменены.')){data=structuredClone(blank);save()}}
   document.querySelector('#prev-week').onclick=()=>{const d=new Date(data.week+'T12:00:00');d.setDate(d.getDate()-7);data.week=d.toISOString().slice(0,10);save()}
   document.querySelector('#next-week').onclick=()=>{const d=new Date(data.week+'T12:00:00');d.setDate(d.getDate()+7);data.week=d.toISOString().slice(0,10);save()}
   document.querySelector('#week-date').onchange=e=>{data.week=e.target.value;save()}
