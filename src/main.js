@@ -1,228 +1,158 @@
 import './style.css'
-import { inspectTimetablePdf } from './import/timetablePdf.js'
+import * as XLSX from 'xlsx'
 
-const app = document.querySelector('#app')
-const sections = [
-  ['overview', 'Обзор'],
-  ['groups', 'Группы'],
-  ['teachers', 'Преподаватели'],
-  ['rooms', 'Аудитории'],
-  ['curricula', 'Учебные планы'],
-  ['calendar', 'Календарь'],
-  ['replacements', 'Замены'],
-  ['checks', 'Проверка']
-]
+const DAYS = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота']
+const SLOTS = {
+  'Понедельник': ['09:25–10:10','10:15–11:00','11:10–11:55','12:00–12:45','13:15–13:55','14:00–14:45','14:55–15:40','15:50–16:35','16:40–17:25','17:35–18:20'],
+  'Вторник': ['08:30–09:15','09:20–10:05','10:15–11:00','11:05–11:50','12:20–13:05','13:10–13:55','14:05–14:50','14:55–15:40','15:50–16:35','16:40–17:25','17:35–18:20'],
+  'Среда': ['08:30–09:15','09:20–10:05','10:15–11:00','11:05–11:50','12:20–13:05','13:10–13:55','14:05–14:50','14:55–15:40','15:50–16:35','16:40–17:25','17:35–18:20'],
+  'Четверг': ['08:30–09:15','09:20–10:05','10:15–11:00','11:05–11:50','12:20–13:05','13:10–13:55','14:05–14:50','14:55–15:40','15:50–16:35','16:40–17:25','17:35–18:20'],
+  'Пятница': ['08:30–09:15','09:20–10:05','10:15–11:00','11:05–11:50','12:20–13:05','13:10–13:55','14:05–14:50','14:55–15:40','15:50–16:35','16:40–17:25','17:35–18:20'],
+  'Суббота': ['08:30–09:15','09:20–10:05','10:15–11:00','11:05–11:50','12:20–13:05','13:10–13:55','14:05–14:50','14:55–15:40']
+}
+const STORAGE = 'okpt-weekly-scheduler-v1'
+const blank = { groups: [], teachers: [], rooms: [], lessons: [], week: '2026-11-23', activeDay: 'Понедельник' }
+let data = load()
+let editingId = null
+let activeTab = 'week'
 
-const state = { importResult: null, approvedGroups: [], activeSection: 'overview' }
-
-app.innerHTML = `
-  <div class="shell">
+function load() {
+  try { return { ...blank, ...JSON.parse(localStorage.getItem(STORAGE) || '{}') } }
+  catch { return structuredClone(blank) }
+}
+function save() { localStorage.setItem(STORAGE, JSON.stringify(data)); render() }
+function uid() { return crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()) }
+function esc(s='') { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) }
+function weekDate(dayIndex) { const d = new Date(data.week+'T12:00:00'); d.setDate(d.getDate()+dayIndex); return d }
+function fmtDate(d) { return d.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'}) }
+function lessonsFor(day, slot) { return data.lessons.filter(x=>x.day===day && x.slot===slot) }
+function clash(candidate, excludeId=null) {
+  return data.lessons.filter(x=>x.id!==excludeId && x.day===candidate.day && x.slot===candidate.slot && (
+    (candidate.group===x.group && candidate.subgroup===x.subgroup) ||
+    (candidate.teacher && candidate.teacher===x.teacher) ||
+    (candidate.room && candidate.room===x.room)
+  )).map(x => {
+    if (candidate.group===x.group && candidate.subgroup===x.subgroup) return 'Группа уже занята'
+    if (candidate.teacher && candidate.teacher===x.teacher) return 'Преподаватель уже занят'
+    return 'Аудитория уже занята'
+  })
+}
+function weekHours(group) { return data.lessons.filter(x=>x.group===group).length }
+function weekDayCount(group, day) { return data.lessons.filter(x=>x.group===group && x.day===day).length }
+function render() {
+  const root = document.querySelector('#app')
+  const total = data.lessons.length
+  const conflictCount = data.lessons.reduce((n,x)=>n+(clash(x,x.id).length>0?1:0),0)
+  root.innerHTML = `
+  <div class="app-shell">
     <aside class="sidebar">
-      <div class="brand"><div class="brand-mark">О</div><div><strong>ОКПТ</strong><span>Управление расписанием</span></div></div>
-      <div class="side-caption">РАБОЧЕЕ ПРОСТРАНСТВО</div>
-      <nav class="nav" aria-label="Основная навигация">
-        ${sections.map(([id, label], i) => `<button class="nav-item ${i === 0 ? 'active' : ''}" data-section="${id}"><span class="nav-dot"></span>${label}</button>`).join('')}
-      </nav>
-      <div class="sidebar-bottom"><span class="status-dot"></span><div><strong>Локальный прототип</strong><small>Черновики хранятся только в текущем сеансе</small></div></div>
+      <div class="brand"><div class="brand-mark">О</div><div><b>ОКПТ</b><small>Планировщик расписания</small></div></div>
+      <div class="side-label">РАБОЧЕЕ ПРОСТРАНСТВО</div>
+      <button class="side-link ${activeTab==='week'?'active':''}" data-tab="week">▦ <span>Недельное расписание</span></button>
+      <button class="side-link ${activeTab==='lists'?'active':''}" data-tab="lists">☷ <span>Справочники</span></button>
+      <button class="side-link ${activeTab==='rules'?'active':''}" data-tab="rules">✓ <span>Проверка ограничений</span></button>
+      <div class="sidebar-bottom"><i></i><div><b>Локальное хранение</b><small>Данные сохраняются в этом браузере</small></div></div>
     </aside>
     <main class="main">
-      <header class="topbar"><div class="crumb">ОКПТ <span>/</span> <b id="section-title">Обзор</b></div><div class="top-actions"><span class="year-chip">2026 / 2027</span><button class="avatar" aria-label="Профиль">А</button></div></header>
-      <section class="content">
-        <div class="welcome-row"><div><p class="eyebrow">ДИСПЕТЧЕРСКАЯ · УЧЕБНЫЙ ГОД 2026/2027</p><h1 id="page-heading">Обзор расписания</h1><p class="subheading">Единое пространство для планирования, контроля нагрузки и управления заменами.</p></div><button class="primary" id="import-btn">＋ Импорт расписания</button></div>
-        <div class="notice"><span class="notice-icon">i</span><div><strong>Контролируемый импорт</strong><p>Перечень групп формируется только из верхних строк страниц файла «расписание 13 недели.pdf». Другие документы не могут добавлять группы.</p></div></div>
-        <div class="metrics">
-          <article class="metric"><span>Группы в черновике</span><strong id="groups-count">${state.approvedGroups.length || '—'}</strong><small>Только из расписания 13-й недели</small></article>
-          <article class="metric"><span>Преподаватели</span><strong>—</strong><small>Следующий этап импорта</small></article>
-          <article class="metric"><span>Аудитории</span><strong>—</strong><small>Требуется отдельный реестр</small></article>
-          <article class="metric"><span>Конфликты</span><strong class="metric-muted">Не проверено</strong><small>Проверка после импорта</small></article>
+      <header class="topbar"><div><span>ОКПТ</span>　/　<b>${activeTab==='week'?'Недельное расписание':activeTab==='lists'?'Справочники':'Проверка'}</b></div><div class="top-right"><span class="year-chip">2026 / 2027</span><button class="btn gold" id="export">↓ Экспорт Excel</button></div></header>
+      <section class="page">
+        <div class="page-head"><div><p class="eyebrow">ДИСПЕТЧЕРСКАЯ · УЧЕБНЫЙ ГОД 2026/2027</p><h1>${activeTab==='week'?'Составление расписания на неделю':activeTab==='lists'?'Справочники расписания':'Контроль расписания'}</h1><p class="muted">${activeTab==='week'?'Добавляйте занятия по группам, преподавателям и аудиториям. Конфликты проверяются автоматически.':'Черновик можно редактировать и выгружать в Excel в любой момент.'}</p></div><button class="btn gold" id="add-lesson">＋ Добавить занятие</button></div>
+        <div class="stats">
+          <div class="stat"><small>Занятий на неделе</small><b>${total}</b></div>
+          <div class="stat"><small>Учебных групп</small><b>${data.groups.length}</b></div>
+          <div class="stat"><small>Преподавателей</small><b>${data.teachers.length}</b></div>
+          <div class="stat"><small>Конфликтов</small><b class="${conflictCount?'red':'green'}">${conflictCount}</b></div>
         </div>
-        <div class="section-grid">
-          <article class="panel schedule-panel"><div class="panel-head"><div><p class="eyebrow">ПЛАНИРОВАНИЕ</p><h2>Рабочий календарь</h2></div><span class="soft-tag">Черновик</span></div><div class="empty-state"><div class="empty-icon">▦</div><h3>Календарь пока пуст</h3><p>После проверки исходных групп, учебных планов и календарей здесь появится расписание занятий, практик, каникул и аттестаций.</p></div></article>
-          <article class="panel checklist-panel"><div class="panel-head"><div><p class="eyebrow">ПОДГОТОВКА</p><h2>Этапы запуска</h2></div></div><ol class="steps"><li class="done"><span>✓</span><div><b>Приватный репозиторий</b><small>Создан и настроен</small></div></li><li class="current"><span>2</span><div><b>Импорт групп из 13-й недели</b><small>Проверка и подтверждение списка</small></div></li><li><span>3</span><div><b>Преподаватели и занятия</b><small>Восстановление связей по колонкам</small></div></li><li><span>4</span><div><b>Учебные планы и календари</b><small>Периоды обучения и нагрузка</small></div></li><li><span>5</span><div><b>Генератор расписания</b><small>Ограничения и оптимизация</small></div></li></ol></article>
-        </div>
-        <footer>ОКПТ Schedule <span>·</span> Версия 0.2.0 <span>·</span> Импорт в режиме проверки</footer>
+        ${activeTab==='week'?weekView():activeTab==='lists'?listsView():rulesView()}
+        <footer>OKPT Schedule · Черновик недельного расписания · Экспорт XLSX</footer>
       </section>
     </main>
   </div>
-  <div class="modal-backdrop" id="import-modal" hidden>
-    <section class="import-dialog" role="dialog" aria-modal="true" aria-labelledby="import-title">
-      <header class="dialog-head"><div><p class="eyebrow">ИМПОРТ И ПРОВЕРКА</p><h2 id="import-title">Расписание 13-й недели</h2><p class="dialog-sub">Загрузите исходный PDF. Группы будут извлечены только из верхней строки каждой страницы.</p></div><button class="close-btn" id="close-import" aria-label="Закрыть">×</button></header>
-      <div class="upload-zone" id="upload-zone"><div class="upload-icon">↑</div><strong>Перетащите PDF сюда или выберите файл</strong><span>Ожидаемый источник: расписание 13 недели.pdf</span><input id="pdf-input" type="file" accept="application/pdf" hidden><button class="secondary" id="choose-pdf">Выбрать PDF</button></div>
-      <div class="import-message" id="import-message" aria-live="polite">Файл анализируется в браузере. Он не отправляется в GitHub.</div>
-      <div class="review-area" id="review-area" hidden>
-        <div class="review-summary"><div><span class="eyebrow">РЕЗУЛЬТАТ ИЗВЛЕЧЕНИЯ</span><h3 id="review-file">—</h3></div><span class="review-status">Требует проверки</span></div>
-        <div class="review-meta" id="review-meta"></div>
-        <div class="group-review-head"><div><strong>Кандидаты в учебные группы</strong><small>Снимите отметку, если код распознан неверно. Это ещё не утверждённый реестр.</small></div><span id="selected-count">0 выбрано</span></div>
-        <div class="group-list" id="group-list"></div>
-        <details class="source-details"><summary>Проверить группы по страницам</summary><div id="page-groups" class="page-group-summary"></div></details>
-        <details class="source-details"><summary>Показать исходную строку заголовка</summary><p id="source-header"></p></details>
-        <details class="source-details"><summary>Предпросмотр извлечённых ячеек расписания</summary><p class="hint">Это пока исходные фрагменты по координатам столбцов. Предмет, преподаватель, кабинет и подгруппа ещё не разделены автоматически.</p><div class="preview-filters"><label>Страница<select id="preview-page"><option value="all">Все</option></select></label><label>Группа<select id="preview-group"><option value="all">Все</option></select></label></div><div id="cell-preview" class="cell-preview"></div></details>
-        <div class="dialog-actions"><button class="text-button" id="reset-import">Сбросить результат</button><button class="primary" id="approve-groups" disabled>Подтвердить список групп</button></div>
-      </div>
-      <div class="dialog-footnote">Подтверждение сохраняет черновик только в памяти этой вкладки. Постоянное сохранение и импорт остальных сущностей будут добавлены после проверки точности извлечения.</div>
-    </section>
-  </div>
-`
-
-const titles = Object.fromEntries(sections)
-document.querySelectorAll('.nav-item').forEach(button => {
-  button.addEventListener('click', () => {
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'))
-    button.classList.add('active')
-    state.activeSection = button.dataset.section
-    const label = titles[state.activeSection]
-    document.querySelector('#section-title').textContent = label
-    document.querySelector('#page-heading').textContent = label
-    if (state.activeSection === 'groups' && state.approvedGroups.length) {
-      document.querySelector('.schedule-panel .empty-state h3').textContent = 'Группы проверены в текущем сеансе'
-      document.querySelector('.schedule-panel .empty-state p').textContent = state.approvedGroups.join(' · ')
-    }
-  })
-})
-
-const modal = document.querySelector('#import-modal')
-const fileInput = document.querySelector('#pdf-input')
-const uploadZone = document.querySelector('#upload-zone')
-const reviewArea = document.querySelector('#review-area')
-const message = document.querySelector('#import-message')
-const approveButton = document.querySelector('#approve-groups')
-
-function openImport() { modal.hidden = false; document.body.classList.add('modal-open') }
-function closeImport() { modal.hidden = true; document.body.classList.remove('modal-open') }
-document.querySelector('#import-btn').addEventListener('click', openImport)
-document.querySelector('#close-import').addEventListener('click', closeImport)
-modal.addEventListener('click', event => { if (event.target === modal) closeImport() })
-document.querySelector('#choose-pdf').addEventListener('click', () => fileInput.click())
-
-function selectedGroups() {
-  return [...document.querySelectorAll('.group-check:checked')].map(input => input.value)
+  <div class="modal-backdrop" id="modal" hidden><section class="modal"><div class="modal-head"><div><p class="eyebrow">РАСПИСАНИЕ</p><h2 id="modal-title">Новое занятие</h2></div><button class="close" id="close">×</button></div><form id="lesson-form">
+    <div class="form-grid">
+      <label>Учебная группа<input name="group" list="group-options" required placeholder="Например, 101-9"><datalist id="group-options">${data.groups.map(x=>`<option value="${esc(x)}">`).join('')}</datalist></label>
+      <label>Подгруппа<select name="subgroup"><option value="">Вся группа</option><option>1 подгруппа</option><option>2 подгруппа</option><option>1/2 подгруппы</option></select></label>
+      <label>День недели<select name="day">${DAYS.map(x=>`<option ${x===data.activeDay?'selected':''}>${x}</option>`).join('')}</select></label>
+      <label>Урок / время<select name="slot" id="slot-select"></select></label>
+      <label class="wide">Дисциплина<input name="subject" required placeholder="Название дисциплины"></label>
+      <label>Преподаватель<input name="teacher" list="teacher-options" placeholder="Фамилия И.О."><datalist id="teacher-options">${data.teachers.map(x=>`<option value="${esc(x)}">`).join('')}</datalist></label>
+      <label>Аудитория<input name="room" list="room-options" placeholder="Например, 406"><datalist id="room-options">${data.rooms.map(x=>`<option value="${esc(x)}">`).join('')}</datalist></label>
+      <label class="wide">Примечание<input name="note" placeholder="Необязательно"></label>
+    </div>
+    <div id="form-alert" class="form-alert" hidden></div>
+    <div class="modal-actions"><button type="button" class="btn light" id="cancel">Отмена</button><button class="btn gold" type="submit">Сохранить занятие</button></div>
+  </form></section></div>`
+  bind()
 }
-function updateSelectedCount() {
-  const count = selectedGroups().length
-  document.querySelector('#selected-count').textContent = `${count} выбрано`
-  approveButton.disabled = count === 0
+function weekView() {
+  const days = DAYS
+  return `<div class="week-tools"><div class="week-switch"><button class="btn light" id="prev-week">‹</button><label>Неделя с <input type="date" id="week-date" value="${data.week}"></label><button class="btn light" id="next-week">›</button></div><div class="legend"><span><i class="dot"></i> Занятие</span><span><i class="dot warn"></i> Конфликт</span></div></div>
+  <div class="schedule-wrap"><table class="schedule"><thead><tr><th class="time-col">Урок</th>${days.map((d,i)=>`<th>${d}<small>${fmtDate(weekDate(i))}</small></th>`).join('')}</tr></thead><tbody>${Array.from({length:11},(_,row)=>`<tr><th class="time-col"><b>${row+1}</b><small>${row<6?'основное время':''}</small></th>${days.map(day=>{const slot=SLOTS[day][row];if(!slot)return '<td class="no-slot">—</td>';const entries=lessonsFor(day,slot);return `<td data-day="${day}" data-slot="${slot}" class="slot-cell">${entries.map(x=>`<article class="lesson-card ${clash(x,x.id).length?'has-conflict':''}" data-edit="${x.id}"><b>${esc(x.group)} ${x.subgroup?'· '+esc(x.subgroup):''}</b><span>${esc(x.subject)}</span><small>${esc(x.teacher||'Преподаватель не указан')} · ${esc(x.room||'ауд. не указана')}</small></article>`).join('')}<button class="add-slot" data-add-day="${day}" data-add-slot="${slot}" title="Добавить занятие">＋</button></td>`}).join('')}</tr>`).join('')}</tbody></table></div>
+  <div class="under-note">Временные интервалы основаны на загруженном расписании звонков. Понедельник отличается от вторника–пятницы; суббота содержит 8 уроков. Пока расписание составляется по отдельным урокам, не по условным 90-минутным парам.</div>`
 }
-function renderImport(result) {
-  state.importResult = result
-  reviewArea.hidden = false
-  document.querySelector('#review-file').textContent = result.filename
-  const reviewMeta = document.querySelector('#review-meta')
-  reviewMeta.replaceChildren()
-  for (const label of [`${result.pageCount} стр.`, `${result.groups.length} кандидатов групп`, `${result.rawCellBlockCount ?? 0} блоков текста`, 'Статус: не подтверждено']) {
-    const item = document.createElement('span')
-    item.textContent = label
-    reviewMeta.append(item)
-  }
-  const groupList = document.querySelector('#group-list')
-  groupList.replaceChildren()
-  for (const group of result.groups) {
-    const label = document.createElement('label')
-    label.className = 'group-option'
-    const input = document.createElement('input')
-    input.className = 'group-check'
-    input.type = 'checkbox'
-    input.value = group
-    input.checked = true
-    const name = document.createElement('span')
-    name.textContent = group
-    const source = document.createElement('small')
-    source.textContent = 'из заголовка'
-    label.append(input, name, source)
-    groupList.append(label)
-  }
-  document.querySelector('#source-header').textContent = result.headerLine
-  const pageGroups = document.querySelector('#page-groups')
-  pageGroups.replaceChildren()
-  for (const page of result.pageSummaries) {
-    const row = document.createElement('p')
-    const heading = document.createElement('strong')
-    heading.textContent = `Страница ${page.page} · ${page.headerGroupCount} групп · начало ячеек Y=${page.bodyStart ?? '—'}: `
-    const codes = document.createElement('span')
-    codes.textContent = (page.groups || []).join(', ')
-    row.append(heading, codes)
-    pageGroups.append(row)
-  }
-  const preview = document.querySelector('#cell-preview')
-  const pageSelect = document.querySelector('#preview-page')
-  const groupSelect = document.querySelector('#preview-group')
-  const blocks = result.rawCellBlocks || []
-  pageSelect.replaceChildren(new Option('Все', 'all'))
-  for (const page of result.pageSummaries) pageSelect.add(new Option(String(page.page), String(page.page)))
-  groupSelect.replaceChildren(new Option('Все', 'all'))
-  for (const group of result.groups) groupSelect.add(new Option(group, group))
-  const drawPreview = () => {
-    preview.replaceChildren()
-    const filtered = blocks.filter(block =>
-      (pageSelect.value === 'all' || String(block.page) === pageSelect.value) &&
-      (groupSelect.value === 'all' || block.group === groupSelect.value)
-    )
-    const summary = document.createElement('p')
-    summary.textContent = `Найдено блоков: ${filtered.length} из ${result.rawCellBlockCount ?? blocks.length}`
-    preview.append(summary)
-    for (const block of filtered.slice(0, 160)) {
-      const item = document.createElement('div')
-      item.className = 'cell-sample'
-      const meta = document.createElement('small')
-      meta.textContent = `Стр. ${block.page} · группа ${block.group} · X ${block.xStart}–${block.xEnd} · Y ${block.yStart}–${block.yEnd}`
-      const raw = document.createElement('p')
-      raw.textContent = block.rawText
-      item.append(meta, raw)
-      preview.append(item)
-    }
-    if (filtered.length > 160) {
-      const note = document.createElement('p')
-      note.textContent = 'Показаны первые 160 блоков. Уточните страницу или группу для просмотра остальных.'
-      preview.append(note)
-    }
-  }
-  pageSelect.onchange = drawPreview
-  groupSelect.onchange = drawPreview
-  drawPreview()
-  document.querySelectorAll('.group-check').forEach(input => input.addEventListener('change', updateSelectedCount))
-  updateSelectedCount()
-  message.textContent = 'Извлечение завершено. Проверьте каждый код группы перед подтверждением.'
-  message.className = 'import-message success'
+function listsView() {
+  return `<div class="lists-grid">${[['groups','Учебные группы','Добавляйте коды групп через запятую или с новой строки.',data.groups],['teachers','Преподаватели','Справочник преподавателей.',data.teachers],['rooms','Аудитории','Номера кабинетов, залов и мастерских.',data.rooms]].map(([key,title,help,arr])=>`<section class="panel"><h2>${title}</h2><p class="muted">${help}</p><textarea id="list-${key}" placeholder="Введите значения, каждое с новой строки">${esc(arr.join('\n'))}</textarea><button class="btn gold save-list" data-list="${key}">Сохранить список</button><small>${arr.length} записей</small></section>`).join('')}</div>`
 }
-
-async function handleFile(file) {
-  reviewArea.hidden = true
-  approveButton.disabled = true
-  message.textContent = 'Читаю PDF: определяю столбцы групп и собираю исходные блоки ячеек…'
-  message.className = 'import-message'
-  try {
-    const result = await inspectTimetablePdf(file)
-    renderImport(result)
-  } catch (error) {
-    message.textContent = error?.message || 'Не удалось прочитать PDF.'
-    message.className = 'import-message error'
-  }
+function rulesView() {
+  const issues = data.lessons.flatMap(x=>clash(x,x.id).map(reason=>({x,reason})))
+  const byGroup = data.groups.map(g=>({g,n:weekHours(g)})).filter(x=>x.n>36)
+  return `<div class="panel"><h2>Проверка конфликтов и нагрузки</h2><p class="muted">Проверяются пересечения группы (с учётом подгруппы), преподавателя и аудитории в один и тот же урок.</p>${issues.length?issues.map(({x,reason})=>`<div class="issue"><b>${esc(x.day)}, ${esc(x.slot)}</b> · ${esc(x.group)} · ${esc(x.subject)} — <em>${reason}</em></div>`).join(''):'<div class="success-box">Явных пересечений по введённым данным нет.</div>'}${byGroup.map(x=>`<div class="issue">Группа ${esc(x.g)}: ${x.n} уроков за неделю — проверьте лимит 36 академических часов.</div>`).join('')}</div><div class="panel"><h2>Ограничения MVP</h2><ul class="rule-list"><li>Одновременно нельзя назначить одного преподавателя на два занятия.</li><li>Нельзя занять одну аудиторию двумя занятиями.</li><li>Одна и та же группа и подгруппа не могут иметь два занятия одновременно.</li><li>Разные подгруппы могут заниматься параллельно при разных преподавателях и аудиториях.</li><li>Нагрузка считается по числу введённых уроков; это предварительная проверка, не расчёт тарификации часов.</li></ul></div>`
 }
-fileInput.addEventListener('change', event => {
-  const file = event.target.files?.[0]
-  if (file) handleFile(file)
-})
-uploadZone.addEventListener('dragover', event => { event.preventDefault(); uploadZone.classList.add('dragging') })
-uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragging'))
-uploadZone.addEventListener('drop', event => {
-  event.preventDefault()
-  uploadZone.classList.remove('dragging')
-  const file = event.dataTransfer.files?.[0]
-  if (file) handleFile(file)
-})
-document.querySelector('#reset-import').addEventListener('click', () => {
-  state.importResult = null
-  fileInput.value = ''
-  reviewArea.hidden = true
-  message.textContent = 'Результат сброшен. Выберите исходный PDF.'
-  message.className = 'import-message'
-})
-approveButton.addEventListener('click', () => {
-  state.approvedGroups = selectedGroups()
-  document.querySelector('#groups-count').textContent = state.approvedGroups.length
-  document.querySelector('.notice strong').textContent = 'Список групп подтверждён в черновике'
-  document.querySelector('.notice p').textContent = `Подтверждено ${state.approvedGroups.length} кодов групп из расписания 13-й недели. Данные ещё не сохранены в постоянную базу.`
-  message.textContent = `Черновик перечня групп подтверждён: ${state.approvedGroups.length}. Можно переходить к проверке занятий и преподавателей.`
-  message.className = 'import-message success'
-  approveButton.textContent = 'Список подтверждён'
-  approveButton.disabled = true
-})
+function openModal(item=null, day=null, slot=null) {
+  editingId=item?.id||null
+  const modal=document.querySelector('#modal'); modal.hidden=false
+  document.querySelector('#modal-title').textContent=item?'Редактировать занятие':'Добавить занятие'
+  const form=document.querySelector('#lesson-form')
+  for(const key of ['group','subgroup','day','subject','teacher','room','note']) form.elements[key].value=item?.[key]??(key==='day'?(day||data.activeDay):'')
+  fillSlots(form.elements.day.value,item?.slot||slot||'')
+  form.elements.day.onchange=()=>fillSlots(form.elements.day.value,'')
+}
+function fillSlots(day, selected) {
+  const select=document.querySelector('#slot-select')
+  select.innerHTML=SLOTS[day].map((s,i)=>`<option value="${s}" ${s===selected?'selected':''}>${i+1} урок · ${s}</option>`).join('')
+}
+function bind() {
+  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{activeTab=b.dataset.tab;render()})
+  document.querySelector('#add-lesson').onclick=()=>openModal()
+  document.querySelector('#export').onclick=exportExcel
+  document.querySelector('#prev-week').onclick=()=>{const d=new Date(data.week+'T12:00:00');d.setDate(d.getDate()-7);data.week=d.toISOString().slice(0,10);save()}
+  document.querySelector('#next-week').onclick=()=>{const d=new Date(data.week+'T12:00:00');d.setDate(d.getDate()+7);data.week=d.toISOString().slice(0,10);save()}
+  document.querySelector('#week-date').onchange=e=>{data.week=e.target.value;save()}
+  document.querySelectorAll('[data-add-day]').forEach(b=>b.onclick=()=>openModal(null,b.dataset.addDay,b.dataset.addSlot))
+  document.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>openModal(data.lessons.find(x=>x.id===b.dataset.edit)))
+  document.querySelectorAll('.save-list').forEach(b=>b.onclick=()=>{const key=b.dataset.list;data[key]=[...new Set(document.querySelector('#list-'+key).value.split(/[\n,;]+/).map(x=>x.trim()).filter(Boolean))];save()})
+  document.querySelector('#close').onclick=closeModal
+  document.querySelector('#cancel').onclick=closeModal
+  document.querySelector('#modal').onclick=e=>{if(e.target.id==='modal')closeModal()}
+  document.querySelector('#lesson-form').onsubmit=submitLesson
+}
+function closeModal(){document.querySelector('#modal').hidden=true}
+function submitLesson(e) {
+  e.preventDefault()
+  const f=e.currentTarget
+  const item=Object.fromEntries(['group','subgroup','day','slot','subject','teacher','room','note'].map(k=>[k,f.elements[k].value.trim()]))
+  item.id=editingId||uid()
+  if(!item.group||!item.subject){showAlert('Укажи учебную группу и дисциплину.');return}
+  const conflicts=clash(item,editingId)
+  if(conflicts.length){showAlert('Нельзя сохранить: '+[...new Set(conflicts)].join('; ')+'. Измени время, группу, подгруппу, преподавателя или аудиторию.');return}
+  data.lessons=data.lessons.filter(x=>x.id!==editingId)
+  data.lessons.push(item)
+  if(!data.groups.includes(item.group))data.groups.push(item.group)
+  if(item.teacher&&!data.teachers.includes(item.teacher))data.teachers.push(item.teacher)
+  if(item.room&&!data.rooms.includes(item.room))data.rooms.push(item.room)
+  closeModal();save()
+}
+function showAlert(text){const el=document.querySelector('#form-alert');el.hidden=false;el.textContent=text}
+function exportExcel() {
+  const rows=data.lessons.slice().sort((a,b)=>DAYS.indexOf(a.day)-DAYS.indexOf(b.day)||SLOTS[a.day].indexOf(a.slot)-SLOTS[b.day].indexOf(b.slot)).map(x=>({'День':x.day,'Дата':fmtDate(weekDate(DAYS.indexOf(x.day))),'Урок':SLOTS[x.day].indexOf(x.slot)+1,'Время':x.slot,'Группа':x.group,'Подгруппа':x.subgroup||'Вся группа','Дисциплина':x.subject,'Преподаватель':x.teacher,'Аудитория':x.room,'Примечание':x.note}))
+  const wb=XLSX.utils.book_new()
+  const ws=XLSX.utils.json_to_sheet(rows.length?rows:[{'Информация':'На выбранную неделю занятия не добавлены'}])
+  ws['!cols']=[{wch:16},{wch:12},{wch:8},{wch:16},{wch:14},{wch:18},{wch:30},{wch:24},{wch:14},{wch:25}]
+  XLSX.utils.book_append_sheet(wb,ws,'Расписание недели')
+  const byGroup={}
+  for(const x of data.lessons){(byGroup[x.group]??=[]).push(x)}
+  const summary=Object.entries(byGroup).map(([group,arr])=>({'Группа':group,'Количество уроков':arr.length,'Дней с занятиями':new Set(arr.map(x=>x.day)).size}))
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(summary.length?summary:[{'Информация':'Нет данных'}]),'Нагрузка групп')
+  XLSX.writeFile(wb,'Расписание_ОКПТ_'+data.week+'.xlsx')
+}
+render()
