@@ -136,7 +136,7 @@ function renderImport(result) {
   for (const page of result.pageSummaries) {
     const row = document.createElement('p')
     const heading = document.createElement('strong')
-    heading.textContent = `Страница ${page.page} · ${page.headerGroupCount} групп: `
+    heading.textContent = `Страница ${page.page} · ${page.headerGroupCount} групп · начало ячеек Y=${page.bodyStart ?? '—'}: `
     const codes = document.createElement('span')
     codes.textContent = (page.groups || []).join(', ')
     row.append(heading, codes)
