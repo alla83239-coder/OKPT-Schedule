@@ -105,7 +105,7 @@ function renderImport(result) {
   state.importResult = result
   reviewArea.hidden = false
   document.querySelector('#review-file').textContent = result.filename
-  document.querySelector('#review-meta').innerHTML = `<span>${result.pageCount} страницы</span><span>${result.groups.length} кандидатов групп</span><span>Статус: не подтверждено</span>`
+  document.querySelector('#review-meta').innerHTML = `<span>${result.pageCount} стр.</span><span>${result.groups.length} кандидатов групп</span><span>${result.rawCellBlockCount ?? 0} блоков текста</span><span>Статус: не подтверждено</span>`
   document.querySelector('#group-list').innerHTML = result.groups.map((group, index) => `<label class="group-option"><input class="group-check" type="checkbox" value="${group}" checked><span>${group}</span><small>из заголовка</small></label>`).join('')
   document.querySelector('#source-header').textContent = result.headerLine
   const preview = document.querySelector('#cell-preview')
@@ -151,7 +151,7 @@ function renderImport(result) {
 async function handleFile(file) {
   reviewArea.hidden = true
   approveButton.disabled = true
-  message.textContent = 'Читаю PDF и проверяю заголовок первой страницы…'
+  message.textContent = 'Читаю PDF: определяю столбцы групп и собираю исходные блоки ячеек…'
   message.className = 'import-message'
   try {
     const result = await inspectTimetablePdf(file)
