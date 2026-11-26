@@ -168,15 +168,33 @@ function generateAutoSchedule(){
  const demands=(data.scheduleDemands||[]).filter(x=>x.group&&x.subject&&x.teacher&&Number(x.hours)>0),added=[],unplaced=[];
  const classMap=new Map();
  demands.forEach((d,i)=>{
-  const source=d.sourceId?String(d.sourceId).replace(/-\d+$/,''):null;
-  const key=source||[d.group,d.subject,d.hours,d.room||''].join('|');
+  // Одна дисциплина одной группы — единый блок потребности.
+  // Кабинет, преподаватель и подгруппа не должны разрывать его на разные пары.
+  const subjectKey=String(d.subject||'').trim().replace(/\\s+/g,' ').toLocaleLowerCase('ru');
+  const key=[d.group,subjectKey].join('|');
   if(!classMap.has(key))classMap.set(key,[]);
   classMap.get(key).push({...d,_order:i});
  });
  const blocks=[];
  classMap.forEach(items=>{
-  const hours=Math.max(...items.map(x=>Number(x.hours)||0));
-  const pairs=Math.ceil(hours/2);
+  const hourValues=[...new Set(items.map(x=>Number(x.hours)||0))];
+  if(hourValues.length!==1){
+   unplaced.push({group:items[0].group,subject:items[0].subject,unit:'—',items,reason:'У одной дисциплины указано разное количество часов в заявках подгрупп. Укажи одинаковую недельную нагрузку для всех подгрупп.'});
+   return;
+  }
+  if(items.length>2){
+   unplaced.push({group:items[0].group,subject:items[0].subject,unit:'—',items,reason:'Для одной дисциплины найдено более двух заявок. Проверь, что подгруппы не продублированы.'});
+   return;
+  }
+  // Если для двух преподавателей подгруппы не подписаны, назначаем их по порядку заявок.
+  if(items.length===2&&items[0].teacher!==items[1].teacher){
+   items.forEach((item,index)=>{if(!item.subgroup||item.subgroup==='Вся группа')item.subgroup=(index===0?'1 подгруппа':'2 подгруппа')});
+  }
+  if(items.length===2&&items[0].subgroup===items[1].subgroup){
+   unplaced.push({group:items[0].group,subject:items[0].subject,unit:'—',items,reason:'Обе заявки назначены одной и той же подгруппе. Разведи преподавателей по 1-й и 2-й подгруппам.'});
+   return;
+  }
+  const hours=hourValues[0],pairs=Math.ceil(hours/2);
   for(let pair=0;pair<pairs;pair++)blocks.push({items,pair:pair+1,group:items[0].group,subject:items[0].subject,hours});
  });
  blocks.sort((a,b)=>b.hours-a.hours);
