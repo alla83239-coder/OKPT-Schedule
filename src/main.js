@@ -163,7 +163,7 @@ function renderImport(result) {
       const item = document.createElement('div')
       item.className = 'cell-sample'
       const meta = document.createElement('small')
-      meta.textContent = `Стр. ${block.page} · группа ${block.group} · координата Y ${block.yStart}–${block.yEnd}`
+      meta.textContent = `Стр. ${block.page} · группа ${block.group} · X ${block.xStart}–${block.xEnd} · Y ${block.yStart}–${block.yEnd}`
       const raw = document.createElement('p')
       raw.textContent = block.rawText
       item.append(meta, raw)
