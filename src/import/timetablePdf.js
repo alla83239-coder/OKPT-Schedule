@@ -37,7 +37,7 @@ function extractHeaderGroups(items, pageHeight) {
 
 function groupColumnItems(items, headers, pageHeight) {
   const columns = headers.map((header, index) => {
-    const left = index === 0 ? -Infinity : (headers[index - 1].x + header.x) / 2
+    const left = index === 0 ? Math.max(0, header.x - 12) : (headers[index - 1].x + header.x) / 2
     const right = index === headers.length - 1 ? Infinity : (header.x + headers[index + 1].x) / 2
     const columnItems = items.filter(item => {
       const x = item.transform?.[4]
@@ -132,7 +132,7 @@ export async function inspectTimetablePdf(file) {
     headerLine: headerLines.join('\n'),
     pageSummaries,
     rawCellBlockCount: rawCellBlocks.length,
-    rawCellSamples: rawCellBlocks.filter(block => block.rawText.length > 0).slice(0, 36),
+    rawCellBlocks: rawCellBlocks.filter(block => block.rawText.length > 0).slice(0, 1500),
     status: 'needs_review',
     extractedAt: new Date().toISOString()
   }
