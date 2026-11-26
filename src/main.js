@@ -70,7 +70,7 @@ function render(){
    <footer>ОКПТ · Прототип планировщика · Исходные справочники: расписание 13-й недели 2026</footer></section></main></div>
  <div class="modal-backdrop" id="modal" hidden><section class="modal"><div class="modal-head"><div><p class="eyebrow">РАСПИСАНИЕ</p><h2 id="modal-title">Новое занятие</h2></div><button class="close" id="close">×</button></div><form id="lesson-form"><div class="form-grid">
  <label>Отделение<select name="department">${data.departments.filter(x=>x!=='Не распределено').map(x=>`<option>${esc(x)}</option>`).join('')}</select></label>
- <label>Учебная группа<select name="group" required>${data.groups.map(g=>`<option value="${esc(g)}">${esc(g)} · ${esc(dept(g))}</option>`).join('')}</select></label>
+ <label>Учебная группа<select name="group" id="group-select" required></select></label>
  <label>Подгруппа<select name="subgroup"><option value="">Вся группа</option><option>1 подгруппа</option><option>2 подгруппа</option></select></label>
  <label>День недели<select name="day">${DAYS.map(x=>`<option>${x}</option>`).join('')}</select></label>
  <label>Урок / время<select name="slot" id="slot-select"></select></label>
@@ -167,6 +167,7 @@ function rulesView(){
  <div class="panel"><h2>Правила контроля</h2><ul class="rule-list"><li>Один преподаватель не может вести две пары одновременно в разных группах.</li><li>Одна аудитория не может быть назначена двум занятиям в один временной интервал.</li><li>Группа не может иметь параллельные занятия, если одно из них назначено всей группе.</li><li>Доступные дни и пары ограничивают назначение; выход за них вызывает предупреждение.</li><li>Предпочтительные дни и пары используются как мягкие ограничения.</li><li>Пустые поля не трактуются как подтверждение полной доступности.</li></ul></div>
  <div class="panel"><h2>Что подключим после получения данных</h2><p class="muted">Нормативную нагрузку, количество часов по договору, индивидуальные заявки и фактические рабочие интервалы преподавателей. Кадровый статус сам по себе не будет автоматически определять доступность — для этого нужны конкретные условия каждого сотрудника.</p></div>`
 }
+function fillGroups(department,selected=''){const el=document.querySelector('#group-select');const groups=data.groups.filter(g=>dept(g)===department);el.innerHTML=groups.length?groups.map(g=>`<option value="${esc(g)}" ${g===selected?'selected':''}>${esc(g)}</option>`).join(''):'<option value="" selected disabled>В этом отделении пока нет групп</option>';if(selected&&groups.includes(selected))el.value=selected;else if(groups.length)el.value=groups[0];return el.value}
 function fillSlots(day,selected=''){document.querySelector('#slot-select').innerHTML=SLOTS[day].map((s,i)=>`<option value="${s}" ${s===selected?'selected':''}>${i+1} урок · ${s}</option>`).join('')}
 function fillTeachers(day,slot,selected='',excludeId=null){
  const el=document.querySelector('#teacher-select'),names=normalizeNames([...data.teachers,...(selected?[selected]:[])]);
@@ -176,9 +177,9 @@ function fillTeachers(day,slot,selected='',excludeId=null){
 function fillSubjects(group,selected=''){const arr=subjectsFor(group);const el=document.querySelector('#subject-select');el.innerHTML=(arr.length?arr:['Сначала назначьте учебный план группе']).map(s=>`<option value="${esc(s)}" ${s===selected?'selected':''}>${esc(s)}</option>`).join('');if(!arr.length)el.value=''}
 function openLesson(item=null,day=null,slot=null){
  editingId=item?.id||null;const m=document.querySelector('#modal');m.hidden=false;const f=document.querySelector('#lesson-form');document.querySelector('#modal-title').textContent=item?'Редактировать занятие':'Добавить занятие'
- f.elements.group.value=item?.group||data.groups[0]||'';f.elements.department.value=dept(f.elements.group.value)==='Не распределено'?data.departments[0]:dept(f.elements.group.value);f.elements.subgroup.value=item?.subgroup||'';f.elements.day.value=item?.day||day||'Понедельник';f.elements.room.value=item?.room||'';f.elements.note.value=item?.note||'';fillSlots(f.elements.day.value,item?.slot||slot||'');fillTeachers(f.elements.day.value,f.elements.slot.value,item?.teacher||'',editingId);fillSubjects(f.elements.group.value,item?.subject||'')
- f.elements.group.onchange=()=>{f.elements.department.value=dept(f.elements.group.value)==='Не распределено'?data.departments[0]:dept(f.elements.group.value);fillSubjects(f.elements.group.value)}
- f.elements.department.onchange=()=>{const choices=data.groups.filter(g=>dept(g)===f.elements.department.value);if(choices.length)f.elements.group.value=choices[0];fillSubjects(f.elements.group.value)}
+ f.elements.department.value=dept(item?.group||data.groups[0]||'')==='Не распределено'?data.departments[0]:dept(item?.group||data.groups[0]||'');fillGroups(f.elements.department.value,item?.group||data.groups.find(g=>dept(g)===f.elements.department.value)||'');f.elements.subgroup.value=item?.subgroup||'';f.elements.day.value=item?.day||day||'Понедельник';f.elements.room.value=item?.room||'';f.elements.note.value=item?.note||'';fillSlots(f.elements.day.value,item?.slot||slot||'');fillTeachers(f.elements.day.value,f.elements.slot.value,item?.teacher||'',editingId);fillSubjects(f.elements.group.value,item?.subject||'')
+ f.elements.group.onchange=()=>{fillSubjects(f.elements.group.value)}
+ f.elements.department.onchange=()=>{const selected=fillGroups(f.elements.department.value);fillSubjects(selected)}
  f.elements.day.onchange=()=>{fillSlots(f.elements.day.value);fillTeachers(f.elements.day.value,f.elements.slot.value,'',editingId)}
  f.elements.slot.onchange=()=>fillTeachers(f.elements.day.value,f.elements.slot.value,'',editingId)
 }
