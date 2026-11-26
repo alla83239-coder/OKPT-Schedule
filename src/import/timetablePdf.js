@@ -10,17 +10,16 @@ function normaliseToken(value) {
 }
 
 function extractHeaderGroups(items, pageHeight) {
-  // The source is a four-page landscape timetable. Group IDs are in the
-  // narrow header band at the top of each page. Reading only that band avoids
-  // confusing lesson numbers, room numbers, dates and teacher initials with IDs.
+  // Group IDs sit in the first compact row at the top of each page.
+  // Exact-token matching is intentional: do not mine digits from lesson cells.
   const topBand = items.filter(item => {
     const y = item.transform?.[5]
-    return Number.isFinite(y) && pageHeight - y >= 0 && pageHeight - y <= 42
+    const top = pageHeight - y
+    return Number.isFinite(top) && top >= 0 && top <= 30.5
   })
-  const raw = topBand.flatMap(item =>
-    (item.str || '').match(/(?:ПО\s*[-–—]?\s*\d{2}|\d{2,3}\s*[-–—]\s*\d\s*к?|\d{1,2}\s*[-–—]\s*\d\s*к?|\b\d{1,2}\b)/gi) || []
-  )
-  const groups = [...new Set(raw.map(normaliseToken).filter(token => GROUP_PATTERN.test(token)))]
+  const groups = [...new Set(topBand
+    .map(item => normaliseToken(item.str || ''))
+    .filter(token => GROUP_PATTERN.test(token)))]
   return { groups, headerText: topBand.map(item => item.str || '').join(' ') }
 }
 
@@ -50,7 +49,7 @@ export async function inspectTimetablePdf(file) {
   }
 
   const groupList = [...groups]
-  if (!groupList.length) throw new Error('В верхней строке страниц не удалось обнаружить коды групп. Проверьте, что выбран файл «расписание 13 недели.pdf».')
+  if (!groupList.length) throw new Error('В верхних строках страниц не удалось обнаружить коды групп. Проверьте, что выбран файл «расписание 13 недели.pdf».')
   return {
     filename: file.name,
     pageCount: pdf.numPages,
