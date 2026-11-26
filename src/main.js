@@ -54,6 +54,7 @@ app.innerHTML = `
         <div class="review-meta" id="review-meta"></div>
         <div class="group-review-head"><div><strong>Кандидаты в учебные группы</strong><small>Снимите отметку, если код распознан неверно. Это ещё не утверждённый реестр.</small></div><span id="selected-count">0 выбрано</span></div>
         <div class="group-list" id="group-list"></div>
+        <details class="source-details"><summary>Проверить группы по страницам</summary><div id="page-groups" class="page-group-summary"></div></details>
         <details class="source-details"><summary>Показать исходную строку заголовка</summary><p id="source-header"></p></details>
         <details class="source-details"><summary>Предпросмотр извлечённых ячеек расписания</summary><p class="hint">Это пока исходные фрагменты по координатам столбцов. Предмет, преподаватель, кабинет и подгруппа ещё не разделены автоматически.</p><div class="preview-filters"><label>Страница<select id="preview-page"><option value="all">Все</option></select></label><label>Группа<select id="preview-group"><option value="all">Все</option></select></label></div><div id="cell-preview" class="cell-preview"></div></details>
         <div class="dialog-actions"><button class="text-button" id="reset-import">Сбросить результат</button><button class="primary" id="approve-groups" disabled>Подтвердить список групп</button></div>
@@ -130,6 +131,17 @@ function renderImport(result) {
     groupList.append(label)
   }
   document.querySelector('#source-header').textContent = result.headerLine
+  const pageGroups = document.querySelector('#page-groups')
+  pageGroups.replaceChildren()
+  for (const page of result.pageSummaries) {
+    const row = document.createElement('p')
+    const heading = document.createElement('strong')
+    heading.textContent = `Страница ${page.page} · ${page.headerGroupCount} групп: `
+    const codes = document.createElement('span')
+    codes.textContent = (page.groups || []).join(', ')
+    row.append(heading, codes)
+    pageGroups.append(row)
+  }
   const preview = document.querySelector('#cell-preview')
   const pageSelect = document.querySelector('#preview-page')
   const groupSelect = document.querySelector('#preview-group')
