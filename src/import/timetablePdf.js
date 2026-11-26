@@ -23,7 +23,8 @@ function extractHeaderGroups(items, pageHeight) {
       // Standalone numeric group IDs (11, 12, 16, 21, 22, 26) sit in
       // the right-hand group columns. Small numbers at the left edge are
       // week/day labels and must not be imported as groups.
-      return !/^\\d{1,2}$/.test(token) || (item.transform?.[4] ?? 0) > 300
+      const top = pageHeight - (item.transform?.[5] ?? pageHeight)
+      return !/^\\d{1,2}$/.test(token) || ((item.transform?.[4] ?? 0) > 300 && top <= 32.5)
     })
     .map(item => normaliseToken(item.str || ''))
     .filter(token => GROUP_PATTERN.test(token)))]
