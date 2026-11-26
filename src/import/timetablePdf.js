@@ -28,8 +28,7 @@ export async function inspectTimetablePdf(file) {
 
   const firstPage = await pdf.getPage(1)
   const content = await firstPage.getTextContent()
-  const firstPageText = content.items.map(item => item.str || '').join(' ')
-  const header = groupCandidatesFromHeader(firstPageText)
+  const header = groupCandidatesFromHeader(content.items)
 
   if (!header.headerFound) throw new Error('На первой странице не найден маркер «13 неделя». Проверьте, что выбран именно файл «расписание 13 недели.pdf».')
   if (!header.groups.length) throw new Error('Маркер недели найден, но группы из заголовка не удалось выделить. Нужна проверка структуры PDF.')
