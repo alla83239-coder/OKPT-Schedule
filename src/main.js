@@ -29,7 +29,7 @@ app.innerHTML = `
       <header class="topbar"><div class="crumb">ОКПТ <span>/</span> <b id="section-title">Обзор</b></div><div class="top-actions"><span class="year-chip">2026 / 2027</span><button class="avatar" aria-label="Профиль">А</button></div></header>
       <section class="content">
         <div class="welcome-row"><div><p class="eyebrow">ДИСПЕТЧЕРСКАЯ · УЧЕБНЫЙ ГОД 2026/2027</p><h1 id="page-heading">Обзор расписания</h1><p class="subheading">Единое пространство для планирования, контроля нагрузки и управления заменами.</p></div><button class="primary" id="import-btn">＋ Импорт расписания</button></div>
-        <div class="notice"><span class="notice-icon">i</span><div><strong>Контролируемый импорт</strong><p>Перечень групп формируется только из заголовка первой страницы файла «расписание 13 недели.pdf». Другие документы не могут добавлять группы.</p></div></div>
+        <div class="notice"><span class="notice-icon">i</span><div><strong>Контролируемый импорт</strong><p>Перечень групп формируется только из верхних строк страниц файла «расписание 13 недели.pdf». Другие документы не могут добавлять группы.</p></div></div>
         <div class="metrics">
           <article class="metric"><span>Группы в черновике</span><strong id="groups-count">${state.approvedGroups.length || '—'}</strong><small>Только из расписания 13-й недели</small></article>
           <article class="metric"><span>Преподаватели</span><strong>—</strong><small>Следующий этап импорта</small></article>
@@ -46,7 +46,7 @@ app.innerHTML = `
   </div>
   <div class="modal-backdrop" id="import-modal" hidden>
     <section class="import-dialog" role="dialog" aria-modal="true" aria-labelledby="import-title">
-      <header class="dialog-head"><div><p class="eyebrow">ИМПОРТ И ПРОВЕРКА</p><h2 id="import-title">Расписание 13-й недели</h2><p class="dialog-sub">Загрузите исходный PDF. Группы будут извлечены только из строки заголовка первой страницы.</p></div><button class="close-btn" id="close-import" aria-label="Закрыть">×</button></header>
+      <header class="dialog-head"><div><p class="eyebrow">ИМПОРТ И ПРОВЕРКА</p><h2 id="import-title">Расписание 13-й недели</h2><p class="dialog-sub">Загрузите исходный PDF. Группы будут извлечены только из верхней строки каждой страницы.</p></div><button class="close-btn" id="close-import" aria-label="Закрыть">×</button></header>
       <div class="upload-zone" id="upload-zone"><div class="upload-icon">↑</div><strong>Перетащите PDF сюда или выберите файл</strong><span>Ожидаемый источник: расписание 13 недели.pdf</span><input id="pdf-input" type="file" accept="application/pdf" hidden><button class="secondary" id="choose-pdf">Выбрать PDF</button></div>
       <div class="import-message" id="import-message" aria-live="polite">Файл анализируется в браузере. Он не отправляется в GitHub.</div>
       <div class="review-area" id="review-area" hidden>
