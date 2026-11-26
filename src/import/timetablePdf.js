@@ -50,7 +50,19 @@ function headersToBounds(headers) {
   })
 }
 
-function groupColumnItems(items, headers, pageHeight) {
+function detectBodyStart(items, pageHeight) {
+  const metadataWords = new Set(['час', 'общения', 'разговор', 'о', 'важном'])
+  const metadataY = items
+    .filter(item => {
+      const token = (item.str || '').toLocaleLowerCase('ru-RU').replace(/[.,:]/g, '').trim()
+      const top = pageHeight - (item.transform?.[5] ?? pageHeight)
+      return metadataWords.has(token) && top >= 0 && top <= 55
+    })
+    .map(item => pageHeight - (item.transform?.[5] ?? pageHeight))
+  return metadataY.length ? Math.max(...metadataY) + 2.5 : 34
+}
+
+function groupColumnItems(items, headers, pageHeight, bodyStart) {
   const columns = headers.map((header, index) => {
     const previous = headers[index - 1]
     const next = headers[index + 1]
@@ -63,7 +75,7 @@ function groupColumnItems(items, headers, pageHeight) {
     const columnItems = items.filter(item => {
       const x = (item.transform?.[4] ?? 0) + (item.width ?? 0) / 2
       const top = pageHeight - (item.transform?.[5] ?? pageHeight)
-      return Number.isFinite(x) && x >= left && x < right && top > 34
+      return Number.isFinite(x) && x >= left && x < right && top > bodyStart
     }).sort((a, b) => {
       const ay = pageHeight - (a.transform?.[5] ?? pageHeight)
       const by = pageHeight - (b.transform?.[5] ?? pageHeight)
@@ -137,7 +149,8 @@ export async function inspectTimetablePdf(file) {
     extracted.groups.forEach(group => groups.add(group))
     headerLines.push(`Страница ${pageNumber}: ${extracted.headerText}`)
 
-    const blocks = groupColumnItems(content.items, extracted.headers, viewport.height)
+    const bodyStart = detectBodyStart(content.items, viewport.height)
+    const blocks = groupColumnItems(content.items, extracted.headers, viewport.height, bodyStart)
     blocks.forEach(block => rawCellBlocks.push({ ...block, page: pageNumber }))
     pageSummaries.push({
       page: pageNumber,
@@ -146,6 +159,7 @@ export async function inspectTimetablePdf(file) {
       headerGroupCount: extracted.groups.length,
       groups: extracted.groups,
       columnBounds: headersToBounds(extracted.headers),
+      bodyStart: Number(bodyStart.toFixed(1)),
       rawCellBlockCount: blocks.length
     })
   }
