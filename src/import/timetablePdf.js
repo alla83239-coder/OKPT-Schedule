@@ -61,13 +61,15 @@ function groupColumnItems(items, headers, pageHeight) {
       ? (header.center + next.center) / 2
       : header.center + (previous ? (header.center - previous.center) / 2 : 12)
     const columnItems = items.filter(item => {
-      const x = item.transform?.[4]
+      const x = (item.transform?.[4] ?? 0) + (item.width ?? 0) / 2
       const top = pageHeight - (item.transform?.[5] ?? pageHeight)
       return Number.isFinite(x) && x >= left && x < right && top > 34
     }).sort((a, b) => {
       const ay = pageHeight - (a.transform?.[5] ?? pageHeight)
       const by = pageHeight - (b.transform?.[5] ?? pageHeight)
-      return ay - by || (a.transform?.[4] ?? 0) - (b.transform?.[4] ?? 0)
+      const ax = (a.transform?.[4] ?? 0) + (a.width ?? 0) / 2
+      const bx = (b.transform?.[4] ?? 0) + (b.width ?? 0) / 2
+      return ay - by || ax - bx
     })
 
     // Reconstruct visual text lines by baseline, then preserve larger vertical
@@ -80,7 +82,7 @@ function groupColumnItems(items, headers, pageHeight) {
         line = { y, parts: [] }
         lines.push(line)
       }
-      line.parts.push({ x: item.transform?.[4] ?? 0, text: item.str || '' })
+      line.parts.push({ x: (item.transform?.[4] ?? 0) + (item.width ?? 0) / 2, text: item.str || '' })
     }
     lines.sort((a, b) => a.y - b.y)
     for (const line of lines) {
