@@ -59,12 +59,13 @@ function render(){
    <button class="side-link ${tab==='plans'?'active':''}" data-tab="plans">▤ <span>Справочник учебных планов</span></button>
    <button class="side-link ${tab==='replacements'?'active':''}" data-tab="replacements">↔ <span>Замены</span></button>
    <button class="side-link ${tab==='rules'?'active':''}" data-tab="rules">✓ <span>Контроль конфликтов</span></button>
+   <button class="side-link ${tab==='workload'?'active':''}" data-tab="workload">▤ <span>Баланс нагрузки</span></button>
    <div class="sidebar-bottom demo-status"><i></i><div><b>Демонстрационный режим</b><small>Общие стартовые справочники из GitHub</small></div></div>
   </aside>
-  <main class="main"><header class="topbar"><div><span>ОКПТ</span>　/　<b>${({week:'Недельное расписание',lists:'Справочники',groupmap:'Группы и учебные планы',plans:'Справочник учебных планов',replacements:'Замены',rules:'Контроль расписания'})[tab]}</b></div><div class="top-right"><span class="year-chip">ДЕМО · 2026 / 2027</span><button class="btn light" id="reset-demo">↺ Сбросить демо</button><button class="btn gold" id="export">↓ Экспорт Excel</button></div></header>
-   <section class="page"><div class="page-head"><div><p class="eyebrow">ДИСПЕТЧЕРСКАЯ · УЧЕБНЫЙ ГОД 2026/2027</p><h1>${({week:'Составление расписания на неделю',lists:'Справочники колледжа',groupmap:'Соответствие групп специальностям и учебным планам',plans:'Справочник учебных планов',replacements:'Замены в расписании',rules:'Контроль ограничений'})[tab]}</h1><p class="muted">${({week:'Занятия, группы, преподаватели и аудитории в единой недельной сетке.',lists:'Общие справочники колледжа с разделением групп по отделениям.',groupmap:'Здесь назначается специальность и автоматически связанный с ней учебный план каждой группы.',plans:'Перечень учебных планов и дисциплин из исходных PDF.',replacements:'Оформление замены без потери исходного занятия и истории изменений.',rules:'Проверка пересечений и ограничений по введённым занятиям.'})[tab]}</p><div class="demo-banner"><b>Прототип для демонстрации.</b> В репозитории доступны 57 учебных групп и 99 преподавательских записей, извлечённых из расписания 13-й недели. Аудитории добавлены по обозначениям, встречающимся в том же файле. Отделения и перечень специальностей внесены по предоставленной структуре; назначение специальности каждой группе сверяется с графиками. Изменения на этом этапе сохраняются в браузере, а не синхронизируются между сотрудниками.</div></div>${tab==='week'?'<button class="btn gold" id="add-lesson">＋ Добавить занятие</button>':''}</div>
+  <main class="main"><header class="topbar"><div><span>ОКПТ</span>　/　<b>${({week:'Недельное расписание',lists:'Справочники',groupmap:'Группы и учебные планы',plans:'Справочник учебных планов',replacements:'Замены',rules:'Контроль расписания',workload:'Баланс нагрузки'})[tab]}</b></div><div class="top-right"><span class="year-chip">ДЕМО · 2026 / 2027</span><button class="btn light" id="reset-demo">↺ Сбросить демо</button><button class="btn gold" id="export">↓ Экспорт Excel</button></div></header>
+   <section class="page"><div class="page-head"><div><p class="eyebrow">ДИСПЕТЧЕРСКАЯ · УЧЕБНЫЙ ГОД 2026/2027</p><h1>${({week:'Составление расписания на неделю',lists:'Справочники колледжа',groupmap:'Соответствие групп специальностям и учебным планам',plans:'Справочник учебных планов',replacements:'Замены в расписании',rules:'Контроль ограничений',workload:'Баланс учебной нагрузки'})[tab]}</h1><p class="muted">${({week:'Занятия, группы, преподаватели и аудитории в единой недельной сетке.',lists:'Общие справочники колледжа с разделением групп по отделениям.',groupmap:'Здесь назначается специальность и автоматически связанный с ней учебный план каждой группы.',plans:'Перечень учебных планов и дисциплин из исходных PDF.',replacements:'Оформление замены без потери исходного занятия и истории изменений.',rules:'Проверка пересечений и ограничений по введённым занятиям.',workload:'Недельные лимиты групп и преподавателей, дневная нагрузка и остаток часов по дисциплинам.'})[tab]}</p><div class="demo-banner"><b>Прототип для демонстрации.</b> В репозитории доступны 57 учебных групп и 99 преподавательских записей, извлечённых из расписания 13-й недели. Аудитории добавлены по обозначениям, встречающимся в том же файле. Отделения и перечень специальностей внесены по предоставленной структуре; назначение специальности каждой группе сверяется с графиками. Изменения на этом этапе сохраняются в браузере, а не синхронизируются между сотрудниками.</div></div>${tab==='week'?'<button class="btn gold" id="add-lesson">＋ Добавить занятие</button>':''}</div>
    <div class="stats"><div class="stat"><small>Занятий на неделе</small><b>${total}</b></div><div class="stat"><small>Групп</small><b>${data.groups.length}</b></div><div class="stat"><small>Преподавателей</small><b>${data.teachers.length}</b></div><div class="stat"><small>Пересечений</small><b class="${issues?'red':'green'}">${issues}</b></div></div>
-   ${tab==='week'?weekView():tab==='lists'?listsView():tab==='groupmap'?groupMapView():tab==='plans'?plansView():tab==='replacements'?replacementsView():rulesView()}
+   ${tab==='week'?weekView():tab==='lists'?listsView():tab==='groupmap'?groupMapView():tab==='plans'?plansView():tab==='replacements'?replacementsView():tab==='workload'?workloadView():rulesView()}
    <footer>ОКПТ · Прототип планировщика · Исходные справочники: расписание 13-й недели 2026</footer></section></main></div>
  <div class="modal-backdrop" id="modal" hidden><section class="modal"><div class="modal-head"><div><p class="eyebrow">РАСПИСАНИЕ</p><h2 id="modal-title">Новое занятие</h2></div><button class="close" id="close">×</button></div><form id="lesson-form"><div class="form-grid">
  <label>Отделение<select name="department">${data.departments.filter(x=>x!=='Не распределено').map(x=>`<option>${esc(x)}</option>`).join('')}</select></label>
@@ -122,6 +123,38 @@ function plansView(){
 function replacementsView(){
  return `<div class="panel"><div class="panel-head"><div><h2>Журнал замен</h2><p class="muted">Исходное занятие сохраняется. Замена фиксируется отдельно и может быть согласована.</p></div><button class="btn gold" id="add-substitution" ${data.lessons.length?'':'disabled'}>＋ Оформить замену</button></div>${data.substitutions.length?data.substitutions.map(s=>{const l=data.lessons.find(x=>x.id===s.lessonId);return `<div class="substitution-row"><b>${l?esc(l.group+' · '+l.day+' · '+l.slot+' · '+l.subject):'Исходное занятие удалено'}</b><span>${esc(l?.teacher||'Преподаватель не указан')} → ${esc(s.teacher||l?.teacher||'без изменения')}</span><span>Аудитория: ${esc(s.room||l?.room||'без изменения')} · ${esc(s.reason)}</span><em>${esc(s.status)}</em></div>`}).join(''):'<div class="success-box">Замены ещё не оформлялись. Сначала добавьте занятия в недельную сетку.</div>'}`
 }
+function groupWeekHours(group,excludeId=null){
+ return new Set(data.lessons.filter(x=>x.id!==excludeId&&x.group===group).map(x=>x.day+'|'+x.slot)).size
+}
+function groupDayHours(group,day,excludeId=null){
+ return new Set(data.lessons.filter(x=>x.id!==excludeId&&x.group===group&&x.day===day).map(x=>x.slot)).size
+}
+function teacherWeekHours(name,excludeId=null){
+ return data.lessons.filter(x=>x.id!==excludeId&&x.teacher===name).length
+}
+function loadViolations(item,excludeId=null){
+ const out=[];
+ if(item.group){
+  const week=groupWeekHours(item.group,excludeId),day=groupDayHours(item.group,item.day,excludeId);
+  const alreadyDay=data.lessons.some(x=>x.id!==excludeId&&x.group===item.group&&x.day===item.day&&x.slot===item.slot);
+  if(!alreadyDay&&week+1>36)out.push('У группы '+item.group+' будет '+(week+1)+' академических часов за неделю (лимит 36).');
+  if(!alreadyDay&&day+1>8)out.push('У группы '+item.group+' будет '+(day+1)+' академических часов за день (лимит 8 — не более 4 пар).');
+ }
+ if(item.teacher){
+  const hours=teacherWeekHours(item.teacher,excludeId);
+  if(hours+1>36)out.push('У преподавателя '+item.teacher+' будет '+(hours+1)+' академических часов за неделю (лимит 36).');
+ }
+ return out
+}
+function workloadView(){
+ const groupRows=data.groups.map(g=>{const hours=groupWeekHours(g);const maxDay=Math.max(0,...DAYS.map(d=>groupDayHours(g,d)));return {g,hours,maxDay}});
+ const teacherRows=data.teachers.map(t=>({t,hours:teacherWeekHours(t)})).filter(x=>x.hours>0).sort((a,b)=>b.hours-a.hours);
+ const overGroups=groupRows.filter(x=>x.hours>36||x.maxDay>8),overTeachers=teacherRows.filter(x=>x.hours>36);
+ return `<div class="stats"><div class="stat"><small>Групп с превышением</small><b class="${overGroups.length?'red':'green'}">${overGroups.length}</b></div><div class="stat"><small>Преподавателей с превышением</small><b class="${overTeachers.length?'red':'green'}">${overTeachers.length}</b></div><div class="stat"><small>Максимум группы за неделю</small><b>36 ч</b></div><div class="stat"><small>Максимум группы за день</small><b>8 ч</b></div></div>
+ <div class="panel"><h2>Недельная нагрузка групп</h2><p class="muted">Считаются уникальные временные интервалы группы: параллельные занятия подгрупп в один и тот же час не удваивают нагрузку студентов. Один урок = один академический час.</p><div class="table-scroll"><table class="directory"><thead><tr><th>Группа</th><th>Учебный план</th><th>Часов за неделю</th><th>Максимум за день</th><th>Контроль</th></tr></thead><tbody>${groupRows.map(x=>`<tr><td><b>${esc(x.g)}</b></td><td>${esc(groupPlan(x.g)?.name||'Не назначен')}</td><td>${x.hours} / 36</td><td>${x.maxDay} / 8</td><td>${x.hours>36||x.maxDay>8?'<span class="mapping-status is-pending">Превышение</span>':'<span class="mapping-status is-confirmed">В пределах лимита</span>'}</td></tr>`).join('')}</tbody></table></div></div>
+ <div class="panel"><h2>Недельная нагрузка преподавателей</h2><p class="muted">Сумма назначенных академических часов по всем группам. Нагрузка по подгруппам считается отдельно для преподавателя.</p><div class="table-scroll"><table class="directory"><thead><tr><th>Преподаватель</th><th>Часов за неделю</th><th>Контроль</th></tr></thead><tbody>${teacherRows.map(x=>`<tr><td><b>${esc(x.t)}</b></td><td>${x.hours} / 36</td><td>${x.hours>36?'<span class="mapping-status is-pending">Превышение</span>':'<span class="mapping-status is-confirmed">В пределах лимита</span>'}</td></tr>`).join('')||'<tr><td colspan="3">Занятия пока не назначены.</td></tr>'}</tbody></table></div></div>
+ <div class="panel"><h2>Семестровая нагрузка по дисциплинам</h2><p class="muted">В документах есть разбивка аудиторных часов по семестрам, но её нужно перенести в машиночитаемые значения отдельно от общего объёма часов, самостоятельной работы, практики и аттестации. Пока точные семестровые значения не импортированы, система не будет выдавать фиктивный недобор или автоматически распределять часы.</p><div class="success-box">Следующий этап: загрузка проверенных значений «аудиторные часы по семестрам» из каждого учебного плана и привязка календарных недель по графику соответствующего отделения.</div></div>`
+}
 function rulesView(){
  const issues=[];for(const l of data.lessons)for(const c of conflicts(l,l.id))if(l.id<c.x.id)issues.push({l,reason:c.reason});
  const warnings=data.lessons.flatMap(l=>teacherWarnings(l).map(reason=>({l,reason})));
@@ -151,6 +184,7 @@ function submitLesson(e){
  e.preventDefault();const f=e.currentTarget;const item={id:editingId||id(),group:f.elements.group.value,subgroup:f.elements.subgroup.value,day:f.elements.day.value,slot:f.elements.slot.value,subject:f.elements.subject.value,teacher:f.elements.teacher.value.trim(),room:f.elements.room.value.trim(),note:f.elements.note.value.trim()}
  if(!item.group||!item.subject||item.subject.startsWith('Сначала'))return alert('Назначьте группе учебный план и выберите дисциплину.')
  const c=conflicts(item,editingId);if(c.length){const a=document.querySelector('#form-alert');a.hidden=false;a.textContent='Нельзя сохранить: '+[...new Set(c.map(x=>x.reason))].join('; ')+'.';return}
+ const lv=loadViolations(item,editingId);if(lv.length){const a=document.querySelector('#form-alert');a.hidden=false;a.textContent='Нельзя сохранить: '+lv.join(' ');return}
  const tw=teacherWarnings(item);if(tw.length&&!confirm('ПРЕДУПРЕЖДЕНИЕ: условия расписания преподавателя не соблюдены или требуют внимания:\\n\\n'+tw.join('\\n')+'\\n\\nСохранить занятие несмотря на предупреждения?'))return;
  data.lessons=data.lessons.filter(x=>x.id!==editingId);data.lessons.push(item);if(item.teacher&&!data.teachers.includes(item.teacher))data.teachers.push(item.teacher);if(item.room&&!data.rooms.includes(item.room))data.rooms.push(item.room);closeLesson();save()
 }
