@@ -9,13 +9,22 @@ function normaliseToken(value) {
   return value.replace(/[\u00a0\s]+/g, '').replace(/[–—]/g, '-').trim()
 }
 
-function groupCandidatesFromHeader(text) {
-  const lines = text.split(/\n+/).map(line => line.trim()).filter(Boolean)
-  const headerIndex = lines.findIndex(line => /13\s*недел/i.test(line))
-  if (headerIndex < 0) return { groups: [], headerFound: false, headerLine: '' }
+function groupCandidatesFromHeader(items) {
+  const marker = items.find(item => /13\s*недел/i.test(item.str || ''))
+  if (!marker) return { groups: [], headerFound: false, headerLine: '' }
 
-  const headerText = [lines[headerIndex], lines[headerIndex + 1] || ''].join(' ')
-  const raw = headerText.match(/(?:ПО\s*[-–—]?\s*\d{2}|\d{2,3}\s*[-–—]\s*\d\s*к?|\d{1,2}\s*[-–—]\s*\d\s*к?|\b\d{1,2}\b)/gi) || []
+  // Restrict extraction to the same PDF coordinate row as "13 неделя".
+  // This prevents lesson numbers, room numbers and dates from becoming groups.
+  const markerY = marker.transform?.[5] ?? 0
+  const markerX = marker.transform?.[4] ?? 0
+  const row = items.filter(item => {
+    const y = item.transform?.[5] ?? Number.NaN
+    const x = item.transform?.[4] ?? Number.NaN
+    return Number.isFinite(y) && Number.isFinite(x) && Math.abs(y - markerY) <= 3 && x > markerX
+  }).sort((a, b) => (a.transform?.[4] ?? 0) - (b.transform?.[4] ?? 0))
+
+  const headerText = row.map(item => item.str || '').join(' ')
+  const raw = row.flatMap(item => (item.str || '').match(/(?:ПО\s*[-–—]?\s*\d{2}|\d{2,3}\s*[-–—]\s*\d\s*к?|\d{1,2}\s*[-–—]\s*\d\s*к?|\b\d{1,2}\b)/gi) || [])
   const groups = [...new Set(raw.map(normaliseToken).filter(token => GROUP_PATTERN.test(token)))]
   return { groups, headerFound: true, headerLine: headerText }
 }
