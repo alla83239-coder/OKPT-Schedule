@@ -55,7 +55,7 @@ app.innerHTML = `
         <div class="group-review-head"><div><strong>Кандидаты в учебные группы</strong><small>Снимите отметку, если код распознан неверно. Это ещё не утверждённый реестр.</small></div><span id="selected-count">0 выбрано</span></div>
         <div class="group-list" id="group-list"></div>
         <details class="source-details"><summary>Показать исходную строку заголовка</summary><p id="source-header"></p></details>
-        <details class="source-details"><summary>Предпросмотр извлечённых ячеек расписания</summary><p class="hint">Это пока исходные фрагменты по координатам столбцов. Предмет, преподаватель, кабинет и подгруппа ещё не разделены автоматически.</p><div id="cell-preview" class="cell-preview"></div></details>
+        <details class="source-details"><summary>Предпросмотр извлечённых ячеек расписания</summary><p class="hint">Это пока исходные фрагменты по координатам столбцов. Предмет, преподаватель, кабинет и подгруппа ещё не разделены автоматически.</p><div class="preview-filters"><label>Страница<select id="preview-page"><option value="all">Все</option></select></label><label>Группа<select id="preview-group"><option value="all">Все</option></select></label></div><div id="cell-preview" class="cell-preview"></div></details>
         <div class="dialog-actions"><button class="text-button" id="reset-import">Сбросить результат</button><button class="primary" id="approve-groups" disabled>Подтвердить список групп</button></div>
       </div>
       <div class="dialog-footnote">Подтверждение сохраняет черновик только в памяти этой вкладки. Постоянное сохранение и импорт остальных сущностей будут добавлены после проверки точности извлечения.</div>
@@ -109,20 +109,39 @@ function renderImport(result) {
   document.querySelector('#group-list').innerHTML = result.groups.map((group, index) => `<label class="group-option"><input class="group-check" type="checkbox" value="${group}" checked><span>${group}</span><small>из заголовка</small></label>`).join('')
   document.querySelector('#source-header').textContent = result.headerLine
   const preview = document.querySelector('#cell-preview')
-  preview.replaceChildren()
-  const summary = document.createElement('p')
-  summary.textContent = `Найдено блоков текста в столбцах групп: ${result.rawCellBlockCount ?? '—'}`
-  preview.append(summary)
-  for (const block of (result.rawCellSamples || [])) {
-    const item = document.createElement('div')
-    item.className = 'cell-sample'
-    const meta = document.createElement('small')
-    meta.textContent = `Стр. ${block.page} · группа ${block.group} · координата Y ${block.yStart}–${block.yEnd}`
-    const raw = document.createElement('p')
-    raw.textContent = block.rawText
-    item.append(meta, raw)
-    preview.append(item)
+  const pageSelect = document.querySelector('#preview-page')
+  const groupSelect = document.querySelector('#preview-group')
+  const blocks = result.rawCellBlocks || []
+  pageSelect.innerHTML = '<option value="all">Все</option>' + result.pageSummaries.map(page => `<option value="${page.page}">${page.page}</option>`).join('')
+  groupSelect.innerHTML = '<option value="all">Все</option>' + result.groups.map(group => `<option value="${group}">${group}</option>`).join('')
+  const drawPreview = () => {
+    preview.replaceChildren()
+    const filtered = blocks.filter(block =>
+      (pageSelect.value === 'all' || String(block.page) === pageSelect.value) &&
+      (groupSelect.value === 'all' || block.group === groupSelect.value)
+    )
+    const summary = document.createElement('p')
+    summary.textContent = `Найдено блоков: ${filtered.length} из ${result.rawCellBlockCount ?? blocks.length}`
+    preview.append(summary)
+    for (const block of filtered.slice(0, 160)) {
+      const item = document.createElement('div')
+      item.className = 'cell-sample'
+      const meta = document.createElement('small')
+      meta.textContent = `Стр. ${block.page} · группа ${block.group} · координата Y ${block.yStart}–${block.yEnd}`
+      const raw = document.createElement('p')
+      raw.textContent = block.rawText
+      item.append(meta, raw)
+      preview.append(item)
+    }
+    if (filtered.length > 160) {
+      const note = document.createElement('p')
+      note.textContent = 'Показаны первые 160 блоков. Уточните страницу или группу для просмотра остальных.'
+      preview.append(note)
+    }
   }
+  pageSelect.onchange = drawPreview
+  groupSelect.onchange = drawPreview
+  drawPreview()
   document.querySelectorAll('.group-check').forEach(input => input.addEventListener('change', updateSelectedCount))
   updateSelectedCount()
   message.textContent = 'Извлечение завершено. Проверьте каждый код группы перед подтверждением.'
