@@ -18,6 +18,13 @@ function extractHeaderGroups(items, pageHeight) {
     return Number.isFinite(top) && top >= 0 && top <= 30.5
   })
   const groups = [...new Set(topBand
+    .filter(item => {
+      const token = normaliseToken(item.str || '')
+      // Standalone numeric group IDs (11, 12, 16, 21, 22, 26) sit in
+      // the right-hand group columns. Small numbers at the left edge are
+      // week/day labels and must not be imported as groups.
+      return !/^\\d{1,2}$/.test(token) || (item.transform?.[4] ?? 0) > 300
+    })
     .map(item => normaliseToken(item.str || ''))
     .filter(token => GROUP_PATTERN.test(token)))]
   return { groups, headerText: topBand.map(item => item.str || '').join(' ') }
