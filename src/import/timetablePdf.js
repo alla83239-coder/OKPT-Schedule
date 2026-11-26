@@ -110,7 +110,7 @@ export async function inspectTimetablePdf(file) {
     const content = await page.getTextContent()
     const extracted = extractHeaderGroups(content.items, viewport.height)
     extracted.groups.forEach(group => groups.add(group))
-    headerLines.push(\`Страница \${pageNumber}: \${extracted.headerText}\`)
+    headerLines.push(`Страница ${pageNumber}: ${extracted.headerText}`)
 
     const blocks = groupColumnItems(content.items, extracted.headers, viewport.height)
     blocks.forEach(block => rawCellBlocks.push({ ...block, page: pageNumber }))
