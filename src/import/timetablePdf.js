@@ -119,6 +119,7 @@ export async function inspectTimetablePdf(file) {
       textItems: content.items.length,
       textLength: content.items.reduce((sum, item) => sum + (item.str || '').length, 0),
       headerGroupCount: extracted.groups.length,
+      groups: extracted.groups,
       rawCellBlockCount: blocks.length
     })
   }
