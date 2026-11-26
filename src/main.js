@@ -105,15 +105,39 @@ function renderImport(result) {
   state.importResult = result
   reviewArea.hidden = false
   document.querySelector('#review-file').textContent = result.filename
-  document.querySelector('#review-meta').innerHTML = `<span>${result.pageCount} стр.</span><span>${result.groups.length} кандидатов групп</span><span>${result.rawCellBlockCount ?? 0} блоков текста</span><span>Статус: не подтверждено</span>`
-  document.querySelector('#group-list').innerHTML = result.groups.map((group, index) => `<label class="group-option"><input class="group-check" type="checkbox" value="${group}" checked><span>${group}</span><small>из заголовка</small></label>`).join('')
+  const reviewMeta = document.querySelector('#review-meta')
+  reviewMeta.replaceChildren()
+  for (const label of [`${result.pageCount} стр.`, `${result.groups.length} кандидатов групп`, `${result.rawCellBlockCount ?? 0} блоков текста`, 'Статус: не подтверждено']) {
+    const item = document.createElement('span')
+    item.textContent = label
+    reviewMeta.append(item)
+  }
+  const groupList = document.querySelector('#group-list')
+  groupList.replaceChildren()
+  for (const group of result.groups) {
+    const label = document.createElement('label')
+    label.className = 'group-option'
+    const input = document.createElement('input')
+    input.className = 'group-check'
+    input.type = 'checkbox'
+    input.value = group
+    input.checked = true
+    const name = document.createElement('span')
+    name.textContent = group
+    const source = document.createElement('small')
+    source.textContent = 'из заголовка'
+    label.append(input, name, source)
+    groupList.append(label)
+  }
   document.querySelector('#source-header').textContent = result.headerLine
   const preview = document.querySelector('#cell-preview')
   const pageSelect = document.querySelector('#preview-page')
   const groupSelect = document.querySelector('#preview-group')
   const blocks = result.rawCellBlocks || []
-  pageSelect.innerHTML = '<option value="all">Все</option>' + result.pageSummaries.map(page => `<option value="${page.page}">${page.page}</option>`).join('')
-  groupSelect.innerHTML = '<option value="all">Все</option>' + result.groups.map(group => `<option value="${group}">${group}</option>`).join('')
+  pageSelect.replaceChildren(new Option('Все', 'all'))
+  for (const page of result.pageSummaries) pageSelect.add(new Option(String(page.page), String(page.page)))
+  groupSelect.replaceChildren(new Option('Все', 'all'))
+  for (const group of result.groups) groupSelect.add(new Option(group, group))
   const drawPreview = () => {
     preview.replaceChildren()
     const filtered = blocks.filter(block =>
