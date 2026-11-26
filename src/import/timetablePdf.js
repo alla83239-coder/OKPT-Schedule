@@ -24,9 +24,14 @@ function extractHeaderGroups(items, pageHeight) {
   })
 
   const headers = headerItems
-    .map(item => ({ group: normaliseToken(item.str || ''), x: item.transform?.[4] ?? 0 }))
+    .map(item => ({
+      group: normaliseToken(item.str || ''),
+      x: item.transform?.[4] ?? 0,
+      width: item.width ?? 0,
+      center: (item.transform?.[4] ?? 0) + (item.width ?? 0) / 2
+    }))
     .filter(item => GROUP_PATTERN.test(item.group))
-    .sort((a, b) => a.x - b.x)
+    .sort((a, b) => a.center - b.center)
 
   return {
     headers,
@@ -35,10 +40,26 @@ function extractHeaderGroups(items, pageHeight) {
   }
 }
 
+function headersToBounds(headers) {
+  return headers.map((header, index) => {
+    const previous = headers[index - 1]
+    const next = headers[index + 1]
+    const left = previous ? (previous.center + header.center) / 2 : header.center - (next ? (next.center - header.center) / 2 : 12)
+    const right = next ? (header.center + next.center) / 2 : header.center + (previous ? (header.center - previous.center) / 2 : 12)
+    return { group: header.group, xStart: Number(left.toFixed(1)), xEnd: Number(right.toFixed(1)) }
+  })
+}
+
 function groupColumnItems(items, headers, pageHeight) {
   const columns = headers.map((header, index) => {
-    const left = index === 0 ? Math.max(0, header.x - 12) : (headers[index - 1].x + header.x) / 2
-    const right = index === headers.length - 1 ? Infinity : (header.x + headers[index + 1].x) / 2
+    const previous = headers[index - 1]
+    const next = headers[index + 1]
+    const left = previous
+      ? (previous.center + header.center) / 2
+      : header.center - (next ? (next.center - header.center) / 2 : 12)
+    const right = next
+      ? (header.center + next.center) / 2
+      : header.center + (previous ? (header.center - previous.center) / 2 : 12)
     const columnItems = items.filter(item => {
       const x = item.transform?.[4]
       const top = pageHeight - (item.transform?.[5] ?? pageHeight)
@@ -86,6 +107,8 @@ function groupColumnItems(items, headers, pageHeight) {
       block: index + 1,
       yStart: Number(block.pageYStart.toFixed(1)),
       yEnd: Number(block.pageYEnd.toFixed(1)),
+      xStart: Number(left.toFixed(1)),
+      xEnd: Number(right.toFixed(1)),
       rawText: block.lines.join(' | ')
     }))
   })
@@ -120,6 +143,7 @@ export async function inspectTimetablePdf(file) {
       textLength: content.items.reduce((sum, item) => sum + (item.str || '').length, 0),
       headerGroupCount: extracted.groups.length,
       groups: extracted.groups,
+      columnBounds: headersToBounds(extracted.headers),
       rawCellBlockCount: blocks.length
     })
   }
