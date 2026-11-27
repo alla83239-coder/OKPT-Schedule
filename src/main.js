@@ -489,6 +489,18 @@ function submitLesson(e){
 }
 function openSub(){document.querySelector('#sub-modal').hidden=false}
 function bind(){
+ const helpOpen=document.querySelector('#help-open');
+ if(helpOpen)helpOpen.addEventListener('click',()=>{window.__okptHelpOpen=true;render()});
+ const helpClose=document.querySelector('#help-close');
+ if(helpClose)helpClose.addEventListener('click',closeHelp);
+ const helpBackdrop=document.querySelector('#help-backdrop');
+ if(helpBackdrop)helpBackdrop.addEventListener('click',e=>{if(e.target===helpBackdrop)closeHelp()});
+ document.querySelectorAll('[data-help-tab]').forEach(button=>button.addEventListener('click',()=>{
+  const next=button.dataset.helpTab;
+  if(!HELP_GUIDES[next])return;
+  tab=next;render();window.__okptHelpOpen=true;render();
+ }));
+ document.querySelectorAll('[data-help-target]').forEach(button=>button.addEventListener('click',()=>showHelpTarget(button.dataset.helpTarget)));
  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=e=>{e.preventDefault();if(!b.dataset.tab)return;tab=b.dataset.tab;render()})
  document.querySelector('#export').onclick=exportExcel
  document.querySelector('#reset-demo').onclick=()=>{if(confirm('Вернуть исходные справочники? Все изменения в этом браузере будут сброшены.')){data=structuredClone(blank);save()}}
