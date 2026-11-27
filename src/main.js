@@ -72,6 +72,62 @@ function teacherWarnings(item){
  return warnings
 }
 function visibleGroups(){return data.groups.filter(g=>deptFilter==='Все отделения'||dept(g)===deptFilter)}
+
+const HELP_GUIDES={
+ week:{title:'Недельное расписание',intro:'Выберите неделю и способ просмотра, затем откройте список или карточку занятия.',steps:[
+  ['Выбор недели','#week-date','Укажите понедельник нужной недели или воспользуйтесь стрелками рядом с календарём.'],
+  ['Фильтр отделения','#dept-filter','Ограничьте список нужным отделением.'],
+  ['Режим просмотра','#schedule-mode','Выберите просмотр по группам, преподавателям или аудиториям.'],
+  ['Выбор объекта','#entity-filter','Выберите конкретную группу, преподавателя или аудиторию.'],
+  ['Добавление занятия','#add-lesson','Нажмите, чтобы открыть форму нового занятия. В общем обзоре также можно нажать «+» в нужной ячейке.']
+ ]},
+ groupmap:{title:'Группы и учебные планы',intro:'Сопоставление выполняется по каждой группе. Не назначайте специальность без документального подтверждения.',steps:[
+  ['Отделение','[data-group-dept]','В строке нужной группы выберите отделение.'],
+  ['Специальность','[data-group-specialty]','Выберите подтверждённую специальность. После выбора связанный учебный план назначается автоматически.']
+ ]},
+ plans:{title:'Справочник учебных планов',intro:'Раскройте карточку плана и отметьте группы, которые по нему обучаются.',steps:[
+  ['Открыть учебный план','.plan-assignment summary','Нажмите на название плана, чтобы раскрыть список групп.'],
+  ['Назначить группу','.plan-group-check input','Поставьте галочку напротив каждой подходящей группы. Снятие галочки отменяет привязку.']
+ ]},
+ auto:{title:'Автосоставление',intro:'Сначала проверьте исходные записи, затем внесите заявки и запускайте распределение.',steps:[
+  ['Проверка источника','#w13-open-review','Откройте таблицу распознанных записей расписания 13-й недели.'],
+  ['Поиск записи','#w13-search','Введите группу, дисциплину или фамилию преподавателя.'],
+  ['Выбор группы','#w13-group','При необходимости ограничьте таблицу одной учебной группой.'],
+  ['Добавление заявки','#add-demand','После проверки исходных записей заполните форму заявки: группа, дисциплина, часы в неделю, преподаватель, подгруппа и при необходимости аудитория.'],
+  ['Список заявок','#clear-demands','Проверьте заявки и удалите ошибочные до запуска распределения.'],
+  ['Составить расписание','#run-auto','Запустите автоматическое распределение только после проверки заявок.']
+ ]},
+ replacements:{title:'Замены',intro:'Замена не удаляет исходное занятие: она хранится отдельной записью.',steps:[
+  ['Оформить замену','#add-substitution','Выберите исходное занятие, укажите нового преподавателя или аудиторию, причину и статус.'],
+  ['Проверка распознанных замен','#review-approve-all','Ниже находится список распознанных строк. Проверяйте их перед подтверждением.']
+ ]},
+ teachers:{title:'Преподаватели',intro:'Выберите сотрудника, чтобы увидеть его нагрузку, занятия и свободные интервалы.',steps:[
+  ['Выбрать преподавателя','#teacher-workspace-select','Откройте список и выберите нужного сотрудника.']
+ ]},
+ rules:{title:'Контроль конфликтов',intro:'Просмотрите жёсткие пересечения и предупреждения. Исправляйте причину в исходном занятии, затем повторяйте проверку.',steps:[
+  ['Жёсткие пересечения','.panel','Верхний блок показывает пересечения группы, преподавателя или аудитории.'],
+  ['Предупреждения','.soft-warning','Ниже отображаются предупреждения по доступности и предпочтениям преподавателя.']
+ ]},
+ lists:{title:'Справочники',intro:'Здесь поддерживаются списки групп, преподавателей и аудиторий.',steps:[
+  ['Списки справочников','.lists-grid','Проверьте значения. Изменения в справочниках влияют на формы выбора в других разделах.']
+ ]},
+ workload:{title:'Баланс нагрузки',intro:'Используйте сводку для просмотра имеющихся данных о нагрузке. Нормативный расчёт по учебным планам пока не подключён.',steps:[
+  ['Панель баланса','.panel','Изучите показатели и предупреждения. Учитывайте статус демонстрационного прототипа.']
+ ]}
+};
+function helpPanel(){
+ const current=HELP_GUIDES[tab]||HELP_GUIDES.week;
+ return '<div class="help-backdrop" id="help-backdrop"><aside class="help-panel"><div class="help-head"><div><span class="help-kicker">ЦЕНТР ПОМОЩИ · ОКПТ</span><h2>Как работать с разделом</h2></div><button class="close" id="help-close" aria-label="Закрыть помощь">×</button></div><div class="help-tabs">'+Object.entries(HELP_GUIDES).map(([key,g])=>'<button class="help-tab '+(key===tab?'active':'')+'" data-help-tab="'+key+'">'+g.title+'</button>').join('')+'</div><div class="help-content"><span class="help-label">ПОШАГОВАЯ ИНСТРУКЦИЯ</span><h3>'+current.title+'</h3><p>'+current.intro+'</p>'+current.steps.map((x,i)=>'<article class="help-step"><span class="help-number">'+(i+1)+'</span><div><b>'+x[0]+'</b><p>'+x[2]+'</p><button class="help-locate" data-help-target="'+i+'">↗ Показать в интерфейсе</button></div></article>').join('')+'<div class="help-footnote">Подсказка наведёт на соответствующий элемент текущего экрана. Если элемент находится в другом разделе, сначала откроется нужная страница.</div></div></aside></div>';
+}
+function closeHelp(){window.__okptHelpOpen=false;document.querySelector('.help-backdrop')?.remove();document.querySelectorAll('.help-highlight').forEach(x=>x.classList.remove('help-highlight'))}
+function showHelpTarget(index){
+ const guide=HELP_GUIDES[tab];const step=guide?.steps[Number(index)];if(!step)return;
+ const el=document.querySelector(step[1]);
+ if(!el){alert('Этот элемент пока не отображается. Сначала выполните предыдущий шаг инструкции.');return}
+ document.querySelectorAll('.help-highlight').forEach(x=>x.classList.remove('help-highlight'));
+ el.classList.add('help-highlight');el.scrollIntoView({behavior:'smooth',block:'center',inline:'center'});
+}
+
 function render(){
  const root=document.querySelector('#app')
  const total=data.lessons.length,issues=data.lessons.reduce((n,x)=>n+(conflicts(x,x.id).length?1:0),0)
@@ -90,7 +146,7 @@ function render(){
    <button class="side-link" data-tab="teachers">♙ <span>Преподаватели</span></button>
    <div class="sidebar-bottom demo-status"><i></i><div><b>Демонстрационный режим</b><small>Общие стартовые справочники из GitHub</small></div></div>
   </aside>
-  <main class="main"><header class="topbar"><div><span>ОКПТ</span>　/　<b>${({auto:'Автосоставление',week:'Недельное расписание',lists:'Справочники',groupmap:'Группы и учебные планы',plans:'Справочник учебных планов',replacements:'Замены',rules:'Контроль расписания',workload:'Баланс нагрузки',teachers:'Преподаватели'})[tab]}</b></div><div class="top-right"><span class="year-chip">ДЕМО · 2026 / 2027</span><button class="btn light" id="reset-demo">↺ Сбросить демо</button><button class="btn gold" id="export">↓ Экспорт Excel</button></div></header>
+  <main class="main"><header class="topbar"><div><span>ОКПТ</span>　/　<b>${({auto:'Автосоставление',week:'Недельное расписание',lists:'Справочники',groupmap:'Группы и учебные планы',plans:'Справочник учебных планов',replacements:'Замены',rules:'Контроль расписания',workload:'Баланс нагрузки',teachers:'Преподаватели'})[tab]}</b></div><div class="top-right"><span class="year-chip">ДЕМО · 2026 / 2027</span><button class="btn light" id="help-open">? Помощь</button><button class="btn light" id="reset-demo">↺ Сбросить демо</button><button class="btn gold" id="export">↓ Экспорт Excel</button></div></header>
    <section class="page"><div class="page-head"><div><p class="eyebrow">ДИСПЕТЧЕРСКАЯ · УЧЕБНЫЙ ГОД 2026/2027</p><h1>${({auto:'Автоматическое составление расписания',week:'Составление расписания на неделю',lists:'Справочники колледжа',groupmap:'Соответствие групп специальностям и учебным планам',plans:'Справочник учебных планов',replacements:'Замены в расписании',rules:'Контроль ограничений',workload:'Баланс учебной нагрузки',teachers:'Рабочее место преподавателя'})[tab]}</h1><p class="muted">${({auto:'Заявки на занятия и автоматическое распределение по дням и урокам.',week:'Занятия, группы, преподаватели и аудитории в единой недельной сетке.',lists:'Общие справочники колледжа с разделением групп по отделениям.',groupmap:'Здесь назначается специальность и автоматически связанный с ней учебный план каждой группы.',plans:'Перечень учебных планов и дисциплин из исходных PDF.',replacements:'Оформление замены без потери исходного занятия и истории изменений.',rules:'Проверка пересечений и ограничений по введённым занятиям.',workload:'Недельные лимиты групп и преподавателей, дневная нагрузка и остаток часов по дисциплинам.',teachers:'Нагрузка и рабочее расписание преподавателей, доступность, свободные пары и замены.'})[tab]}</p><div class="demo-banner"><b>Прототип для демонстрации.</b> В репозитории доступны 59 учебных групп и 101 преподавательская запись, извлечённых из расписания 13-й недели. Аудитории добавлены по обозначениям, встречающимся в том же файле. Отделения и перечень специальностей внесены по предоставленной структуре; назначение специальности каждой группе сверяется с графиками. Изменения на этом этапе сохраняются в браузере, а не синхронизируются между сотрудниками.</div></div>${tab==='week'?'<button class="btn gold" id="add-lesson">＋ Добавить занятие</button>':''}</div>
    <div class="stats"><div class="stat"><small>Занятий на неделе</small><b>${total}</b></div><div class="stat"><small>Групп</small><b>${data.groups.length}</b></div><div class="stat"><small>Преподавателей</small><b>${data.teachers.length}</b></div><div class="stat"><small>Пересечений</small><b class="${issues?'red':'green'}">${issues}</b></div></div>
    ${tab==='auto'?autoView():tab==='week'?weekView():tab==='lists'?listsView():tab==='groupmap'?groupMapView():tab==='plans'?plansView():tab==='replacements'?replacementsView():tab==='workload'?workloadView():tab==='teachers'?teacherView():rulesView()}
