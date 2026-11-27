@@ -186,18 +186,23 @@ function generateAutoSchedule(){
    unplaced.push({group:items[0].group,subject:items[0].subject,unit:'—',items,reason:'Для одной дисциплины найдено более двух заявок. Проверь, что подгруппы не продублированы.'});
    return;
   }
-  // Если для двух преподавателей подгруппы не подписаны, назначаем их по порядку заявок.
-  if(items.length===2&&items[0].teacher!==items[1].teacher){
+  // Две заявки одной дисциплины относятся к разным подгруппам.
+  // Если подгруппы не указаны, назначаем их по порядку строк.
+  if(items.length===2){
    items.forEach((item,index)=>{if(!item.subgroup||item.subgroup==='Вся группа')item.subgroup=(index===0?'1 подгруппа':'2 подгруппа')});
   }
   if(items.length===2&&items[0].subgroup===items[1].subgroup){
-   unplaced.push({group:items[0].group,subject:items[0].subject,unit:'—',items,reason:'Обе заявки назначены одной и той же подгруппе. Разведи преподавателей по 1-й и 2-й подгруппам.'});
+   unplaced.push({group:items[0].group,subject:items[0].subject,unit:'—',items,reason:'Обе заявки назначены одной и той же подгруппе. Укажи для них разные подгруппы.'});
    return;
   }
   const hours=hourValues[0];
   if(hours%2!==0){unplaced.push({group:items[0].group,subject:items[0].subject,unit:'—',items,reason:'Недельная нагрузка должна быть чётной: одна пара = ровно 2 академических часа. Укажи 2, 4, 6 часов и т. д.'});return}
   const pairs=hours/2;
-  for(let pair=0;pair<pairs;pair++)blocks.push({items,pair:pair+1,group:items[0].group,subject:items[0].subject,hours});
+  // Разные преподаватели ведут подгруппы одновременно.
+  // Один преподаватель ведёт подгруппы последовательно: каждая получает собственные пары.
+  const sameTeacher=items.length===2&&items[0].teacher===items[1].teacher;
+  const schedulingUnits=sameTeacher?items.map(item=>[item]):[items];
+  schedulingUnits.forEach(unitItems=>{for(let pair=0;pair<pairs;pair++)blocks.push({items:unitItems,pair:pair+1,group:items[0].group,subject:items[0].subject,hours})});
  });
  blocks.sort((a,b)=>b.hours-a.hours);
  const slots=DAYS.flatMap(day=>SLOTS[day].map((slot,index)=>({day,slot,index})));
