@@ -55,7 +55,7 @@ function teacherProfile(name){return data.teacherProfiles?.[name]||{employment:'
 function ensureDefaultClassHours(){
  const firstCourseGroups=(data.groups||[]).filter(g=>Number(data.groupCourses?.[g]??course(g))===1);
  firstCourseGroups.forEach(group=>{
-  const exists=data.lessons.some(x=>x.group===group&&x.day==='Понедельник'&&x.slot===SLOTS['Понедельник'][0]&&normalizeSubjectKey(x.subject)==='разговоры о важном');
+  const exists=data.lessons.some(x=>x.id==='fixed-class-hour-'+group||(x.group===group&&x.day==='Понедельник'&&x.slot===SLOTS['Понедельник'][0]&&normalizeSubjectKey(x.subject)==='разговоры о важном'));
   if(!exists)data.lessons.push({id:'fixed-class-hour-'+group,group,subgroup:'',day:'Понедельник',slot:SLOTS['Понедельник'][0],subject:'Разговоры о важном',teacher:'',room:'',note:'Постоянное правило: классный час для 1 курса',fixedRule:true});
  });
 }
