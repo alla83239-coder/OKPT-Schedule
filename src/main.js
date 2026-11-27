@@ -202,7 +202,7 @@ function generateAutoSchedule(){
  const allowed=(d,t)=>{const p=teacherProfile(d.teacher),pair=String(t.index+1),key=t.day+':'+pair;if(p.availableDays.length&&!p.availableDays.includes(t.day))return false;if(p.availablePairs.length&&!p.availablePairs.includes(pair)&&!p.availablePairs.includes(key))return false;if(p.unavailableSlots.includes(key)||p.unavailableSlots.includes(t.day+':'+t.slot))return false;return true};
  const score=(block,t)=>{const gd=data.lessons.filter(x=>x.group===block.group&&x.day===t.day),teacherLoad=block.items.reduce((n,d)=>n+data.lessons.filter(x=>x.teacher===d.teacher&&x.day===t.day).length,0);let n=gd.length*8+teacherLoad*2;const ix=gd.map(x=>SLOTS[t.day].indexOf(x.slot)).filter(x=>x>=0);if(ix.length)n+=Math.min(Math.abs(t.index-Math.min(...ix)),Math.abs(t.index-Math.max(...ix)))*2;block.items.forEach(d=>{const p=teacherProfile(d.teacher);if(p.preferredDays.length&&!p.preferredDays.includes(t.day))n+=10;if(p.preferredPairs.length&&!p.preferredPairs.includes(String(t.index+1))&&!p.preferredPairs.includes(t.day+':'+(t.index+1)))n+=4});return n+t.index*.05};
  for(const block of blocks){
-  const pairStarts=slots.filter(t=>t.index+1<SLOTS[t.day].length);
+  const pairStarts=slots.filter(t=>t.index%2===0&&t.index+1<SLOTS[t.day].length);
   const candidates=pairStarts.filter(start=>{
    const second={day:start.day,slot:SLOTS[start.day][start.index+1],index:start.index+1};
    if(groupWeekHours(block.group)+2>36||groupDayHours(block.group,start.day)+2>8)return false;
