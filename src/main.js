@@ -326,7 +326,35 @@ function generateAutoSchedule(){
  blocks.sort((a,b)=>b.hours-a.hours);
  const slots=DAYS.flatMap(day=>SLOTS[day].map((slot,index)=>({day,slot,index})));
  const allowed=(d,t)=>{const p=teacherProfile(d.teacher),pair=String(Math.floor(t.index/2)+1),key=t.day+':'+pair;if(p.availableDays.length&&!p.availableDays.includes(t.day))return false;if(p.availablePairs.length&&!p.availablePairs.includes(pair)&&!p.availablePairs.includes(key))return false;if(p.unavailableSlots.includes(key)||p.unavailableSlots.includes(t.day+':'+t.slot))return false;return true};
- const score=(block,t)=>{const gd=data.lessons.filter(x=>x.group===block.group&&x.day===t.day),teacherLoad=block.items.reduce((n,d)=>n+data.lessons.filter(x=>x.teacher===d.teacher&&x.day===t.day).length,0);let n=gd.length*8+teacherLoad*2;const ix=gd.map(x=>SLOTS[t.day].indexOf(x.slot)).filter(x=>x>=0);if(ix.length)n+=Math.min(Math.abs(t.index-Math.min(...ix)),Math.abs(t.index-Math.max(...ix)))*2;block.items.forEach(d=>{const p=teacherProfile(d.teacher);if(p.preferredDays.length&&!p.preferredDays.includes(t.day))n+=10;if(p.preferredPairs.length&&!p.preferredPairs.includes(String(Math.floor(t.index/2)+1))&&!p.preferredPairs.includes(t.day+':'+(Math.floor(t.index/2)+1)))n+=4});return n+t.index*.05};
+ const score=(block,t)=>{
+  const gd=data.lessons.filter(x=>x.group===block.group&&x.day===t.day);
+  const teacherLoad=block.items.reduce((n,d)=>n+data.lessons.filter(x=>x.teacher===d.teacher&&x.day===t.day).length,0);
+  let n=new Set(gd.map(x=>x.slot)).size*8+teacherLoad*2;
+  const ix=[...new Set(gd.map(x=>SLOTS[t.day].indexOf(x.slot)).filter(x=>x>=0))];
+  if(ix.length)n+=Math.min(Math.abs(t.index-Math.min(...ix)),Math.abs(t.index-Math.max(...ix)))*2;
+  // Синхронизация разных дисциплин двух подгрупп:
+  // если в этот интервал уже занята другая подгруппа, предпочитаем поставить вторую параллельно,
+  // чтобы не оставлять одну подгруппу без занятия в то время, когда другая учится.
+  const pairedSlots=[t.slot,SLOTS[t.day][t.index+1]];
+  let pairedCount=0;
+  pairedSlots.forEach(slot=>{
+   const occupied=data.lessons.some(x=>x.group===block.group&&x.day===t.day&&x.slot===slot&&x.subgroup&&block.items.some(d=>d.subgroup&&d.subgroup!==x.subgroup));
+   if(occupied)pairedCount++;
+  });
+  n-=pairedCount*40;
+  // Избегаем формирования окон внутри дня: небольшое предпочтение соседним уже занятым интервалам.
+  const occupiedIndexes=ix;
+  if(occupiedIndexes.length){
+   const nearest=Math.min(...occupiedIndexes.map(v=>Math.abs(v-t.index)));
+   if(nearest>1)n+=(nearest-1)*3;
+  }
+  block.items.forEach(d=>{
+   const p=teacherProfile(d.teacher);
+   if(p.preferredDays.length&&!p.preferredDays.includes(t.day))n+=10;
+   if(p.preferredPairs.length&&!p.preferredPairs.includes(String(Math.floor(t.index/2)+1))&&!p.preferredPairs.includes(t.day+':'+(Math.floor(t.index/2)+1)))n+=4;
+  });
+  return n+t.index*.05
+ };
  for(const block of blocks){
   const pairStarts=slots.filter(t=>t.index%2===0&&t.index+1<SLOTS[t.day].length);
   const candidates=pairStarts.filter(start=>{
@@ -446,12 +474,12 @@ function closeLesson(){document.querySelector('#modal').hidden=true}
 function submitLesson(e){
  e.preventDefault();const f=e.currentTarget;const item={id:editingId||id(),group:f.elements.group.value,subgroup:f.elements.subgroup.value,day:f.elements.day.value,slot:f.elements.slot.value,subject:f.elements.subject.value,teacher:f.elements.teacher.value.trim(),room:f.elements.room.value.trim(),note:f.elements.note.value.trim()}
  if(!item.group||!item.subject||item.subject.startsWith('Сначала'))return alert('Назначьте группе учебный план и выберите дисциплину.')
- // Для разделённой группы обе подгруппы одной дисциплины обязаны идти в один день и один временной интервал.
+ // Одна дисциплина двух подгрупп должна идти одновременно. Разные дисциплины у разных подгрупп также разрешены в один интервал (например, английский / физкультура); автоматическое распределение дополнительно предпочитает такие параллельные назначения, чтобы уменьшать окна.
  const subjectKey=String(item.subject).trim().replace(/\s+/g,' ').toLocaleLowerCase('ru');
  const subgroupMismatch=data.lessons.find(x=>x.id!==editingId&&x.group===item.group&&String(x.subject||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('ru')===subjectKey&&x.subgroup&&item.subgroup&&x.subgroup!==item.subgroup&&(x.day!==item.day||x.slot!==item.slot));
  if(subgroupMismatch){
   const a=document.querySelector('#form-alert');a.hidden=false;
-  a.textContent='Нельзя сохранить: эта дисциплина уже назначена другой подгруппе на '+subgroupMismatch.day+', '+subgroupMismatch.slot+'. Обе подгруппы должны заниматься одновременно.';
+  a.textContent='Нельзя сохранить: эта же дисциплина уже назначена другой подгруппе на '+subgroupMismatch.day+', '+subgroupMismatch.slot+'. Обе подгруппы должны заниматься одновременно.';
   return;
  }
  const c=conflicts(item,editingId);if(c.length){const a=document.querySelector('#form-alert');a.hidden=false;a.textContent='Нельзя сохранить: '+[...new Set(c.map(x=>x.reason))].join('; ')+'.';return}
