@@ -38,11 +38,17 @@ function weekDate(i){const d=new Date(data.week+'T12:00:00');d.setDate(d.getDate
 function fmtDate(d){return d.toLocaleDateString('ru-RU',{day:'2-digit',month:'2-digit'})}
 function groupBusy(a,b){return a.group===b.group&&(!a.subgroup||!b.subgroup||a.subgroup===b.subgroup)}
 function conflicts(candidate,excludeId=null){
- return data.lessons.filter(x=>x.id!==excludeId&&x.day===candidate.day&&x.slot===candidate.slot&&(
-  groupBusy(candidate,x)||(candidate.teacher&&candidate.teacher===x.teacher)||(candidate.room&&candidate.room===x.room)
- )).map(x=>({x,reason:groupBusy(candidate,x)?'Группа/подгруппа уже занята':candidate.teacher&&candidate.teacher===x.teacher?'Преподаватель уже занят':'Аудитория уже занята'}))
+ const target=candidate.id?effectiveLesson(candidate):candidate;
+ return data.lessons.filter(raw=>{
+  if(raw.id===excludeId||raw.day!==target.day||raw.slot!==target.slot)return false;
+  const x=effectiveLesson(raw);
+  return groupBusy(target,x)||(target.teacher&&target.teacher===x.teacher)||(target.room&&target.room===x.room);
+ }).map(raw=>{
+  const x=effectiveLesson(raw);
+  return {x,reason:groupBusy(target,x)?'Группа/подгруппа уже занята':target.teacher&&target.teacher===x.teacher?'Преподаватель уже занят':'Аудитория уже занята'};
+ })
 }
-function teacherBusy(name,day,slot,excludeId=null){return data.lessons.find(x=>x.id!==excludeId&&x.teacher===name&&x.day===day&&x.slot===slot)||null}
+function teacherBusy(name,day,slot,excludeId=null){return data.lessons.map(effectiveLesson).find(x=>x.id!==excludeId&&x.teacher===name&&x.day===day&&x.slot===slot)||null}
 function teacherProfile(name){return data.teacherProfiles?.[name]||{employment:'Не указан',availableDays:[],availablePairs:[],preferredDays:[],preferredPairs:[],unavailableSlots:[],note:''}}
 function pairNumber(day,slot){const index=SLOTS[day]?.indexOf(slot)??-1;return index<0?0:Math.floor(index/2)+1}
 function parseList(value){return String(value||'').split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean)}
