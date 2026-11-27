@@ -288,6 +288,14 @@ function closeLesson(){document.querySelector('#modal').hidden=true}
 function submitLesson(e){
  e.preventDefault();const f=e.currentTarget;const item={id:editingId||id(),group:f.elements.group.value,subgroup:f.elements.subgroup.value,day:f.elements.day.value,slot:f.elements.slot.value,subject:f.elements.subject.value,teacher:f.elements.teacher.value.trim(),room:f.elements.room.value.trim(),note:f.elements.note.value.trim()}
  if(!item.group||!item.subject||item.subject.startsWith('Сначала'))return alert('Назначьте группе учебный план и выберите дисциплину.')
+ // Для разделённой группы обе подгруппы одной дисциплины обязаны идти в один день и один временной интервал.
+ const subjectKey=String(item.subject).trim().replace(/\\s+/g,' ').toLocaleLowerCase('ru');
+ const subgroupMismatch=data.lessons.find(x=>x.id!==editingId&&x.group===item.group&&String(x.subject||'').trim().replace(/\\s+/g,' ').toLocaleLowerCase('ru')===subjectKey&&x.subgroup&&item.subgroup&&x.subgroup!==item.subgroup&&(x.day!==item.day||x.slot!==item.slot));
+ if(subgroupMismatch){
+  const a=document.querySelector('#form-alert');a.hidden=false;
+  a.textContent='Нельзя сохранить: эта дисциплина уже назначена другой подгруппе на '+subgroupMismatch.day+', '+subgroupMismatch.slot+'. Обе подгруппы должны заниматься одновременно.';
+  return;
+ }
  const c=conflicts(item,editingId);if(c.length){const a=document.querySelector('#form-alert');a.hidden=false;a.textContent='Нельзя сохранить: '+[...new Set(c.map(x=>x.reason))].join('; ')+'.';return}
  const lv=loadViolations(item,editingId);if(lv.length){const a=document.querySelector('#form-alert');a.hidden=false;a.textContent='Нельзя сохранить: '+lv.join(' ');return}
  const tw=teacherWarnings(item);if(tw.length&&!confirm('ПРЕДУПРЕЖДЕНИЕ: условия расписания преподавателя не соблюдены или требуют внимания:\\n\\n'+tw.join('\\n')+'\\n\\nСохранить занятие несмотря на предупреждения?'))return;
