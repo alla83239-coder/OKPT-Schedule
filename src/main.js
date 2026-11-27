@@ -24,6 +24,7 @@ const SLOTS={
 const STORAGE='okpt-scheduler-prototype-v7'
 const blank=structuredClone(DEMO_DATA)
 let data=load(),tab='week',editingId=null,deptFilter='Все отделения';window.__okptGroupFilter='Все группы';window.__okptScheduleMode='group';window.__okptEntityFilter='Все'
+ensureDefaultClassHours()
 function normalizeNames(values){const source=Array.isArray(values)?values:[values];return [...new Set(source.flatMap(value=>String(value??'').replaceAll('\\r\\n','\n').replaceAll('\\n','\n').replaceAll('\\r','\n').split(/[\r\n,;]+/).map(x=>x.trim()).filter(Boolean)))].sort((a,b)=>a.localeCompare(b,'ru'))}
 function load(){try{const raw=localStorage.getItem(STORAGE)||localStorage.getItem('okpt-scheduler-prototype-v6')||localStorage.getItem('okpt-scheduler-prototype-v5');if(!raw)return {...structuredClone(blank),replacementReviewItems:REPLACEMENT_REVIEW.map((x,i)=>({...x,id:'review-'+(i+1),status:'На проверке'}))};const saved=JSON.parse(raw);return {...structuredClone(blank),lessons:saved.lessons||[],substitutions:saved.substitutions||[],teacherProfiles:{...(blank.teacherProfiles||{}),...(saved.teacherProfiles||{})},replacementReviewItems:saved.replacementReviewItems||REPLACEMENT_REVIEW.map((x,i)=>({...x,id:'review-'+(i+1),status:'На проверке'})),scheduleDemands:saved.scheduleDemands||[],week13Reviews:saved.week13Reviews||{},teachers:normalizeNames(saved.teachers??blank.teachers),rooms:normalizeNames(saved.rooms??blank.rooms),groups:blank.groups,departments:blank.departments,groupDepartments:{...blank.groupDepartments,...saved.groupDepartments},groupCourses:blank.groupCourses,groupSpecialties:{...blank.groupSpecialties,...saved.groupSpecialties},groupCurricula:{...blank.groupCurricula,...saved.groupCurricula},specialties:blank.specialties,curricula:[...blank.curricula,...(saved.curricula||[]).filter(x=>!blank.curricula.some(y=>y.id===x.id))]}}catch{return structuredClone(blank)}}
 function save(){localStorage.setItem(STORAGE,JSON.stringify(data));render()}
@@ -51,6 +52,13 @@ function conflicts(candidate,excludeId=null){
 }
 function teacherBusy(name,day,slot,excludeId=null){return data.lessons.map(effectiveLesson).find(x=>x.id!==excludeId&&x.teacher===name&&x.day===day&&x.slot===slot)||null}
 function teacherProfile(name){return data.teacherProfiles?.[name]||{employment:'Не указан',availableDays:[],availablePairs:[],preferredDays:[],preferredPairs:[],unavailableSlots:[],note:''}}
+function ensureDefaultClassHours(){
+ const firstCourseGroups=(data.groups||[]).filter(g=>Number(data.groupCourses?.[g]??course(g))===1);
+ firstCourseGroups.forEach(group=>{
+  const exists=data.lessons.some(x=>x.group===group&&x.day==='Понедельник'&&x.slot===SLOTS['Понедельник'][0]&&normalizeSubjectKey(x.subject)==='разговоры о важном');
+  if(!exists)data.lessons.push({id:'fixed-class-hour-'+group,group,subgroup:'',day:'Понедельник',slot:SLOTS['Понедельник'][0],subject:'Разговоры о важном',teacher:'',room:'',note:'Постоянное правило: классный час для 1 курса',fixedRule:true});
+ });
+}
 function pairNumber(day,slot){const index=SLOTS[day]?.indexOf(slot)??-1;return index<0?0:Math.floor(index/2)+1}
 function parseList(value){return String(value||'').split(/[,;\n]+/).map(x=>x.trim()).filter(Boolean)}
 function teacherWarnings(item){
@@ -448,13 +456,41 @@ document.querySelector('#w13-select-visible').onchange=e=>{document.querySelecto
 }
 function shiftWeek(n){const d=new Date(data.week+'T12:00:00');d.setDate(d.getDate()+n);data.week=d.toISOString().slice(0,10);save()}
 function exportExcel(){
- const wb=XLSX.utils.book_new()
- const lessons=data.lessons.map(x=>({'День':x.day,'Время':x.slot,'Группа':x.group,'Отделение':dept(x.group),'Подгруппа':x.subgroup||'Вся группа','Дисциплина':x.subject,'Преподаватель':x.teacher,'Аудитория':x.room,'Примечание':x.note}))
- XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(lessons.length?lessons:[{'Информация':'Занятия не добавлены'}]),'Расписание')
- XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data.groups.map(g=>({'Группа':g,'Отделение':dept(g),'Учебный план':groupPlan(g)?.name||''}))), 'Группы')
- XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data.teachers.map(name=>{const p=teacherProfile(name);return {'Преподаватель':name,'Статус':p.employment,'Доступные дни':p.availableDays.join(', '),'Доступные пары':p.availablePairs.join(', '),'Предпочтительные дни':p.preferredDays.join(', '),'Предпочтительные пары':p.preferredPairs.join(', '),'Недоступные интервалы':p.unavailableSlots.join(', '),'Примечание':p.note}})), 'Преподаватели')
- XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data.rooms.map(name=>({'Аудитория':name}))), 'Аудитории')
- XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data.substitutions.map(s=>{const l=data.lessons.find(x=>x.id===s.lessonId);return {'Группа':l?.group,'Занятие':l?.subject,'Исходный преподаватель':l?.teacher,'Новый преподаватель':s.teacher,'Новая аудитория':s.room,'Причина':s.reason,'Статус':s.status}})), 'Замены')
- XLSX.writeFile(wb,'ОКПТ_расписание_'+data.week+'.xlsx')
+ const wb=XLSX.utils.book_new(),rows=[],merges=[],groupOrder=data.groups||[];
+ const sortedLessons=(group,day)=>data.lessons.filter(x=>x.group===group&&x.day===day).sort((a,b)=>(SLOTS[day].indexOf(a.slot)-SLOTS[day].indexOf(b.slot))||String(a.subgroup||'').localeCompare(String(b.subgroup||''),'ru'));
+ groupOrder.forEach(group=>{
+  const groupStart=rows.length+1;
+  rows.push([group+' · '+dept(group)]);
+  merges.push({s:{r:groupStart-1,c:0},e:{r:groupStart-1,c:3}});
+  let groupHasLessons=false;
+  DAYS.forEach(day=>{
+   const entries=sortedLessons(group,day);
+   if(!entries.length)return;
+   groupHasLessons=true;
+   const dayStart=rows.length+1;
+   rows.push([day]);
+   merges.push({s:{r:dayStart-1,c:0},e:{r:dayStart-1,c:3}});
+   rows.push(['N урока','Наименование дисциплины','ФИО преподавателя','Аудитория']);
+   entries.forEach(x=>{
+    const lessonNo=SLOTS[day].indexOf(x.slot)+1;
+    rows.push([lessonNo>0?lessonNo:'',x.subject||'',effectiveLesson(x).teacher||'',effectiveLesson(x).room||'']);
+   });
+   rows.push(['','','','']);
+  });
+  if(!groupHasLessons)rows.push(['Занятий нет','','','']);
+  rows.push(['','','','']);
+ });
+ if(!rows.length)rows.push(['Расписание не сформировано','','','']);
+ const ws=XLSX.utils.aoa_to_sheet(rows);
+ ws['!merges']=merges;
+ ws['!cols']=[{wch:12},{wch:48},{wch:28},{wch:16}];
+ ws['!rows']=rows.map((r,i)=>({hpt:(r[0]&&String(r[0]).includes('·')?24:r[0]&&DAYS.includes(r[0])?20:r[0]==='N урока'?22:18)}));
+ ws['!freeze']={xSplit:0,ySplit:0};
+ XLSX.utils.book_append_sheet(wb,ws,'Расписание по группам');
+ XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data.groups.map(g=>({'Группа':g,'Отделение':dept(g),'Курс':course(g),'Учебный план':groupPlan(g)?.name||''}))), 'Группы');
+ XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data.teachers.map(name=>{const p=teacherProfile(name);return {'Преподаватель':name,'Статус':p.employment,'Доступные дни':p.availableDays.join(', '),'Доступные пары':p.availablePairs.join(', '),'Предпочтительные дни':p.preferredDays.join(', '),'Предпочтительные пары':p.preferredPairs.join(', '),'Недоступные интервалы':p.unavailableSlots.join(', '),'Примечание':p.note}})), 'Преподаватели');
+ XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data.rooms.map(name=>({'Аудитория':name}))), 'Аудитории');
+ XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data.substitutions.map(sub=>{const l=data.lessons.find(x=>x.id===sub.lessonId);return {'Группа':l?.group,'Занятие':l?.subject,'Исходный преподаватель':l?.teacher,'Новый преподаватель':sub.teacher,'Новая аудитория':sub.room,'Причина':sub.reason,'Статус':sub.status}})), 'Замены');
+ XLSX.writeFile(wb,'ОКПТ_расписание_'+data.week+'.xlsx');
 }
 render()
