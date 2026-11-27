@@ -268,3 +268,14 @@ textarea[id^="list-"]{white-space:pre-wrap;overflow-wrap:anywhere}
 .w13-split-teachers span{padding:6px 8px;border:1px solid #eee5d8;border-radius:6px;background:#faf7f1;color:#6f604f;font-size:10px}
 .w13-split-teachers b{color:#8b6939}
 @media(max-width:700px){.review-table-scroll{max-height:500px}.review-table{min-width:1220px}}
+
+/* Teacher workload workspace */
+.teacher-pick{display:flex;align-items:center;gap:9px;color:#68788a;font-size:10px;font-weight:700}
+.teacher-pick select{min-width:250px;max-width:100%;padding:10px 12px;border:1px solid #dce3e9;border-radius:8px;background:#fff;color:#34445a;font:11px Montserrat,sans-serif}
+.teacher-facts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.teacher-facts>div{padding:13px 15px;border:1px solid #e8edf2;border-radius:9px;background:linear-gradient(120deg,#fbfaf7,#fff)}
+.teacher-facts b{color:#8b6939;font-size:11px}
+.teacher-facts p{margin:7px 0 0;color:#536276;font-size:11px;line-height:1.7}
+.free-slot-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:7px;margin-top:12px}
+.free-slot-list span{padding:9px 11px;border:1px solid #e6dfd2;border-radius:8px;background:#faf7f1;color:#6f604e;font-size:10px;line-height:1.45}
+@media(max-width:700px){.teacher-pick{width:100%;align-items:flex-start;flex-direction:column}.teacher-pick select{width:100%;min-width:0}.teacher-facts{grid-template-columns:1fr}}
