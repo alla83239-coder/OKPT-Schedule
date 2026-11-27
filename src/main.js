@@ -272,13 +272,14 @@ function effectiveLesson(lesson){
 function teacherView(){
  const selected=window.__okptTeacherFilter||data.teachers[0]||'';
  const p=teacherProfile(selected),planned=data.lessons.filter(x=>x.teacher===selected);
+ const demands=(data.scheduleDemands||[]).filter(x=>x.teacher===selected);
  const approved=(data.substitutions||[]).filter(x=>x.status==='Утверждена');
  const replacedOut=approved.filter(x=>{const l=data.lessons.find(y=>y.id===x.lessonId);return l?.teacher===selected&&(x.teacher||l.teacher)!==selected});
  const replacedIn=approved.filter(x=>x.teacher===selected&&data.lessons.some(l=>l.id===x.lessonId&&l.teacher!==selected));
  const actual=data.lessons.map(effectiveLesson).filter(x=>x.teacher===selected);
- const plannedHours=planned.length,actualHours=actual.length;
- const subjects=[...new Set([...planned.map(x=>x.subject),...actual.map(x=>x.subject)])];
- const groups=[...new Set([...planned.map(x=>x.group),...actual.map(x=>x.group)])];
+ const plannedHours=demands.length?demands.reduce((n,x)=>n+Number(x.hours||0),0):planned.length,actualHours=actual.length;
+ const subjects=[...new Set([...demands.map(x=>x.subject),...planned.map(x=>x.subject),...actual.map(x=>x.subject)])];
+ const groups=[...new Set([...demands.map(x=>x.group),...planned.map(x=>x.group),...actual.map(x=>x.group)])];
  const occupancy=new Map();actual.forEach(x=>occupancy.set(x.day+'|'+x.slot,x));
  const availabilityKnown=p.availableDays.length>0||p.availablePairs.length>0||p.unavailableSlots.length>0;
  const free=[];
