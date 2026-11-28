@@ -160,13 +160,19 @@ const HELP_GUIDES={
  lists:{title:'Справочники',intro:'Раздел содержит списки учебных групп, преподавателей и аудиторий.',steps:[
   ['Списки справочников','.lists-grid','Проверьте записи в таблицах. Справочники используются в выпадающих списках форм.']
  ]},
+ workspace:{title:'Сохранение и перенос рабочей версии',intro:'Рабочие данные автоматически сохраняются в браузере этого компьютера. Чтобы продолжить работу дома или на другом компьютере, перенесите резервную копию JSON.',steps:[
+  ['Скачать резервную копию','#workspace-export','Нажмите «Скачать резервную копию». Браузер сохранит JSON-файл со всеми рабочими данными планировщика: занятиями, заявками, заменами, настройками и назначениями. Сохраните файл в понятную папку или перенесите его в защищённое облачное хранилище/на флешку.'],
+  ['Открыть планировщик на другом компьютере','#workspace-import','Откройте тот же опубликованный планировщик на другом компьютере. Нажмите «Восстановить из файла» и выберите последний сохранённый JSON-файл.'],
+  ['Подтвердить восстановление','#workspace-import','Перед заменой текущих данных приложение предложит сохранить резервную копию текущего состояния. Подтвердите действие только если выбран правильный файл и вы готовы заменить текущую рабочую версию.'],
+  ['Продолжить и снова сохранить','#workspace-export','После восстановления проверьте расписание и продолжайте работу. В конце снова скачайте резервную копию — это будет новая актуальная версия для переноса обратно.']
+ ]},
  workload:{title:'Баланс нагрузки',intro:'Сводка использует текущие заявки и занятия. Автоматический нормативный расчёт из аудиторных часов учебных планов и графиков пока не подключён.',steps:[
   ['Панель баланса','.panel','Изучите показатели, учитывая, что это текущая сводка прототипа, а не подтверждённый расчёт по учебному плану.']
  ]}
 };
 function helpPanel(){
- const current=HELP_GUIDES[tab]||HELP_GUIDES.week;
- return '<div class="help-backdrop" id="help-backdrop"><aside class="help-panel"><div class="help-head"><div><span class="help-kicker">ЦЕНТР ПОМОЩИ · ОКПТ</span><h2>Как работать с разделом</h2></div><button class="close" id="help-close" aria-label="Закрыть помощь">×</button></div><div class="help-tabs">'+Object.entries(HELP_GUIDES).map(([key,g])=>'<button class="help-tab '+(key===tab?'active':'')+'" data-help-tab="'+key+'">'+g.title+'</button>').join('')+'</div><div class="help-content"><span class="help-label">ПОШАГОВАЯ ИНСТРУКЦИЯ</span><h3>'+current.title+'</h3><p>'+current.intro+'</p>'+current.steps.map((x,i)=>'<article class="help-step"><span class="help-number">'+(i+1)+'</span><div><b>'+x[0]+'</b><p>'+x[2]+'</p><button class="help-locate" data-help-target="'+i+'">↗ Показать в интерфейсе</button></div></article>').join('')+'<div class="help-footnote">Подсказка наведёт на соответствующий элемент текущего экрана. Если элемент находится в другом разделе, сначала откроется нужная страница.</div></div></aside></div>';
+ const helpSection=window.__okptHelpSection||tab;const current=HELP_GUIDES[helpSection]||HELP_GUIDES.week;
+ return '<div class="help-backdrop" id="help-backdrop"><aside class="help-panel"><div class="help-head"><div><span class="help-kicker">ЦЕНТР ПОМОЩИ · ОКПТ</span><h2>Как работать с разделом</h2></div><button class="close" id="help-close" aria-label="Закрыть помощь">×</button></div><div class="help-tabs">'+Object.entries(HELP_GUIDES).map(([key,g])=>'<button class="help-tab '+(key===helpSection?'active':'')+'" data-help-tab="'+key+'">'+g.title+'</button>').join('')+'</div><div class="help-content"><span class="help-label">ПОШАГОВАЯ ИНСТРУКЦИЯ</span><h3>'+current.title+'</h3><p>'+current.intro+'</p>'+current.steps.map((x,i)=>'<article class="help-step"><span class="help-number">'+(i+1)+'</span><div><b>'+x[0]+'</b><p>'+x[2]+'</p><button class="help-locate" data-help-target="'+i+'">↗ Показать в интерфейсе</button></div></article>').join('')+'<div class="help-footnote">Подсказка наведёт на соответствующий элемент текущего экрана. Если элемент находится в другом разделе, сначала откроется нужная страница.</div></div></aside></div>';
 }
 function closeHelp(){window.__okptHelpOpen=false;document.querySelector('.help-backdrop')?.remove();document.querySelectorAll('.help-highlight').forEach(x=>x.classList.remove('help-highlight'))}
 function showHelpTarget(index){
@@ -523,7 +529,7 @@ function submitLesson(e){
 function openSub(){document.querySelector('#sub-modal').hidden=false}
 function bind(){
  const helpOpen=document.querySelector('#help-open');
- if(helpOpen)helpOpen.addEventListener('click',()=>{window.__okptHelpOpen=true;render()});
+ if(helpOpen)helpOpen.addEventListener('click',()=>{window.__okptHelpSection=tab;window.__okptHelpOpen=true;render()});
  const helpClose=document.querySelector('#help-close');
  if(helpClose)helpClose.addEventListener('click',closeHelp);
  const helpBackdrop=document.querySelector('#help-backdrop');
@@ -531,7 +537,9 @@ function bind(){
  document.querySelectorAll('[data-help-tab]').forEach(button=>button.addEventListener('click',()=>{
   const next=button.dataset.helpTab;
   if(!HELP_GUIDES[next])return;
-  tab=next;render();window.__okptHelpOpen=true;render();
+  window.__okptHelpSection=next;
+  if(next!=='workspace')tab=next;
+  render();window.__okptHelpOpen=true;render();
  }));
  document.querySelectorAll('[data-help-target]').forEach(button=>button.addEventListener('click',()=>showHelpTarget(button.dataset.helpTarget)));
  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=e=>{e.preventDefault();if(!b.dataset.tab)return;tab=b.dataset.tab;render()})
