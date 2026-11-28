@@ -176,7 +176,7 @@ function helpPanel(){
 }
 function closeHelp(){window.__okptHelpOpen=false;document.querySelector('.help-backdrop')?.remove();document.querySelectorAll('.help-highlight').forEach(x=>x.classList.remove('help-highlight'))}
 function showHelpTarget(index){
- const guide=HELP_GUIDES[tab];const step=guide?.steps[Number(index)];if(!step)return;
+ const guide=HELP_GUIDES[window.__okptHelpSection||tab];const step=guide?.steps[Number(index)];if(!step)return;
  if(step[1].startsWith('#lesson-form')){const modal=document.querySelector('#modal');if(modal?.hidden)openLesson()}
  const el=document.querySelector(step[1]);
  if(!el){alert('Этот элемент пока не отображается. Сначала откройте соответствующую форму или выполните предыдущий шаг.');return}
