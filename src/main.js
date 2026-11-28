@@ -28,6 +28,38 @@ ensureDefaultClassHours()
 function normalizeNames(values){const source=Array.isArray(values)?values:[values];return [...new Set(source.flatMap(value=>String(value??'').replaceAll('\\r\\n','\n').replaceAll('\\n','\n').replaceAll('\\r','\n').split(/[\r\n,;]+/).map(x=>x.trim()).filter(Boolean)))].sort((a,b)=>a.localeCompare(b,'ru'))}
 function load(){try{const raw=localStorage.getItem(STORAGE)||localStorage.getItem('okpt-scheduler-prototype-v6')||localStorage.getItem('okpt-scheduler-prototype-v5');if(!raw)return {...structuredClone(blank),replacementReviewItems:REPLACEMENT_REVIEW.map((x,i)=>({...x,id:'review-'+(i+1),status:'На проверке'}))};const saved=JSON.parse(raw);return {...structuredClone(blank),lessons:saved.lessons||[],substitutions:saved.substitutions||[],teacherProfiles:{...(blank.teacherProfiles||{}),...(saved.teacherProfiles||{})},replacementReviewItems:saved.replacementReviewItems||REPLACEMENT_REVIEW.map((x,i)=>({...x,id:'review-'+(i+1),status:'На проверке'})),scheduleDemands:saved.scheduleDemands||[],week13Reviews:saved.week13Reviews||{},teachers:normalizeNames(saved.teachers??blank.teachers),rooms:normalizeNames(saved.rooms??blank.rooms),groups:blank.groups,departments:blank.departments,groupDepartments:{...blank.groupDepartments,...saved.groupDepartments},groupCourses:blank.groupCourses,groupSpecialties:{...blank.groupSpecialties,...saved.groupSpecialties},groupCurricula:{...blank.groupCurricula,...saved.groupCurricula},specialties:blank.specialties,curricula:[...blank.curricula,...(saved.curricula||[]).filter(x=>!blank.curricula.some(y=>y.id===x.id))]}}catch{return structuredClone(blank)}}
 function save(){localStorage.setItem(STORAGE,JSON.stringify(data));render()}
+function exportWorkspace(){
+ const payload={app:'OKPT-Schedule',formatVersion:1,exportedAt:new Date().toISOString(),data};
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json;charset=utf-8'});
+ const url=URL.createObjectURL(blob),a=document.createElement('a');
+ a.href=url;a.download='OKPT_schedule_backup_'+new Date().toISOString().slice(0,10)+'.json';
+ document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+}
+function importWorkspace(file){
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const payload=JSON.parse(String(reader.result||''));
+   if(payload?.app!=='OKPT-Schedule'||payload?.formatVersion!==1||!payload.data||!Array.isArray(payload.data.lessons)||!Array.isArray(payload.data.scheduleDemands)||!Array.isArray(payload.data.substitutions))throw new Error('Файл не является резервной копией планировщика ОКПТ или имеет неподдерживаемый формат.');
+   const incoming=payload.data;
+   if(!confirm('Загрузить рабочую версию от '+(payload.exportedAt?new Date(payload.exportedAt).toLocaleString('ru-RU'):'неизвестной даты')+'? Текущие данные будут заменены. Перед продолжением рекомендуется сохранить их отдельным файлом.'))return;
+   data={...structuredClone(blank),...incoming,
+    groups:blank.groups,departments:blank.departments,groupCourses:blank.groupCourses,specialties:blank.specialties,
+    teachers:normalizeNames(incoming.teachers??blank.teachers),rooms:normalizeNames(incoming.rooms??blank.rooms),
+    groupDepartments:{...blank.groupDepartments,...(incoming.groupDepartments||{})},
+    groupSpecialties:{...blank.groupSpecialties,...(incoming.groupSpecialties||{})},
+    groupCurricula:{...blank.groupCurricula,...(incoming.groupCurricula||{})},
+    teacherProfiles:{...(blank.teacherProfiles||{}),...(incoming.teacherProfiles||{})},
+    curricula:[...blank.curricula,...(incoming.curricula||[]).filter(x=>!blank.curricula.some(y=>y.id===x.id))]
+   };
+   ensureDefaultClassHours();localStorage.setItem(STORAGE,JSON.stringify(data));
+   window.__okptGroupFilter='Все группы';window.__okptEntityFilter='Все';window.__okptScheduleMode='group';
+   render();alert('Рабочая версия успешно загружена.');
+  }catch(error){alert('Не удалось загрузить файл: '+(error?.message||'неверный формат.'))}
+ };
+ reader.onerror=()=>alert('Не удалось прочитать выбранный файл.');
+ reader.readAsText(file,'UTF-8');
+}
 function id(){return crypto.randomUUID?.()||String(Date.now()+Math.random())}
 function esc(s=''){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 function dept(g){return data.groupDepartments?.[g]||'Не распределено'}
@@ -163,7 +195,7 @@ function render(){
    <button class="side-link" data-tab="teachers">♙ <span>Преподаватели</span></button>
    <div class="sidebar-bottom demo-status"><i></i><div><b>Демонстрационный режим</b><small>Общие стартовые справочники из GitHub</small></div></div>
   </aside>
-  <main class="main"><header class="topbar"><div><span>ОКПТ</span>　/　<b>${({auto:'Автосоставление',week:'Недельное расписание',lists:'Справочники',groupmap:'Группы и учебные планы',plans:'Справочник учебных планов',replacements:'Замены',rules:'Контроль расписания',workload:'Баланс нагрузки',teachers:'Преподаватели'})[tab]}</b></div><div class="top-right"><span class="year-chip">ДЕМО · 2026 / 2027</span><button class="btn light" id="help-open">? Помощь</button><button class="btn light" id="reset-demo">↺ Сбросить демо</button><button class="btn gold" id="export">↓ Экспорт Excel</button></div></header>
+  <main class="main"><header class="topbar"><div><span>ОКПТ</span>　/　<b>${({auto:'Автосоставление',week:'Недельное расписание',lists:'Справочники',groupmap:'Группы и учебные планы',plans:'Справочник учебных планов',replacements:'Замены',rules:'Контроль расписания',workload:'Баланс нагрузки',teachers:'Преподаватели'})[tab]}</b></div><div class="top-right"><span class="year-chip">ДЕМО · 2026 / 2027</span><button class="btn light" id="help-open">? Помощь</button><button class="btn light" id="workspace-export">↓ Сохранить версию</button><button class="btn light" id="workspace-import">↑ Загрузить версию</button><input id="workspace-file" type="file" accept=".json,application/json" hidden><button class="btn light" id="reset-demo">↺ Сбросить демо</button><button class="btn gold" id="export">↓ Экспорт Excel</button></div></header>
    <section class="page"><div class="page-head"><div><p class="eyebrow">ДИСПЕТЧЕРСКАЯ · УЧЕБНЫЙ ГОД 2026/2027</p><h1>${({auto:'Автоматическое составление расписания',week:'Составление расписания на неделю',lists:'Справочники колледжа',groupmap:'Соответствие групп специальностям и учебным планам',plans:'Справочник учебных планов',replacements:'Замены в расписании',rules:'Контроль ограничений',workload:'Баланс учебной нагрузки',teachers:'Рабочее место преподавателя'})[tab]}</h1><p class="muted">${({auto:'Заявки на занятия и автоматическое распределение по дням и урокам.',week:'Занятия, группы, преподаватели и аудитории в единой недельной сетке.',lists:'Общие справочники колледжа с разделением групп по отделениям.',groupmap:'Здесь назначается специальность и автоматически связанный с ней учебный план каждой группы.',plans:'Перечень учебных планов и дисциплин из исходных PDF.',replacements:'Оформление замены без потери исходного занятия и истории изменений.',rules:'Проверка пересечений и ограничений по введённым занятиям.',workload:'Недельные лимиты групп и преподавателей, дневная нагрузка и остаток часов по дисциплинам.',teachers:'Нагрузка и рабочее расписание преподавателей, доступность, свободные пары и замены.'})[tab]}</p><div class="demo-banner"><b>Прототип для демонстрации.</b> В репозитории доступны 59 учебных групп и 101 преподавательская запись, извлечённых из расписания 13-й недели. Аудитории добавлены по обозначениям, встречающимся в том же файле. Отделения и перечень специальностей внесены по предоставленной структуре; назначение специальности каждой группе сверяется с графиками. Изменения на этом этапе сохраняются в браузере, а не синхронизируются между сотрудниками.</div></div>${tab==='week'?'<button class="btn gold" id="add-lesson">＋ Добавить занятие</button>':''}</div>
    <div class="stats"><div class="stat"><small>Занятий на неделе</small><b>${total}</b></div><div class="stat"><small>Групп</small><b>${data.groups.length}</b></div><div class="stat"><small>Преподавателей</small><b>${data.teachers.length}</b></div><div class="stat"><small>Пересечений</small><b class="${issues?'red':'green'}">${issues}</b></div></div>
    ${tab==='auto'?autoView():tab==='week'?weekView():tab==='lists'?listsView():tab==='groupmap'?groupMapView():tab==='plans'?plansView():tab==='replacements'?replacementsView():tab==='workload'?workloadView():tab==='teachers'?teacherView():rulesView()}
@@ -502,6 +534,9 @@ function bind(){
  }));
  document.querySelectorAll('[data-help-target]').forEach(button=>button.addEventListener('click',()=>showHelpTarget(button.dataset.helpTarget)));
  document.querySelectorAll('[data-tab]').forEach(b=>b.onclick=e=>{e.preventDefault();if(!b.dataset.tab)return;tab=b.dataset.tab;render()})
+ const workspaceExport=document.querySelector('#workspace-export');if(workspaceExport)workspaceExport.onclick=exportWorkspace;
+ const workspaceImport=document.querySelector('#workspace-import'),workspaceFile=document.querySelector('#workspace-file');
+ if(workspaceImport&&workspaceFile){workspaceImport.onclick=()=>workspaceFile.click();workspaceFile.onchange=()=>{const file=workspaceFile.files?.[0];if(file)importWorkspace(file);workspaceFile.value=''}}
  document.querySelector('#export').onclick=exportExcel
  document.querySelector('#reset-demo').onclick=()=>{if(confirm('Вернуть исходные справочники? Все изменения в этом браузере будут сброшены.')){data=structuredClone(blank);save()}}
  if(tab==='auto'){
